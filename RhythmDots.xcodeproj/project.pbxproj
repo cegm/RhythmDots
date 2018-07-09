@@ -1,0 +1,557 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A72DA3DB20F3C22A006901D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72DA3DA20F3C22A006901D8 /* AppDelegate.swift */; };
+		A72DA3DD20F3C22A006901D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72DA3DC20F3C22A006901D8 /* ViewController.swift */; };
+		A72DA3E020F3C22A006901D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A72DA3DE20F3C22A006901D8 /* Main.storyboard */; };
+		A72DA3E220F3C22A006901D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A72DA3E120F3C22A006901D8 /* Assets.xcassets */; };
+		A72DA3E520F3C22A006901D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A72DA3E320F3C22A006901D8 /* LaunchScreen.storyboard */; };
+		A72DA3F020F3C22A006901D8 /* RhythmDotsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72DA3EF20F3C22A006901D8 /* RhythmDotsTests.swift */; };
+		A72DA3FB20F3C22A006901D8 /* RhythmDotsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72DA3FA20F3C22A006901D8 /* RhythmDotsUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A72DA3EC20F3C22A006901D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A72DA3CF20F3C22A006901D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A72DA3D620F3C22A006901D8;
+			remoteInfo = RhythmDots;
+		};
+		A72DA3F720F3C22A006901D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A72DA3CF20F3C22A006901D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A72DA3D620F3C22A006901D8;
+			remoteInfo = RhythmDots;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A72DA3D720F3C22A006901D8 /* RhythmDots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RhythmDots.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A72DA3DA20F3C22A006901D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A72DA3DC20F3C22A006901D8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A72DA3DF20F3C22A006901D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A72DA3E120F3C22A006901D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A72DA3E420F3C22A006901D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A72DA3E620F3C22A006901D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A72DA3EB20F3C22A006901D8 /* RhythmDotsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RhythmDotsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A72DA3EF20F3C22A006901D8 /* RhythmDotsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmDotsTests.swift; sourceTree = "<group>"; };
+		A72DA3F120F3C22A006901D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A72DA3F620F3C22A006901D8 /* RhythmDotsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RhythmDotsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A72DA3FA20F3C22A006901D8 /* RhythmDotsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmDotsUITests.swift; sourceTree = "<group>"; };
+		A72DA3FC20F3C22A006901D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A72DA3D420F3C22A006901D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A72DA3E820F3C22A006901D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A72DA3F320F3C22A006901D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A72DA3CE20F3C22A006901D8 = {
+			isa = PBXGroup;
+			children = (
+				A72DA3D920F3C22A006901D8 /* RhythmDots */,
+				A72DA3EE20F3C22A006901D8 /* RhythmDotsTests */,
+				A72DA3F920F3C22A006901D8 /* RhythmDotsUITests */,
+				A72DA3D820F3C22A006901D8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A72DA3D820F3C22A006901D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A72DA3D720F3C22A006901D8 /* RhythmDots.app */,
+				A72DA3EB20F3C22A006901D8 /* RhythmDotsTests.xctest */,
+				A72DA3F620F3C22A006901D8 /* RhythmDotsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A72DA3D920F3C22A006901D8 /* RhythmDots */ = {
+			isa = PBXGroup;
+			children = (
+				A72DA3DA20F3C22A006901D8 /* AppDelegate.swift */,
+				A72DA3DC20F3C22A006901D8 /* ViewController.swift */,
+				A72DA3DE20F3C22A006901D8 /* Main.storyboard */,
+				A72DA3E120F3C22A006901D8 /* Assets.xcassets */,
+				A72DA3E320F3C22A006901D8 /* LaunchScreen.storyboard */,
+				A72DA3E620F3C22A006901D8 /* Info.plist */,
+			);
+			path = RhythmDots;
+			sourceTree = "<group>";
+		};
+		A72DA3EE20F3C22A006901D8 /* RhythmDotsTests */ = {
+			isa = PBXGroup;
+			children = (
+				A72DA3EF20F3C22A006901D8 /* RhythmDotsTests.swift */,
+				A72DA3F120F3C22A006901D8 /* Info.plist */,
+			);
+			path = RhythmDotsTests;
+			sourceTree = "<group>";
+		};
+		A72DA3F920F3C22A006901D8 /* RhythmDotsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A72DA3FA20F3C22A006901D8 /* RhythmDotsUITests.swift */,
+				A72DA3FC20F3C22A006901D8 /* Info.plist */,
+			);
+			path = RhythmDotsUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A72DA3D620F3C22A006901D8 /* RhythmDots */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A72DA3FF20F3C22A006901D8 /* Build configuration list for PBXNativeTarget "RhythmDots" */;
+			buildPhases = (
+				A72DA3D320F3C22A006901D8 /* Sources */,
+				A72DA3D420F3C22A006901D8 /* Frameworks */,
+				A72DA3D520F3C22A006901D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RhythmDots;
+			productName = RhythmDots;
+			productReference = A72DA3D720F3C22A006901D8 /* RhythmDots.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A72DA3EA20F3C22A006901D8 /* RhythmDotsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A72DA40220F3C22A006901D8 /* Build configuration list for PBXNativeTarget "RhythmDotsTests" */;
+			buildPhases = (
+				A72DA3E720F3C22A006901D8 /* Sources */,
+				A72DA3E820F3C22A006901D8 /* Frameworks */,
+				A72DA3E920F3C22A006901D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A72DA3ED20F3C22A006901D8 /* PBXTargetDependency */,
+			);
+			name = RhythmDotsTests;
+			productName = RhythmDotsTests;
+			productReference = A72DA3EB20F3C22A006901D8 /* RhythmDotsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A72DA3F520F3C22A006901D8 /* RhythmDotsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A72DA40520F3C22A006901D8 /* Build configuration list for PBXNativeTarget "RhythmDotsUITests" */;
+			buildPhases = (
+				A72DA3F220F3C22A006901D8 /* Sources */,
+				A72DA3F320F3C22A006901D8 /* Frameworks */,
+				A72DA3F420F3C22A006901D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A72DA3F820F3C22A006901D8 /* PBXTargetDependency */,
+			);
+			name = RhythmDotsUITests;
+			productName = RhythmDotsUITests;
+			productReference = A72DA3F620F3C22A006901D8 /* RhythmDotsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A72DA3CF20F3C22A006901D8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Eduardo Gil";
+				TargetAttributes = {
+					A72DA3D620F3C22A006901D8 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					A72DA3EA20F3C22A006901D8 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = A72DA3D620F3C22A006901D8;
+					};
+					A72DA3F520F3C22A006901D8 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = A72DA3D620F3C22A006901D8;
+					};
+				};
+			};
+			buildConfigurationList = A72DA3D220F3C22A006901D8 /* Build configuration list for PBXProject "RhythmDots" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A72DA3CE20F3C22A006901D8;
+			productRefGroup = A72DA3D820F3C22A006901D8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A72DA3D620F3C22A006901D8 /* RhythmDots */,
+				A72DA3EA20F3C22A006901D8 /* RhythmDotsTests */,
+				A72DA3F520F3C22A006901D8 /* RhythmDotsUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A72DA3D520F3C22A006901D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A72DA3E520F3C22A006901D8 /* LaunchScreen.storyboard in Resources */,
+				A72DA3E220F3C22A006901D8 /* Assets.xcassets in Resources */,
+				A72DA3E020F3C22A006901D8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A72DA3E920F3C22A006901D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A72DA3F420F3C22A006901D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A72DA3D320F3C22A006901D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A72DA3DD20F3C22A006901D8 /* ViewController.swift in Sources */,
+				A72DA3DB20F3C22A006901D8 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A72DA3E720F3C22A006901D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A72DA3F020F3C22A006901D8 /* RhythmDotsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A72DA3F220F3C22A006901D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A72DA3FB20F3C22A006901D8 /* RhythmDotsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A72DA3ED20F3C22A006901D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A72DA3D620F3C22A006901D8 /* RhythmDots */;
+			targetProxy = A72DA3EC20F3C22A006901D8 /* PBXContainerItemProxy */;
+		};
+		A72DA3F820F3C22A006901D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A72DA3D620F3C22A006901D8 /* RhythmDots */;
+			targetProxy = A72DA3F720F3C22A006901D8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A72DA3DE20F3C22A006901D8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A72DA3DF20F3C22A006901D8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A72DA3E320F3C22A006901D8 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A72DA3E420F3C22A006901D8 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A72DA3FD20F3C22A006901D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A72DA3FE20F3C22A006901D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A72DA40020F3C22A006901D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = RhythmDots/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A72DA40120F3C22A006901D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = RhythmDots/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A72DA40320F3C22A006901D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = RhythmDotsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDotsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RhythmDots.app/RhythmDots";
+			};
+			name = Debug;
+		};
+		A72DA40420F3C22A006901D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = RhythmDotsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDotsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RhythmDots.app/RhythmDots";
+			};
+			name = Release;
+		};
+		A72DA40620F3C22A006901D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = RhythmDotsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDotsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RhythmDots;
+			};
+			name = Debug;
+		};
+		A72DA40720F3C22A006901D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = RhythmDotsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDotsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RhythmDots;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A72DA3D220F3C22A006901D8 /* Build configuration list for PBXProject "RhythmDots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A72DA3FD20F3C22A006901D8 /* Debug */,
+				A72DA3FE20F3C22A006901D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A72DA3FF20F3C22A006901D8 /* Build configuration list for PBXNativeTarget "RhythmDots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A72DA40020F3C22A006901D8 /* Debug */,
+				A72DA40120F3C22A006901D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A72DA40220F3C22A006901D8 /* Build configuration list for PBXNativeTarget "RhythmDotsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A72DA40320F3C22A006901D8 /* Debug */,
+				A72DA40420F3C22A006901D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A72DA40520F3C22A006901D8 /* Build configuration list for PBXNativeTarget "RhythmDotsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A72DA40620F3C22A006901D8 /* Debug */,
+				A72DA40720F3C22A006901D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A72DA3CF20F3C22A006901D8 /* Project object */;
+}
