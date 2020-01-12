@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  RhythmDots
 //
-//  Created by CARLOS EDUARDO GIL MEZTA on 09/07/18.
+//  Created by Eduardo Gil on 7/9/18.
 //  Copyright © 2018 Eduardo Gil. All rights reserved.
 //
 
