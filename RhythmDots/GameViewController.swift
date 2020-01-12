@@ -121,7 +121,7 @@ class GameViewController: UIViewController {
     func createImageView(image: UIImage) -> UIImageView {
         var imageView: UIImageView
         imageView = UIImageView(image: image)
-        imageView.contentMode = UIViewContentMode.scaleAspectFit
+        imageView.contentMode = UIView.ContentMode.scaleAspectFit
         return imageView
     }
     

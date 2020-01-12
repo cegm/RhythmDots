@@ -53,10 +53,10 @@ class SettingsViewController: UIViewController {
         buttons1 = [button10, button11, button12, button13, button14, button15, button16]
         buttons2 = [button20, button21, button22, button23, button24, button25, button26]
         for button in buttons1 {
-            button.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+            button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         }
         for button in buttons2 {
-            button.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+            button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         }
         buttons1[0].setImage(dots[0], for: .normal)
         buttons2[0].setImage(dots[0], for: .normal)
