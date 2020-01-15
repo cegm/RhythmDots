@@ -43,9 +43,16 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     var messageToSend: String!
     
+    var startTime: Date = Date().addingTimeInterval(10)
+    
+    var dateFormatter = DateFormatter()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
         
         peerID = MCPeerID(displayName: UIDevice.current.name)
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
@@ -230,9 +237,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     func playMode() {
-        let tic = Date()
-        let toc = tic.addingTimeInterval(5)
-        let syncronizationTimer = Timer(fireAt: toc, interval: 0, target: self, selector: #selector(setTimer), userInfo: nil, repeats: false)
+        let syncronizationTimer = Timer(fireAt: startTime, interval: 0, target: self, selector: #selector(setTimer), userInfo: nil, repeats: false)
         RunLoop.main.add(syncronizationTimer, forMode: .common)
     }
     
@@ -277,6 +282,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         case MCSessionState.connected:
             if master {
                 sendParameters()
+                playMode()
             }
             print("Connected: \(peerID.displayName)")
         case MCSessionState.connecting:
@@ -298,19 +304,36 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 self.rowsNumber = Int((parameters?["rowsNumber"])!)!
                 self.densityNumber = Int((parameters?["densityNumber"])!)!
                 self.metronome = Bool((parameters?["metronome"])!)!
+                self.tempo = Double((parameters?["tempo"])!)!
                 self.color1 = Int((parameters?["color1"])!)!
                 self.color2 = Int((parameters?["color2"])!)!
                 self.master = Bool((parameters?["master"])!)!
                 
-                for char in (parameters?["grid"])! {
-                    var number = Int(String(char))
+                for char in (parameters?["linearGrid"])! {
+                    let number = Int(String(char))
                     if number != nil {
                         self.linearGrid.append(number!)
                     }
                 }
-                print(self.master)
-                print(self.linearGrid)
+                
+                let startTimeString = (parameters?["startTime"])!
+                self.startTime = self.dateFormatter.date(from: startTimeString)!
+                
+                
                 self.fill()
+                
+                if self.metronome {
+                    self.label.text = "4"
+                }
+                else {
+                    self.repeatButton.isEnabled = false
+                    self.repeatButton.isHidden = true
+                    self.playPauseButton.isEnabled = false
+                    self.playPauseButton.isHidden = true
+                    self.label.text = ""
+                }
+                self.playMode()
+                
                 /*
                 "rowsNumber": String(rowsNumber),
                 "densityNumber": String(densityNumber),
@@ -321,7 +344,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 "master": String(master)*/
             }
             catch {
-                print ("mamó")
+                print ("Error recieving message")
             }
         }
     }
@@ -361,7 +384,10 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     func sendParameters() {
         if mcSession.connectedPeers.count > 0 {
             
-            let parameters:[String:String] = ["grid": gridNumbers.description,
+            self.startTime = Date().addingTimeInterval(4)
+            let startTimeString = self.dateFormatter.string(from: startTime)
+            
+            let parameters:[String:String] = ["linearGrid": gridNumbers.description,
                                               "columnsNumber": String(columnsNumber),
                                               "rowsNumber": String(rowsNumber),
                                               "densityNumber": String(densityNumber),
@@ -369,7 +395,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                                               "tempo": String(tempo),
                                               "color1": String(color1),
                                               "color2": String(color2),
-                                              "master": "false"]
+                                              "master": "false",
+                                              "startTime": startTimeString]
             
             var paramString = parameters.description
             paramString = paramString.replacingCharacters(in: ...paramString.startIndex, with: "{")
