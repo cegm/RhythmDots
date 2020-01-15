@@ -8,8 +8,9 @@
 
 import UIKit
 import AVFoundation
+import MultipeerConnectivity
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
     
     var columnsNumber: Int = 5
     var rowsNumber: Int = 5
@@ -22,9 +23,10 @@ class GameViewController: UIViewController {
     var dotsOff: [UIImage] = [UIImage(named: "blackOff")!, UIImage(named: "redOff")!, UIImage(named: "orangeOff")!, UIImage(named: "yellowOff")!, UIImage(named: "greenOff")!, UIImage(named: "blueOff")!, UIImage(named: "purpleOff")!]
     var dotsOn: [UIImage] = [UIImage(named: "blackOn")!, UIImage(named: "redOn")!, UIImage(named: "orangeOn")!, UIImage(named: "yellowOn")!, UIImage(named: "greenOn")!, UIImage(named: "blueOn")!, UIImage(named: "purpleOn")!]
     @IBOutlet weak var gridStackView: UIStackView!
-    var gridNumbers: [[Int]] = [[]]
+    var gridNumbers: [[Int]] = []
+    var linearGrid: [Int] = []
     var stackViews: [UIStackView] = []
-    var gridImageViews: [[UIImageView]] = [[]]
+    var gridImageViews: [[UIImageView]] = []
     var count = -4
     var timer = Timer()
     @IBOutlet weak var label: UILabel!
@@ -34,22 +36,40 @@ class GameViewController: UIViewController {
     var click: AVAudioPlayer?
     var url: URL = URL(fileURLWithPath: Bundle.main.path(forResource: "click.mp3", ofType:nil)!)
     
+    var master: Bool = false
+    
+    var peerID: MCPeerID!
+    var mcSession: MCSession!
+    var mcAdvertiserAssistant: MCAdvertiserAssistant!
+    var messageToSend: String!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        peerID = MCPeerID(displayName: UIDevice.current.name)
+        mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+        mcSession.delegate = self
+        
         // Do any additional setup after loading the view.
-        fill()
-        if metronome {
-            label.text = "4"
-            setTimer()
+        if master {
+            fill()
+            
+            joinSession()
+            
+            if metronome {
+                label.text = "4"
+            }
+            else {
+                repeatButton.isEnabled = false
+                repeatButton.isHidden = true
+                playPauseButton.isEnabled = false
+                playPauseButton.isHidden = true
+                label.text = ""
+            }
         }
         else {
-            repeatButton.isEnabled = false
-            repeatButton.isHidden = true
-            playPauseButton.isEnabled = false
-            playPauseButton.isHidden = true
-            label.text = ""
+            hostSession()
         }
     }
     
@@ -97,25 +117,39 @@ class GameViewController: UIViewController {
     func createCell(row: Int, column: Int) -> UIImageView {
         var image: UIImage
         var imageView: UIImageView
-        var number = Int(arc4random_uniform(101))
-        if number <= densityNumber {
-            number = Int(arc4random_uniform(2))
-            if number == 0 {
-                image = dots[color1]
-                gridNumbers[row].append(1)
+        let number: Int
+        if master {
+             number = Int(arc4random_uniform(101))
+             if number <= densityNumber {
+                image = fillCellUpdateGrid(number: Int(arc4random_uniform(2)) + 1, row: row)
             }
-            else {
-                image = dots[color2]
-                gridNumbers[row].append(2)
+             else {
+                image = fillCellUpdateGrid(number: 0, row: row)
             }
         }
         else {
-            image = dots[7]
-            gridNumbers[row].append(0)
+            number = linearGrid[0]
+            image = fillCellUpdateGrid(number: number, row: row)
+            linearGrid.removeFirst(1)
         }
+       
         imageView = createImageView(image: image)
         gridImageViews[row].append(imageView)
         return imageView
+    }
+    
+    func fillCellUpdateGrid(number: Int, row: Int) -> UIImage {
+        switch number {
+        case 1:
+            gridNumbers[row].append(1)
+            return dots[color1]
+        case 2:
+            gridNumbers[row].append(2)
+            return dots[color2]
+        default:
+            gridNumbers[row].append(0)
+            return dots[7]
+        }
     }
     
     func createImageView(image: UIImage) -> UIImageView {
@@ -195,7 +229,14 @@ class GameViewController: UIViewController {
         }
     }
     
-    func setTimer() {
+    func playMode() {
+        let tic = Date()
+        let toc = tic.addingTimeInterval(5)
+        let syncronizationTimer = Timer(fireAt: toc, interval: 0, target: self, selector: #selector(setTimer), userInfo: nil, repeats: false)
+        RunLoop.main.add(syncronizationTimer, forMode: .common)
+    }
+    
+    @objc func setTimer() {
         timer =  Timer.scheduledTimer(timeInterval: 60/tempo, target: self,   selector: #selector(incrementCounter), userInfo: nil, repeats: true)
         isPaused = false
         playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
@@ -220,17 +261,131 @@ class GameViewController: UIViewController {
         count = -4
         invalidateTimer()
         resetGrid()
-        setTimer()
+        playMode()
     }
     @IBAction func playPause(_ sender: UIButton) {
         if isPaused {
-            setTimer()
+            playMode()
         }
         else {
             invalidateTimer()
         }
     }
     
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        switch state {
+        case MCSessionState.connected:
+            if master {
+                sendParameters()
+            }
+            print("Connected: \(peerID.displayName)")
+        case MCSessionState.connecting:
+            print("Connecting: \(peerID.displayName)")
+        case MCSessionState.notConnected:
+            print("Not Connected: \(peerID.displayName)")
+        @unknown default:
+            print("fatal error")
+        }
+    }
+    
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        DispatchQueue.main.async { [unowned self] in
+            let message = NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)! as String
+            print(message)
+            do{
+                let parameters = try JSONSerialization.jsonObject(with: data) as? [String:String]
+                self.columnsNumber = Int((parameters?["columnsNumber"])!)!
+                self.rowsNumber = Int((parameters?["rowsNumber"])!)!
+                self.densityNumber = Int((parameters?["densityNumber"])!)!
+                self.metronome = Bool((parameters?["metronome"])!)!
+                self.color1 = Int((parameters?["color1"])!)!
+                self.color2 = Int((parameters?["color2"])!)!
+                self.master = Bool((parameters?["master"])!)!
+                
+                for char in (parameters?["grid"])! {
+                    var number = Int(String(char))
+                    if number != nil {
+                        self.linearGrid.append(number!)
+                    }
+                }
+                print(self.master)
+                print(self.linearGrid)
+                self.fill()
+                /*
+                "rowsNumber": String(rowsNumber),
+                "densityNumber": String(densityNumber),
+                "metronome": String(metronome),
+                "tempo": String(tempo),
+                "color1": String(color1),
+                "color2": String(color2),
+                "master": String(master)*/
+            }
+            catch {
+                print ("mamó")
+            }
+        }
+    }
+    
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        
+    }
+    
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+        
+    }
+    
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+        
+    }
+    
+    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true)
+    }
+    
+    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
+        dismiss(animated: true)
+    }
+    
+    func hostSession() {
+        mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: "RhythmDots-CEGM", discoveryInfo: nil, session: mcSession)
+        mcAdvertiserAssistant.start()
+    }
+    
+    func joinSession() {
+        let mcBrowser = MCBrowserViewController(serviceType: "RhythmDots-CEGM", session: mcSession)
+        mcBrowser.delegate = self
+        mcBrowser.maximumNumberOfPeers = 2
+        present(mcBrowser, animated: true)
+    }
+    
+    func sendParameters() {
+        if mcSession.connectedPeers.count > 0 {
+            
+            let parameters:[String:String] = ["grid": gridNumbers.description,
+                                              "columnsNumber": String(columnsNumber),
+                                              "rowsNumber": String(rowsNumber),
+                                              "densityNumber": String(densityNumber),
+                                              "metronome": String(metronome),
+                                              "tempo": String(tempo),
+                                              "color1": String(color1),
+                                              "color2": String(color2),
+                                              "master": "false"]
+            
+            var paramString = parameters.description
+            paramString = paramString.replacingCharacters(in: ...paramString.startIndex, with: "{")
+            //paramString = paramString.replacingCharacters(in: paramString.endIndex.predecessor(), with: "}")
+            paramString.removeLast()
+            paramString = paramString + "}"
+            
+            let message = paramString.data(using: String.Encoding.utf8, allowLossyConversion: false)
+            do {
+                try self.mcSession.send(message!, toPeers: self.mcSession.connectedPeers, with: .unreliable)
+            }
+            catch {
+                print("Error sending message")
+            }
+        }
+    }
     
     /*
      // MARK: - Navigation

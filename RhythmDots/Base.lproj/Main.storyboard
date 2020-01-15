@@ -33,15 +33,29 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="H3W-HO-5NI">
                                         <rect key="frame" x="0.0" y="301.5" width="375" height="151"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-xY-9OF">
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ZqT-V2-cum">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="75.5"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                                <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="New game"/>
-                                                <connections>
-                                                    <segue destination="Q4n-SJ-qQA" kind="show" id="h1r-Nt-B61"/>
-                                                </connections>
-                                            </button>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-xY-9OF">
+                                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="75.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <state key="normal" title="Master"/>
+                                                        <connections>
+                                                            <segue destination="Q4n-SJ-qQA" kind="show" id="h1r-Nt-B61"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vkR-Gz-A24">
+                                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="75.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <state key="normal" title="Slave"/>
+                                                        <connections>
+                                                            <segue destination="LJp-3W-UfG" kind="show" id="WYa-d8-ZF2"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z8-sV-9lT">
                                                 <rect key="frame" x="0.0" y="75.5" width="375" height="75.5"/>
                                                 <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -465,7 +479,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="beY-9j-mMA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2552.8000000000002" y="13.943028485757123"/>
+            <point key="canvasLocation" x="2657" y="-224"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="MfL-GB-geT">
@@ -610,7 +624,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XmA-3J-bzb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="824.79999999999995" y="770.46476761619192"/>
+            <point key="canvasLocation" x="1764" y="824"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="IKt-yQ-uih">
@@ -666,7 +680,7 @@ Instructions:
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gir-4j-peK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="25" y="772"/>
+            <point key="canvasLocation" x="964" y="808"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GT8-zj-mxc">
@@ -699,4 +713,7 @@ Instructions:
         <image name="repeat" width="300" height="300"/>
         <image name="yellowOff" width="300" height="300"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="WYa-d8-ZF2"/>
+    </inferredMetricsTieBreakers>
 </document>
