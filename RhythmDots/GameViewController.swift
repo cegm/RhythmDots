@@ -43,16 +43,10 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     var messageToSend: String!
     
-    var startTime: Date = Date().addingTimeInterval(10)
-    
-    var dateFormatter = DateFormatter()
-    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        dateFormatter.dateFormat = "yyyy-mm-dd hh:mm:ss"
         
         peerID = MCPeerID(displayName: UIDevice.current.name)
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
@@ -237,6 +231,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     func playMode() {
+        let startTime = Date().addingTimeInterval(4)
         let syncronizationTimer = Timer(fireAt: startTime, interval: 0, target: self, selector: #selector(setTimer), userInfo: nil, repeats: false)
         RunLoop.main.add(syncronizationTimer, forMode: .common)
     }
@@ -316,10 +311,6 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                     }
                 }
                 
-                let startTimeString = (parameters?["startTime"])!
-                self.startTime = self.dateFormatter.date(from: startTimeString)!
-                
-                
                 self.fill()
                 
                 if self.metronome {
@@ -384,9 +375,6 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     func sendParameters() {
         if mcSession.connectedPeers.count > 0 {
             
-            self.startTime = Date().addingTimeInterval(4)
-            let startTimeString = self.dateFormatter.string(from: startTime)
-            
             let parameters:[String:String] = ["linearGrid": gridNumbers.description,
                                               "columnsNumber": String(columnsNumber),
                                               "rowsNumber": String(rowsNumber),
@@ -395,8 +383,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                                               "tempo": String(tempo),
                                               "color1": String(color1),
                                               "color2": String(color2),
-                                              "master": "false",
-                                              "startTime": startTimeString]
+                                              "master": "false"]
             
             var paramString = parameters.description
             paramString = paramString.replacingCharacters(in: ...paramString.startIndex, with: "{")
