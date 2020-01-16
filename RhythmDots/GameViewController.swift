@@ -230,7 +230,13 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
     }
     
-    func setTimer() {
+    func playMode() {
+        let startTime = Date().addingTimeInterval(4)
+        let syncronizationTimer = Timer(fireAt: startTime, interval: 0, target: self, selector: #selector(setTimer), userInfo: nil, repeats: false)
+        RunLoop.main.add(syncronizationTimer, forMode: .common)
+    }
+    
+    @objc func setTimer() {
         timer =  Timer.scheduledTimer(timeInterval: 60/tempo, target: self,   selector: #selector(incrementCounter), userInfo: nil, repeats: true)
         isPaused = false
         playPauseButton.setImage(#imageLiteral(resourceName: "pause"), for: .normal)
