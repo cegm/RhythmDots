@@ -120,11 +120,11 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         var imageView: UIImageView
         let number: Int
         if master {
-             number = Int(arc4random_uniform(101))
-             if number <= densityNumber {
+            number = Int(arc4random_uniform(101))
+            if number <= densityNumber {
                 image = fillCellUpdateGrid(number: Int(arc4random_uniform(2)) + 1, row: row)
             }
-             else {
+            else {
                 image = fillCellUpdateGrid(number: 0, row: row)
             }
         }
@@ -133,7 +133,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             image = fillCellUpdateGrid(number: number, row: row)
             linearGrid.removeFirst(1)
         }
-       
+        
         imageView = createImageView(image: image)
         gridImageViews[row].append(imageView)
         return imageView
@@ -261,11 +261,11 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         count = -4
         invalidateTimer()
         resetGrid()
-        setTimer()
+        playMode()
     }
     @IBAction func playPause(_ sender: UIButton) {
         if isPaused {
-            setTimer()
+            playMode()
         }
         else {
             invalidateTimer()
@@ -277,6 +277,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         case MCSessionState.connected:
             if master {
                 sendParameters()
+                playMode()
             }
             print("Connected: \(peerID.displayName)")
         case MCSessionState.connecting:
@@ -322,15 +323,16 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                     self.playPauseButton.isHidden = true
                     self.label.text = ""
                 }
+                self.playMode()
                 
                 /*
-                "rowsNumber": String(rowsNumber),
-                "densityNumber": String(densityNumber),
-                "metronome": String(metronome),
-                "tempo": String(tempo),
-                "color1": String(color1),
-                "color2": String(color2),
-                "master": String(master)*/
+                 "rowsNumber": String(rowsNumber),
+                 "densityNumber": String(densityNumber),
+                 "metronome": String(metronome),
+                 "tempo": String(tempo),
+                 "color1": String(color1),
+                 "color2": String(color2),
+                 "master": String(master)*/
             }
             catch {
                 print ("Error recieving message")
@@ -409,5 +411,5 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
      }
      */
     
-
+    
 }
