@@ -256,6 +256,10 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     @IBAction func reset(_ sender: UIButton) {
+        resetLocal()
+    }
+    
+    func resetLocal() {
         playPauseButton.isEnabled = true
         playPauseButton.isHidden = false
         count = -4
