@@ -233,7 +233,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     func playMode() {
-        let startTime = Date().addingTimeInterval(2)
+        let startTime = Date().addingTimeInterval(1)
         syncronizationTimer = Timer(fireAt: startTime, interval: 0, target: self, selector: #selector(setTimer), userInfo: nil, repeats: false)
         RunLoop.main.add(syncronizationTimer, forMode: .common)
     }
@@ -259,6 +259,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     @IBAction func reset(_ sender: UIButton) {
+        resetRemote()
         resetLocal()
     }
     
@@ -270,13 +271,27 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         resetGrid()
         playMode()
     }
+    
+    func resetRemote() {
+        sendCommand(command: "reset")
+    }
+    
     @IBAction func playPause(_ sender: UIButton) {
+        playPauseRemote()
+        playPauseLocal()
+    }
+    
+    func playPauseLocal() {
         if isPaused {
             playMode()
         }
         else {
             invalidateTimer()
         }
+    }
+    
+    func playPauseRemote() {
+        sendCommand(command: "pause")
     }
     
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
@@ -298,48 +313,49 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         DispatchQueue.main.async { [unowned self] in
-            let message = NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)! as String
-            print(message)
             do{
-                let parameters = try JSONSerialization.jsonObject(with: data) as? [String:String]
-                self.columnsNumber = Int((parameters?["columnsNumber"])!)!
-                self.rowsNumber = Int((parameters?["rowsNumber"])!)!
-                self.densityNumber = Int((parameters?["densityNumber"])!)!
-                self.metronome = Bool((parameters?["metronome"])!)!
-                self.tempo = Double((parameters?["tempo"])!)!
-                self.color1 = Int((parameters?["color1"])!)!
-                self.color2 = Int((parameters?["color2"])!)!
-                self.master = Bool((parameters?["master"])!)!
+                let message = NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)! as String
+                print(message)
                 
-                for char in (parameters?["linearGrid"])! {
-                    let number = Int(String(char))
-                    if number != nil {
-                        self.linearGrid.append(number!)
+                switch message {
+                case "pause":
+                    self.playPauseLocal()
+                    print("pause")
+                case "reset":
+                    self.resetLocal()
+                    print("reset")
+                default:
+                    let parameters = try JSONSerialization.jsonObject(with: data) as? [String:String]
+                    self.columnsNumber = Int((parameters?["columnsNumber"])!)!
+                    self.rowsNumber = Int((parameters?["rowsNumber"])!)!
+                    self.densityNumber = Int((parameters?["densityNumber"])!)!
+                    self.metronome = Bool((parameters?["metronome"])!)!
+                    self.tempo = Double((parameters?["tempo"])!)!
+                    self.color1 = Int((parameters?["color1"])!)!
+                    self.color2 = Int((parameters?["color2"])!)!
+                    self.master = Bool((parameters?["master"])!)!
+                    
+                    for char in (parameters?["linearGrid"])! {
+                        let number = Int(String(char))
+                        if number != nil {
+                            self.linearGrid.append(number!)
+                        }
                     }
+                    
+                    self.fill()
+                    
+                    if self.metronome {
+                        self.label.text = "4"
+                    }
+                    else {
+                        self.repeatButton.isEnabled = false
+                        self.repeatButton.isHidden = true
+                        self.playPauseButton.isEnabled = false
+                        self.playPauseButton.isHidden = true
+                        self.label.text = ""
+                    }
+                    self.playMode()
                 }
-                
-                self.fill()
-                
-                if self.metronome {
-                    self.label.text = "4"
-                }
-                else {
-                    self.repeatButton.isEnabled = false
-                    self.repeatButton.isHidden = true
-                    self.playPauseButton.isEnabled = false
-                    self.playPauseButton.isHidden = true
-                    self.label.text = ""
-                }
-                self.playMode()
-                
-                /*
-                 "rowsNumber": String(rowsNumber),
-                 "densityNumber": String(densityNumber),
-                 "metronome": String(metronome),
-                 "tempo": String(tempo),
-                 "color1": String(color1),
-                 "color2": String(color2),
-                 "master": String(master)*/
             }
             catch {
                 print ("Error recieving message")
@@ -380,9 +396,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     func sendParameters() {
-        if mcSession.connectedPeers.count > 0 {
-            
-            let parameters:[String:String] = ["linearGrid": gridNumbers.description,
+        let parameters:[String:String] = ["linearGrid": gridNumbers.description,
                                               "columnsNumber": String(columnsNumber),
                                               "rowsNumber": String(rowsNumber),
                                               "densityNumber": String(densityNumber),
@@ -392,13 +406,22 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                                               "color2": String(color2),
                                               "master": "false"]
             
-            var paramString = parameters.description
-            paramString = paramString.replacingCharacters(in: ...paramString.startIndex, with: "{")
-            //paramString = paramString.replacingCharacters(in: paramString.endIndex.predecessor(), with: "}")
-            paramString.removeLast()
-            paramString = paramString + "}"
-            
-            let message = paramString.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        var paramString = parameters.description
+        paramString = paramString.replacingCharacters(in: ...paramString.startIndex, with: "{")
+        //paramString = paramString.replacingCharacters(in: paramString.endIndex.predecessor(), with: "}")
+        paramString.removeLast()
+        paramString = paramString + "}"
+        
+        sendMessage(message: paramString)
+    }
+    
+    func sendCommand(command: String) {
+        sendMessage(message: command)
+    }
+    
+    func sendMessage(message: String) {
+        if mcSession.connectedPeers.count > 0 {
+            let message = message.data(using: String.Encoding.utf8, allowLossyConversion: false)
             do {
                 try self.mcSession.send(message!, toPeers: self.mcSession.connectedPeers, with: .unreliable)
             }
