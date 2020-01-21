@@ -43,6 +43,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
     var messageToSend: String!
     
+    var syncronizationTimer = Timer()
+    
     
     
     override func viewDidLoad() {
@@ -231,8 +233,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     func playMode() {
-        let startTime = Date().addingTimeInterval(4)
-        let syncronizationTimer = Timer(fireAt: startTime, interval: 0, target: self, selector: #selector(setTimer), userInfo: nil, repeats: false)
+        let startTime = Date().addingTimeInterval(2)
+        syncronizationTimer = Timer(fireAt: startTime, interval: 0, target: self, selector: #selector(setTimer), userInfo: nil, repeats: false)
         RunLoop.main.add(syncronizationTimer, forMode: .common)
     }
     
@@ -244,6 +246,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     func invalidateTimer() {
         timer.invalidate()
+        syncronizationTimer.invalidate()
         isPaused = true
         playPauseButton.setImage(#imageLiteral(resourceName: "play"), for: .normal)
         click?.stop()
