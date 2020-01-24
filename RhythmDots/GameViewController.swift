@@ -54,26 +54,16 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession.delegate = self
         
-        // Do any additional setup after loading the view.
+        triggerPairing()
         if master {
-            fill()
             
-            joinSession()
+            let tap = UITapGestureRecognizer(target: self, action: #selector(newGrid))
+            tap.numberOfTapsRequired = 2
+            repeatButton.addGestureRecognizer(tap)
             
-            if metronome {
-                label.text = "4"
-            }
-            else {
-                repeatButton.isEnabled = false
-                repeatButton.isHidden = true
-                playPauseButton.isEnabled = false
-                playPauseButton.isHidden = true
-                label.text = ""
-            }
+            newGame()
         }
-        else {
-            hostSession()
-        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -88,7 +78,39 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         // Dispose of any resources that can be recreated.
     }
     
+    func triggerPairing() {
+        if master {
+            joinSession()
+        }
+        else {
+            hostSession()
+        }
+    }
+    
+    func newGame() {
+        fill()
+        
+        if metronome {
+            label.text = "4"
+        }
+        else {
+            repeatButton.isEnabled = false
+            repeatButton.isHidden = true
+            playPauseButton.isEnabled = false
+            playPauseButton.isHidden = true
+            label.text = ""
+        }
+    }
+    
     func fill() {
+        /*
+         @IBOutlet weak var gridStackView: UIStackView!
+         var gridNumbers: [[Int]] = []
+         var linearGrid: [Int] = []
+         var stackViews: [UIStackView] = []
+         var gridImageViews: [[UIImageView]] = []
+         var count = -4
+         */
         for row in 0..<rowsNumber {
             gridNumbers.append([])
             gridImageViews.append([])
@@ -252,7 +274,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         click?.stop()
     }
     
-    func resetGrid() {
+    func resetDots() {
         for n in 0..<(rowsNumber)*(columnsNumber) {
             changeDot(count: n, on: 2)
         }
@@ -268,12 +290,39 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         playPauseButton.isHidden = false
         count = -4
         invalidateTimer()
-        resetGrid()
+        resetDots()
         playMode()
     }
     
     func resetRemote() {
         sendCommand(command: "reset")
+    }
+    
+    @objc func newGrid() {
+        resetGrid()
+        newGame()
+        newGridRemote()
+        sendParameters()
+        playMode()
+    }
+    
+    func resetGrid() {
+        for row in 0..<rowsNumber {
+            for column in 0..<columnsNumber {
+                gridImageViews[row][column].removeFromSuperview()
+            }
+            stackViews[row].removeFromSuperview()
+        }
+        gridNumbers = []
+        linearGrid = []
+        stackViews = []
+        gridImageViews = []
+        count = -4
+        invalidateTimer()
+    }
+    
+    func newGridRemote() {
+        sendCommand(command: "new")
     }
     
     @IBAction func playPause(_ sender: UIButton) {
@@ -324,6 +373,9 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 case "reset":
                     self.resetLocal()
                     print("reset")
+                case "new":
+                    self.resetGrid()
+                    print("new")
                 default:
                     let parameters = try JSONSerialization.jsonObject(with: data) as? [String:String]
                     self.columnsNumber = Int((parameters?["columnsNumber"])!)!
@@ -342,18 +394,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                         }
                     }
                     
-                    self.fill()
-                    
-                    if self.metronome {
-                        self.label.text = "4"
-                    }
-                    else {
-                        self.repeatButton.isEnabled = false
-                        self.repeatButton.isHidden = true
-                        self.playPauseButton.isEnabled = false
-                        self.playPauseButton.isHidden = true
-                        self.label.text = ""
-                    }
+                    self.newGame()
                     self.playMode()
                 }
             }
