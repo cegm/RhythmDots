@@ -54,7 +54,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession.delegate = self
         
-        triggerPairing()
+
         if master {
             
             let tap = UITapGestureRecognizer(target: self, action: #selector(newGrid))
@@ -63,12 +63,33 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             
             newGame()
         }
+        else {
+            repeatButton.isEnabled = false
+            repeatButton.isHidden = true
+            playPauseButton.isEnabled = false
+            playPauseButton.isHidden = true
+            label.text = "Waiting for Master Device to connect..."
+        }
         
+        if mcSession.connectedPeers.count > 0 {
+            if master {
+                sendParameters()
+                playMode()
+            }
+        }
+        else {
+            triggerPairing()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         invalidateTimer()
-        sendCommand(command: "quit")
+        if master {
+            sendCommand(command: "disconnected")
+        }
+        else {
+            sendCommand(command: "quit")
+        }
     }
     override func viewDidDisappear(_ animated: Bool) {
         invalidateTimer()
@@ -92,6 +113,10 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         fill()
         
         if metronome {
+            repeatButton.isEnabled = true
+            repeatButton.isHidden = false
+            playPauseButton.isEnabled = true
+            playPauseButton.isHidden = false
             label.text = "4"
         }
         else {
@@ -319,6 +344,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         stackViews = []
         gridImageViews = []
         count = -4
+        label.text = ""
         invalidateTimer()
     }
     
@@ -377,6 +403,14 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 case "new":
                     self.resetGrid()
                     print("new")
+                case "disconnected":
+                    self.resetGrid()
+                    self.label.text = "Waiting for Master Device to connect..."
+                    self.repeatButton.isEnabled = false
+                    self.repeatButton.isHidden = true
+                    self.playPauseButton.isEnabled = false
+                    self.playPauseButton.isHidden = true
+                    print("disconnected")
                 case "quit":
                     self.navigationController?.popViewController(animated: true)
                     print("quit")
