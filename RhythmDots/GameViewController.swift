@@ -68,6 +68,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     override func viewWillDisappear(_ animated: Bool) {
         invalidateTimer()
+        sendCommand(command: "quit")
     }
     override func viewDidDisappear(_ animated: Bool) {
         invalidateTimer()
@@ -376,6 +377,9 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 case "new":
                     self.resetGrid()
                     print("new")
+                case "quit":
+                    self.navigationController?.popViewController(animated: true)
+                    print("quit")
                 default:
                     let parameters = try JSONSerialization.jsonObject(with: data) as? [String:String]
                     self.columnsNumber = Int((parameters?["columnsNumber"])!)!
