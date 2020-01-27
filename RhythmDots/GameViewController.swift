@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import MultipeerConnectivity
 
-class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate {
+class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var columnsNumber: Int = 5
     var rowsNumber: Int = 5
@@ -45,6 +45,10 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     var syncronizationTimer = Timer()
     
+    var picker: UIPickerView!
+    var dataArray = ["English", "Maths", "History", "German", "Science"]
+    var pickerDoneButton: UIButton!
+    
     
     
     override func viewDidLoad() {
@@ -68,6 +72,48 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
             swipeUp.direction = UISwipeGestureRecognizer.Direction.up
             gridStackView.addGestureRecognizer(swipeUp)
+            
+            let blurEffect = UIBlurEffect(style: .light)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView.frame = self.view.frame
+            self.view.addSubview(blurEffectView)
+            
+            blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+            
+            blurEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            blurEffectView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+            blurEffectView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -640).isActive = true
+            blurEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            
+            blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.50)
+            
+            blurEffectView.layer.shadowColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1).cgColor
+            blurEffectView.layer.shadowOpacity = 0.3
+            blurEffectView.layer.shadowOffset = .zero
+            blurEffectView.layer.shadowRadius = 4
+            
+            picker = UIPickerView()
+            picker.delegate = self as UIPickerViewDelegate
+            picker.dataSource = self as UIPickerViewDataSource
+            self.view.addSubview(picker)
+            
+            picker.translatesAutoresizingMaskIntoConstraints = false
+            
+            picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            picker.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+            picker.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -680).isActive = true
+            picker.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            
+            
+            pickerDoneButton = UIButton(type: UIButton.ButtonType.system)
+            pickerDoneButton.setTitle("Done", for: UIControl.State.normal)
+            self.view.addSubview(pickerDoneButton)
+            
+            pickerDoneButton.translatesAutoresizingMaskIntoConstraints = false
+            
+            pickerDoneButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            pickerDoneButton.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor, constant: 100).isActive = true
+            pickerDoneButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -220).isActive = true
             
             newGame()
         }
@@ -551,6 +597,17 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         UIView.animate(withDuration: time) {
             self.view.backgroundColor = UIColor.white
         }
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return dataArray.count
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let row = dataArray[row]
+        return row
     }
     
     /*
