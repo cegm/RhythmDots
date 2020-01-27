@@ -61,6 +61,14 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             tap.numberOfTapsRequired = 2
             repeatButton.addGestureRecognizer(tap)
             
+            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+            swipeDown.direction = UISwipeGestureRecognizer.Direction.down
+            gridStackView.addGestureRecognizer(swipeDown)
+            
+            let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+            swipeUp.direction = UISwipeGestureRecognizer.Direction.up
+            gridStackView.addGestureRecognizer(swipeUp)
+            
             newGame()
         }
         else {
@@ -199,7 +207,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             return dots[color2]
         default:
             gridNumbers[row].append(0)
-            return dots[7]
+            return UIImage()
         }
     }
     
@@ -270,7 +278,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                     image = dots[color2]
                 }
             default:
-                image = dots[7]
+                image = UIImage()
             }
             
             gridImageViews[row][column].removeFromSuperview()
@@ -507,6 +515,41 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             catch {
                 print("Error sending message")
             }
+        }
+    }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            
+            
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizer.Direction.up:
+                changeBackGroundColor(answer: true)
+                print("Swiped up")
+            case UISwipeGestureRecognizer.Direction.down:
+                changeBackGroundColor(answer: false)
+                print("Swiped down")
+            default:
+                break
+            }
+        }
+    }
+    
+    func changeBackGroundColor(answer: Bool) {
+        let time = (60/tempo)*0.44
+        let color: UIColor
+        if answer {
+            color = UIColor(red: 0.6, green: 1, blue: 0.6, alpha: 1)
+        }
+        else {
+            color = UIColor(red: 1, green: 0.6, blue: 0.6, alpha: 1)
+        }
+        UIView.animate(withDuration: time) {
+            self.view.backgroundColor = color
+        }
+        UIView.animate(withDuration: time) {
+            self.view.backgroundColor = UIColor.white
         }
     }
     
