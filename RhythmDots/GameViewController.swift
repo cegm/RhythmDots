@@ -74,7 +74,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             gridStackView.addGestureRecognizer(swipeUp)
             
             createPicker()
-            hidePicker(animation: false)
+            //hidePicker(animation: false)
 
             newGame()
         }
@@ -352,12 +352,16 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     func resetGrid() {
-        for row in 0..<rowsNumber {
-            for column in 0..<columnsNumber {
-                gridImageViews[row][column].removeFromSuperview()
+        if gridNumbers.count > 0 {
+            for row in 0..<rowsNumber {
+                for column in 0..<columnsNumber {
+                    gridImageViews[row][column].removeFromSuperview()
+                }
+                stackViews[row].removeFromSuperview()
             }
-            stackViews[row].removeFromSuperview()
+            
         }
+        
         gridNumbers = []
         linearGrid = []
         stackViews = []
@@ -434,6 +438,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                     self.navigationController?.popViewController(animated: true)
                     print("quit")
                 default:
+                    self.resetGrid()
                     let parameters = try JSONSerialization.jsonObject(with: data) as? [String:String]
                     self.columnsNumber = Int((parameters?["columnsNumber"])!)!
                     self.rowsNumber = Int((parameters?["rowsNumber"])!)!
@@ -450,6 +455,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                             self.linearGrid.append(number!)
                         }
                     }
+                    
                     
                     self.newGame()
                     self.playMode()
@@ -570,6 +576,11 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         setToolbar()
     }
     
+    func isiPhone() -> Bool {
+        let width = UIScreen.main.bounds.size.width
+        return width < 415
+    }
+    
     func setBlurryEffect() {
         let blurEffect = UIBlurEffect(style: .light)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -577,11 +588,19 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         self.view.addSubview(blurEffectView)
         
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        
-        blurEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        blurEffectView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        blurEffectView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -640).isActive = true
-        blurEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        if isiPhone() {
+            blurEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            blurEffectView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+            blurEffectView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -640).isActive = true
+            blurEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        }
+        else {
+            blurEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            blurEffectView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+            blurEffectView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -500).isActive = true
+            blurEffectView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -1100).isActive = true
+        }
+
         
         blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.50)
         
@@ -599,10 +618,19 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         
         picker.translatesAutoresizingMaskIntoConstraints = false
         
-        picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        picker.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        picker.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -680).isActive = true
-        picker.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        if isiPhone() {
+            picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            picker.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+            picker.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -680).isActive = true
+            picker.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        }
+        else {
+            picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            picker.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+            picker.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -500).isActive = true
+            picker.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -1100).isActive = true
+        }
+
     }
     
     func setToolbar() {
@@ -625,9 +653,18 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         
-        toolBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        toolBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        toolBar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -212).isActive = true
+        if isiPhone() {
+            toolBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            toolBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+            toolBar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -212).isActive = true
+        }
+        else {
+            toolBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+            toolBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+            toolBar.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -500).isActive = true
+            toolBar.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -1200).isActive = true
+        }
+
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
