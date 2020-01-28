@@ -47,8 +47,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     var picker: UIPickerView!
     var dataArray = ["English", "Maths", "History", "German", "Science"]
-    var pickerDoneButton: UIButton!
-    
+    var blurEffectView: UIVisualEffectView!
+    var toolBar: UIToolbar!
     
     
     override func viewDidLoad() {
@@ -73,48 +73,9 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             swipeUp.direction = UISwipeGestureRecognizer.Direction.up
             gridStackView.addGestureRecognizer(swipeUp)
             
-            let blurEffect = UIBlurEffect(style: .light)
-            let blurEffectView = UIVisualEffectView(effect: blurEffect)
-            blurEffectView.frame = self.view.frame
-            self.view.addSubview(blurEffectView)
-            
-            blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-            
-            blurEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            blurEffectView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-            blurEffectView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -640).isActive = true
-            blurEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-            
-            blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.50)
-            
-            blurEffectView.layer.shadowColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1).cgColor
-            blurEffectView.layer.shadowOpacity = 0.3
-            blurEffectView.layer.shadowOffset = .zero
-            blurEffectView.layer.shadowRadius = 4
-            
-            picker = UIPickerView()
-            picker.delegate = self as UIPickerViewDelegate
-            picker.dataSource = self as UIPickerViewDataSource
-            self.view.addSubview(picker)
-            
-            picker.translatesAutoresizingMaskIntoConstraints = false
-            
-            picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            picker.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-            picker.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -680).isActive = true
-            picker.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-            
-            
-            pickerDoneButton = UIButton(type: UIButton.ButtonType.system)
-            pickerDoneButton.setTitle("Done", for: UIControl.State.normal)
-            self.view.addSubview(pickerDoneButton)
-            
-            pickerDoneButton.translatesAutoresizingMaskIntoConstraints = false
-            
-            pickerDoneButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            pickerDoneButton.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor, constant: 100).isActive = true
-            pickerDoneButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -220).isActive = true
-            
+            createPicker()
+            hidePicker(animation: false)
+
             newGame()
         }
         else {
@@ -284,6 +245,10 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 label.text = ":)"
                 playPauseButton.isEnabled = false
                 playPauseButton.isHidden = true
+                if master {
+                    showPicker(animation: true)
+                }
+                
             }
         }
         do {
@@ -599,6 +564,72 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
     }
     
+    func createPicker() {
+        setBlurryEffect()
+        setPicker()
+        setToolbar()
+    }
+    
+    func setBlurryEffect() {
+        let blurEffect = UIBlurEffect(style: .light)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.view.frame
+        self.view.addSubview(blurEffectView)
+        
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        
+        blurEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        blurEffectView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        blurEffectView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -640).isActive = true
+        blurEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        
+        blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.50)
+        
+        blurEffectView.layer.shadowColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1).cgColor
+        blurEffectView.layer.shadowOpacity = 0.3
+        blurEffectView.layer.shadowOffset = .zero
+        blurEffectView.layer.shadowRadius = 4
+    }
+    
+    func setPicker() {
+        picker = UIPickerView()
+        picker.delegate = self as UIPickerViewDelegate
+        picker.dataSource = self as UIPickerViewDataSource
+        self.view.addSubview(picker)
+        
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        
+        picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        picker.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        picker.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -680).isActive = true
+        picker.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+    }
+    
+    func setToolbar() {
+        toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
+        toolBar.sizeToFit()
+        
+        // Adding Button ToolBar
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
+        doneButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
+        cancelButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        self.view.addSubview(toolBar)
+        
+        toolBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        toolBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        toolBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        toolBar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -212).isActive = true
+    }
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -610,6 +641,35 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         return row
     }
     
+    @objc func doneClick() {
+        hidePicker(animation: true)
+    }
+    @objc func cancelClick() {
+        hidePicker(animation: true)
+    }
+    
+    func showPicker(animation: Bool) {
+        UIView.animate(withDuration: 0.3) {
+            self.blurEffectView.alpha = 1
+            self.picker.alpha = 1
+            self.toolBar.alpha = 1
+        }
+    }
+    
+    func hidePicker(animation: Bool) {
+        let time: Double
+        if animation {
+            time = 0.22
+        }
+        else {
+            time = 0
+        }
+        UIView.animate(withDuration: time) {
+            self.blurEffectView.alpha = 0
+            self.picker.alpha = 0
+            self.toolBar.alpha = 0
+        }
+    }
     /*
      // MARK: - Navigation
      
