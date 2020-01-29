@@ -675,15 +675,19 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
         else {
             if isiPadPro(landscape: landscape) {
+                /*
                 if landscape {
                     widthConstant = -825
                     heightConstant = -720
                 } else {
                     widthConstant = -500
                     heightConstant = -1075
-                }
+                }*/
+                widthConstant = -500
+                heightConstant = -1075
             }
             else {
+                /*
                 if landscape {
                     widthConstant = -485
                     heightConstant = -470
@@ -691,11 +695,19 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 else {
                     widthConstant = -230
                     heightConstant = -750
-                }
+                }*/
+                widthConstant = -230
+                heightConstant = -750
             }
         }
-        view.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: widthConstant).isActive = true
-        view.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: heightConstant).isActive = true
+        if landscape {
+            view.widthAnchor.constraint(equalTo: self.view.heightAnchor, constant: widthConstant).isActive = true
+            view.heightAnchor.constraint(equalTo: self.view.widthAnchor, constant: heightConstant).isActive = true
+        }
+        else {
+            view.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: widthConstant).isActive = true
+            view.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: heightConstant).isActive = true
+        }
     }
     
     func setPicker() {
