@@ -53,6 +53,16 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var toolBar: UIToolbar!
     var pickerStackView: UIStackView!
     
+    var blurEffectViewWidthConstraintLandscape: NSLayoutConstraint!
+    var blurEffectViewHeightConstraintLandscape: NSLayoutConstraint!
+    var blurEffectViewWidthConstraintPortrait: NSLayoutConstraint!
+    var blurEffectViewHeightConstraintPortrait: NSLayoutConstraint!
+    
+    var pickerStackViewWidthConstraintLandscape: NSLayoutConstraint!
+    var pickerStackViewHeightConstraintLandscape: NSLayoutConstraint!
+    var pickerStackViewWidthConstraintPortrait: NSLayoutConstraint!
+    var pickerStackViewHeightConstraintPortrait: NSLayoutConstraint!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,13 +119,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     @objc func deviceRotated(){
         if master {
-            if UIDevice.current.orientation.isLandscape {
-                setSizeConstraints(view: blurEffectView, landscape: true)
-                setSizeConstraints(view: pickerStackView, landscape: true)
-            } else {
-                setSizeConstraints(view: blurEffectView, landscape: false)
-                setSizeConstraints(view: pickerStackView, landscape: false)
-            }
+            activateConstraints()
         }
     }
     
@@ -598,6 +602,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         setPicker()
         setToolbar()
         setPickerStackView(array: [toolBar, picker])
+        activateConstraints()
     }
     
     func isiPhone() -> Bool {
@@ -624,7 +629,14 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         
-        setConstraints(view: blurEffectView)
+        let constraints = setConstraints(view: blurEffectView)
+        print("BLUR")
+        print(constraints)
+        
+        blurEffectViewWidthConstraintLandscape = constraints[0]
+        blurEffectViewHeightConstraintLandscape = constraints[1]
+        blurEffectViewWidthConstraintPortrait = constraints[2]
+        blurEffectViewHeightConstraintPortrait = constraints[3]
         
         blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.55)
         
@@ -645,13 +657,21 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         pickerStackView.alignment = .fill
         pickerStackView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(pickerStackView)
-        setConstraints(view: pickerStackView)
+        
+        let constraints = setConstraints(view: pickerStackView)
+        print("PICKER")
+        print(constraints)
+        
+        pickerStackViewWidthConstraintLandscape = constraints[0]
+        pickerStackViewHeightConstraintLandscape = constraints[1]
+        pickerStackViewWidthConstraintPortrait = constraints[2]
+        pickerStackViewHeightConstraintPortrait = constraints[3]
         
         pickerStackView.layer.cornerRadius = 20.0
         pickerStackView.clipsToBounds = true;
     }
     
-    func setConstraints(view: UIView){
+    func setConstraints(view: UIView) -> [NSLayoutConstraint] {
         view.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         if iPhone {
             view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
@@ -661,7 +681,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
         
         let landscape = UIApplication.shared.statusBarOrientation.isLandscape
-        setSizeConstraints(view: view, landscape: landscape)
+        return setSizeConstraints(view: view, landscape: landscape)
 
     }
     
@@ -705,6 +725,31 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         let widthPortrait = view.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: widthConstant)
         let heightPortrait = view.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: heightConstant)
         return [widthLandscape, heightLandscape, widthPortrait, heightPortrait]
+    }
+    
+    func activateConstraints() {
+        if UIDevice.current.orientation.isLandscape {
+            blurEffectViewWidthConstraintLandscape.isActive = true
+            blurEffectViewHeightConstraintLandscape.isActive = true
+            blurEffectViewWidthConstraintPortrait.isActive = false
+            blurEffectViewHeightConstraintPortrait.isActive = false
+            
+            pickerStackViewWidthConstraintLandscape.isActive = true
+            pickerStackViewHeightConstraintLandscape.isActive = true
+            pickerStackViewWidthConstraintPortrait.isActive = false
+            pickerStackViewHeightConstraintPortrait.isActive = false
+        }
+        else {
+            blurEffectViewWidthConstraintLandscape.isActive = false
+            blurEffectViewHeightConstraintLandscape.isActive = false
+            blurEffectViewWidthConstraintPortrait.isActive = true
+            blurEffectViewHeightConstraintPortrait.isActive = true
+            
+            pickerStackViewWidthConstraintLandscape.isActive = false
+            pickerStackViewHeightConstraintLandscape.isActive = false
+            pickerStackViewWidthConstraintPortrait.isActive = true
+            pickerStackViewHeightConstraintPortrait.isActive = true
+        }
     }
     
     func setPicker() {
