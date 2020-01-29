@@ -54,7 +54,6 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var pickerStackView: UIStackView!
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -627,7 +626,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         
         setConstraints(view: blurEffectView)
         
-        blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.50)
+        blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.55)
         
         blurEffectView.layer.shadowColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1).cgColor
         blurEffectView.layer.shadowOpacity = 0.3
@@ -635,7 +634,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         blurEffectView.layer.shadowRadius = 4
         
         blurEffectView.layer.cornerRadius = 20.0
-        self.blurEffectView.clipsToBounds = true;
+        blurEffectView.clipsToBounds = true
         
     }
     
@@ -644,10 +643,12 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         pickerStackView.axis = .vertical
         pickerStackView.distribution = .fill
         pickerStackView.alignment = .fill
-        pickerStackView.spacing = 5
         pickerStackView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(pickerStackView)
         setConstraints(view: pickerStackView)
+        
+        pickerStackView.layer.cornerRadius = 20.0
+        pickerStackView.clipsToBounds = true;
     }
     
     func setConstraints(view: UIView){
@@ -691,7 +692,6 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                     widthConstant = -230
                     heightConstant = -750
                 }
-
             }
         }
         view.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: widthConstant).isActive = true
@@ -720,12 +720,18 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         
-        let path = UIBezierPath(roundedRect: toolBar.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 20, height: 20))
+        /*let path = UIBezierPath(roundedRect: toolBar.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 20, height: 20))
         let maskLayer = CAShapeLayer()
         maskLayer.frame = toolBar.bounds
         maskLayer.path = path.cgPath
-        toolBar.layer.mask = maskLayer
-        toolBar.clipsToBounds = true;
+        toolBar.layer.mask = maskLayer*/
+        toolBar.layer.cornerRadius = 20.0
+        toolBar.clipsToBounds = true
+        if #available(iOS 11.0, *) {
+            toolBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
