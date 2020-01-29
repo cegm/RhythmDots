@@ -665,7 +665,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
 
     }
     
-    func setSizeConstraints(view: UIView, landscape: Bool) {
+    func setSizeConstraints(view: UIView, landscape: Bool) -> [NSLayoutConstraint] {
         let widthConstant: CGFloat
         let heightConstant: CGFloat
         
@@ -700,14 +700,11 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 heightConstant = -750
             }
         }
-        if landscape {
-            view.widthAnchor.constraint(equalTo: self.view.heightAnchor, constant: widthConstant).isActive = true
-            view.heightAnchor.constraint(equalTo: self.view.widthAnchor, constant: heightConstant).isActive = true
-        }
-        else {
-            view.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: widthConstant).isActive = true
-            view.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: heightConstant).isActive = true
-        }
+        let widthLandscape = view.widthAnchor.constraint(equalTo: self.view.heightAnchor, constant: widthConstant)
+        let heightLandscape = view.heightAnchor.constraint(equalTo: self.view.widthAnchor, constant: heightConstant)
+        let widthPortrait = view.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: widthConstant)
+        let heightPortrait = view.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: heightConstant)
+        return [widthLandscape, heightLandscape, widthPortrait, heightPortrait]
     }
     
     func setPicker() {
