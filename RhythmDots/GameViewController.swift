@@ -45,14 +45,19 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     var syncronizationTimer = Timer()
     
+    
+    var iPhone: Bool!
     var picker: UIPickerView!
     var dataArray = ["English", "Maths", "History", "German", "Science"]
     var blurEffectView: UIVisualEffectView!
     var toolBar: UIToolbar!
+    var pickerStackView: UIStackView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        iPhone = isiPhone()
         
         peerID = MCPeerID(displayName: UIDevice.current.name)
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
@@ -97,7 +102,25 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    @objc func deviceRotated(){
+        if master {
+            if UIDevice.current.orientation.isLandscape {
+                setSizeConstraints(view: blurEffectView, landscape: true)
+                setSizeConstraints(view: pickerStackView, landscape: true)
+            } else {
+                setSizeConstraints(view: blurEffectView, landscape: false)
+                setSizeConstraints(view: pickerStackView, landscape: false)
+            }
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
         invalidateTimer()
         if master {
             sendCommand(command: "disconnected")
@@ -574,12 +597,24 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         setBlurryEffect()
         setPicker()
         setToolbar()
+        setPickerStackView(array: [toolBar, picker])
     }
     
     func isiPhone() -> Bool {
         let width = UIScreen.main.bounds.size.width
         return width < 415
     }
+    
+    func isiPadPro(landscape: Bool) -> Bool {
+        if landscape {
+            return UIScreen.main.bounds.size.height > 1000
+        }
+        else {
+            return UIScreen.main.bounds.size.width > 1000
+        }
+        
+    }
+    
     
     func setBlurryEffect() {
         let blurEffect = UIBlurEffect(style: .light)
@@ -588,19 +623,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         self.view.addSubview(blurEffectView)
         
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        if isiPhone() {
-            blurEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            blurEffectView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-            blurEffectView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -640).isActive = true
-            blurEffectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-        }
-        else {
-            blurEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            blurEffectView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-            blurEffectView.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -500).isActive = true
-            blurEffectView.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -1100).isActive = true
-        }
-
+        
+        setConstraints(view: blurEffectView)
         
         blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.50)
         
@@ -608,29 +632,75 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         blurEffectView.layer.shadowOpacity = 0.3
         blurEffectView.layer.shadowOffset = .zero
         blurEffectView.layer.shadowRadius = 4
+        
+        blurEffectView.layer.cornerRadius = 20.0
+        self.blurEffectView.clipsToBounds = true;
+        
+    }
+    
+    func setPickerStackView(array: [UIView]) {
+        pickerStackView = UIStackView(arrangedSubviews: array)
+        pickerStackView.axis = .vertical
+        pickerStackView.distribution = .fill
+        pickerStackView.alignment = .fill
+        pickerStackView.spacing = 5
+        pickerStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(pickerStackView)
+        setConstraints(view: pickerStackView)
+    }
+    
+    func setConstraints(view: UIView){
+        view.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        if iPhone {
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        }
+        else {
+            view.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        }
+        
+        let landscape = UIApplication.shared.statusBarOrientation.isLandscape
+        setSizeConstraints(view: view, landscape: landscape)
+
+    }
+    
+    func setSizeConstraints(view: UIView, landscape: Bool) {
+        let widthConstant: CGFloat
+        let heightConstant: CGFloat
+        
+        if iPhone {
+            widthConstant = 0
+            heightConstant = -680
+        }
+        else {
+            if isiPadPro(landscape: landscape) {
+                if landscape {
+                    widthConstant = -825
+                    heightConstant = -720
+                } else {
+                    widthConstant = -500
+                    heightConstant = -1075
+                }
+            }
+            else {
+                if landscape {
+                    widthConstant = -485
+                    heightConstant = -470
+                }
+                else {
+                    widthConstant = -230
+                    heightConstant = -750
+                }
+
+            }
+        }
+        view.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: widthConstant).isActive = true
+        view.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: heightConstant).isActive = true
     }
     
     func setPicker() {
         picker = UIPickerView()
         picker.delegate = self as UIPickerViewDelegate
         picker.dataSource = self as UIPickerViewDataSource
-        self.view.addSubview(picker)
-        
-        picker.translatesAutoresizingMaskIntoConstraints = false
-        
-        if isiPhone() {
-            picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            picker.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-            picker.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -680).isActive = true
-            picker.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-        }
-        else {
-            picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            picker.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-            picker.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -500).isActive = true
-            picker.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: -1100).isActive = true
-        }
-
     }
     
     func setToolbar() {
@@ -649,22 +719,12 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         
-        self.view.addSubview(toolBar)
-        
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        if isiPhone() {
-            toolBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            toolBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-            toolBar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -212).isActive = true
-        }
-        else {
-            toolBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-            toolBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-            toolBar.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -500).isActive = true
-            toolBar.bottomAnchor.constraint(equalTo: toolBar.bottomAnchor, constant: -1200).isActive = true
-        }
-
+        let path = UIBezierPath(roundedRect: toolBar.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 20, height: 20))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = toolBar.bounds
+        maskLayer.path = path.cgPath
+        toolBar.layer.mask = maskLayer
+        toolBar.clipsToBounds = true;
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -716,6 +776,4 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
      // Pass the selected object to the new view controller.
      }
      */
-    
-    
 }
