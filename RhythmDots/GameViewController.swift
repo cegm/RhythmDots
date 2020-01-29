@@ -630,8 +630,6 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = setConstraints(view: blurEffectView)
-        print("BLUR")
-        print(constraints)
         
         blurEffectViewWidthConstraintLandscape = constraints[0]
         blurEffectViewHeightConstraintLandscape = constraints[1]
@@ -659,8 +657,6 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         self.view.addSubview(pickerStackView)
         
         let constraints = setConstraints(view: pickerStackView)
-        print("PICKER")
-        print(constraints)
         
         pickerStackViewWidthConstraintLandscape = constraints[0]
         pickerStackViewHeightConstraintLandscape = constraints[1]
