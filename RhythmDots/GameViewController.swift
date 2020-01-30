@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import MultipeerConnectivity
 
-class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     var columnsNumber: Int = 5
     var rowsNumber: Int = 5
@@ -45,10 +45,17 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     var syncronizationTimer = Timer()
     
+    var swipeDown: UISwipeGestureRecognizer!
+    var swipeUp: UISwipeGestureRecognizer!
+    var countCorrect: Int = 0
+    var countIncorrect: Int = 0
+    var score: Double = 0
+    var done: UIAlertAction!
+    
     
     var iPhone: Bool!
     var picker: UIPickerView!
-    var dataArray = ["English", "Maths", "History", "German", "Science"]
+    var dataArray: [String]!
     var blurEffectView: UIVisualEffectView!
     var toolBar: UIToolbar!
     var pickerStackView: UIStackView!
@@ -67,6 +74,9 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dataArray = ["English", "Maths", "History", "German", "Science"]
+        dataArray.append("New entry...")
+        
         iPhone = isiPhone()
         
         peerID = MCPeerID(displayName: UIDevice.current.name)
@@ -76,20 +86,18 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
 
         if master {
             
+            swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+            swipeDown.direction = UISwipeGestureRecognizer.Direction.down
+            
+            swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+            swipeUp.direction = UISwipeGestureRecognizer.Direction.up
+            
             let tap = UITapGestureRecognizer(target: self, action: #selector(newGrid))
             tap.numberOfTapsRequired = 2
             repeatButton.addGestureRecognizer(tap)
             
-            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
-            swipeDown.direction = UISwipeGestureRecognizer.Direction.down
-            gridStackView.addGestureRecognizer(swipeDown)
-            
-            let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
-            swipeUp.direction = UISwipeGestureRecognizer.Direction.up
-            gridStackView.addGestureRecognizer(swipeUp)
-            
             createPicker()
-            //hidePicker(animation: false)
+            hidePicker(animation: false)
 
             newGame()
         }
@@ -258,6 +266,10 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
         else {
             if count == 0 {
+                addGestures()
+                countCorrect = 0
+                countIncorrect = 0
+                score = 0
                 label.text = ""
             }
             if count < (rowsNumber)*(columnsNumber) {
@@ -273,7 +285,14 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 playPauseButton.isEnabled = false
                 playPauseButton.isHidden = true
                 if master {
-                    showPicker(animation: true)
+                    if countCorrect + countIncorrect != rowsNumber*columnsNumber {
+                        presentAlert(message: "The number of swipes provided does not match the dimensions of the grid. Do you want to register an approximate score?", newEntry: false)
+                    }
+                    else {
+                        self.score = Double(Double(self.countCorrect)/(Double(self.countCorrect + self.countIncorrect)))*100
+                        showPicker(animation: true)
+                    }
+                    removeGestures()
                 }
                 
             }
@@ -562,6 +581,16 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
     }
     
+    func addGestures() {
+        self.view.addGestureRecognizer(swipeDown)
+        self.view.addGestureRecognizer(swipeUp)
+    }
+    
+    func removeGestures() {
+        self.view.removeGestureRecognizer(swipeDown)
+        self.view.removeGestureRecognizer(swipeUp)
+    }
+    
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -570,9 +599,11 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             switch swipeGesture.direction {
             case UISwipeGestureRecognizer.Direction.up:
                 changeBackGroundColor(answer: true)
+                countCorrect = countCorrect + 1
                 print("Swiped up")
             case UISwipeGestureRecognizer.Direction.down:
                 changeBackGroundColor(answer: false)
+                countIncorrect = countIncorrect + 1
                 print("Swiped down")
             default:
                 break
@@ -796,6 +827,16 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     @objc func doneClick() {
+        var selectedRow = dataArray![picker.selectedRow(inComponent: 0)]
+        if selectedRow == "New entry..." {
+            presentAlert(message: "New entry", newEntry: true)
+        }
+        else {
+            let name = selectedRow
+            print(name)
+            print(self.score)
+        }
+        
         hidePicker(animation: true)
     }
     @objc func cancelClick() {
@@ -808,12 +849,14 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             self.picker.alpha = 1
             self.toolBar.alpha = 1
         }
+        picker.isUserInteractionEnabled = true
+        toolBar.isUserInteractionEnabled = true
     }
     
     func hidePicker(animation: Bool) {
         let time: Double
         if animation {
-            time = 0.22
+            time = 0.3
         }
         else {
             time = 0
@@ -823,7 +866,73 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             self.picker.alpha = 0
             self.toolBar.alpha = 0
         }
+        picker.isUserInteractionEnabled = false
+        toolBar.isUserInteractionEnabled = false
+        
     }
+    
+    func presentAlert(message: String, newEntry: Bool) {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .default) { [unowned alert] _ in
+        }
+        alert.addAction(cancel)
+        
+        if newEntry {
+            alert.addTextField { (textField) in
+                textField.placeholder = "Name"
+            }
+            self.done = UIAlertAction(title: "Done", style: .default) { [unowned alert] _ in
+                let name = alert.textFields![0].text
+                print(name!)
+                print(self.score)
+                // do something interesting with "answer" here
+            }
+            alert.addAction(self.done)
+        }
+        else {
+            alert.addTextField { (textField) in
+                textField.placeholder = "Approximate score [%]"
+                textField.delegate = self
+                textField.keyboardType = .numberPad
+            }
+            self.done = UIAlertAction(title: "Done", style: .default) { [unowned alert] _ in
+                if let score = Double(alert.textFields![0].text!) {
+                    self.score = score
+                } else {
+                    self.score = -1
+                }
+                
+                print(self.score)
+                self.showPicker(animation: true)
+                // do something interesting with "answer" here
+            }
+            alert.addAction(self.done)
+            self.done.isEnabled = false
+        }
+
+        present(alert, animated: true)
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // Find out what the text field will be after adding the current edit
+        let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        
+        if let input = Double(text) {
+            if 0 <= input && input <= 100 {
+                done.isEnabled = true
+            }
+            else {
+                done.isEnabled = false
+            }
+        } else {
+            // Text field is not an Int
+            done.isEnabled = false
+        }
+        
+        // Return true so the text field will be changed
+        return true
+    }
+    
     /*
      // MARK: - Navigation
      
