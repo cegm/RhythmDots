@@ -288,16 +288,15 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 playPauseButton.isEnabled = false
                 playPauseButton.isHidden = true
                 if master {
+                    removeGestures()
+                    self.score = Double(Double(self.countCorrect)/(Double(self.countCorrect + self.countIncorrect)))*100
                     if countCorrect + countIncorrect != rowsNumber*columnsNumber {
-                        presentAlert(message: "The number of swipes provided does not match the dimensions of the grid. Do you want to register an approximate score?", newEntry: false)
+                        presentAlert(message: String(format: "The number of swipes provided does not match the dimensions of the grid. The approximate score is %.0f. Do you want to register this value?", self.score), newEntry: false)
                     }
                     else {
-                        self.score = Double(Double(self.countCorrect)/(Double(self.countCorrect + self.countIncorrect)))*100
                         showPicker(animation: true)
                     }
-                    removeGestures()
                 }
-                
             }
         }
         do {
@@ -898,47 +897,14 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             alert.addAction(self.done)
         }
         else {
-            alert.addTextField { (textField) in
-                textField.placeholder = "Approximate score [%]"
-                textField.delegate = self
-                textField.keyboardType = .numberPad
-            }
             self.done = UIAlertAction(title: "Done", style: .default) { [unowned alert] _ in
-                if let score = Double(alert.textFields![0].text!) {
-                    self.score = score
-                } else {
-                    self.score = -1
-                }
-                
-                print(self.score)
                 self.showPicker(animation: true)
                 // do something interesting with "answer" here
             }
             alert.addAction(self.done)
-            self.done.isEnabled = false
         }
 
         present(alert, animated: true)
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // Find out what the text field will be after adding the current edit
-        let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-        
-        if let input = Double(text) {
-            if 0 <= input && input <= 100 {
-                done.isEnabled = true
-            }
-            else {
-                done.isEnabled = false
-            }
-        } else {
-            // Text field is not an Int
-            done.isEnabled = false
-        }
-        
-        // Return true so the text field will be changed
-        return true
     }
     
     /*
