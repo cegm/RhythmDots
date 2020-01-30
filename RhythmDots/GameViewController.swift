@@ -77,7 +77,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         dataArray = ["English", "Maths", "History", "German", "Science"]
         dataArray.append("New entry...")
         
-        iPhone = isiPhone()
+        let landscape = UIApplication.shared.statusBarOrientation.isLandscape
+        iPhone = isiPhone(landscape: landscape)
         
         peerID = MCPeerID(displayName: UIDevice.current.name)
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
@@ -266,7 +267,9 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
         else {
             if count == 0 {
-                addGestures()
+                if master {
+                    addGestures()
+                }
                 countCorrect = 0
                 countIncorrect = 0
                 score = 0
@@ -636,9 +639,13 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         activateConstraints()
     }
     
-    func isiPhone() -> Bool {
-        let width = UIScreen.main.bounds.size.width
-        return width < 415
+    func isiPhone(landscape: Bool) -> Bool {
+        if landscape {
+            return UIScreen.main.bounds.size.height < 415
+        }
+        else {
+            return UIScreen.main.bounds.size.width < 415
+        }
     }
     
     func isiPadPro(landscape: Bool) -> Bool {
@@ -701,7 +708,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     func setConstraints(view: UIView) -> [NSLayoutConstraint] {
         view.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         if iPhone {
-            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            //view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+            view.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         }
         else {
             view.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
@@ -718,7 +726,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         
         if iPhone {
             widthConstant = 0
-            heightConstant = -680
+            heightConstant = -625
         }
         else {
             if isiPadPro(landscape: landscape) {
@@ -827,7 +835,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     @objc func doneClick() {
-        var selectedRow = dataArray![picker.selectedRow(inComponent: 0)]
+        let selectedRow = dataArray![picker.selectedRow(inComponent: 0)]
         if selectedRow == "New entry..." {
             presentAlert(message: "New entry", newEntry: true)
         }
