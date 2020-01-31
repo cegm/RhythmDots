@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 import MultipeerConnectivity
+import FirebaseDatabase
+import FirebaseAuth
 
 class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
@@ -19,6 +21,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var tempo: Double = 60
     var color1: Int = 0
     var color2: Int = 0
+    var colors: [String] = ["Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple"]
     var dots: [UIImage] = [UIImage(named: "black")!, UIImage(named: "red")!, UIImage(named: "orange")!, UIImage(named: "yellow")!, UIImage(named: "green")!, UIImage(named: "blue")!, UIImage(named: "purple")!, UIImage(named: "blank")!]
     var dotsOff: [UIImage] = [UIImage(named: "blackOff")!, UIImage(named: "redOff")!, UIImage(named: "orangeOff")!, UIImage(named: "yellowOff")!, UIImage(named: "greenOff")!, UIImage(named: "blueOff")!, UIImage(named: "purpleOff")!]
     var dotsOn: [UIImage] = [UIImage(named: "blackOn")!, UIImage(named: "redOn")!, UIImage(named: "orangeOn")!, UIImage(named: "yellowOn")!, UIImage(named: "greenOn")!, UIImage(named: "blueOn")!, UIImage(named: "purpleOn")!]
@@ -69,6 +72,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var pickerStackViewHeightConstraintLandscape: NSLayoutConstraint!
     var pickerStackViewWidthConstraintPortrait: NSLayoutConstraint!
     var pickerStackViewHeightConstraintPortrait: NSLayoutConstraint!
+    
+    let ref = Database.database().reference()
     
     
     override func viewDidLoad() {
@@ -842,6 +847,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             let name = selectedRow
             print(name)
             print(self.score)
+            register()
         }
         
         hidePicker(animation: true)
@@ -905,6 +911,27 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
 
         present(alert, animated: true)
+    }
+    
+    func register() {
+        /*
+        let date = Date()
+        let dateFormatter:DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        let timeStamp:String = dateFormatter.string(from: date)
+        
+        //let user = Auth.auth().currentUser!.email!.components(separatedBy: "@")[0].replacingOccurrences(of: ".", with: "")
+        let userid = Auth.auth().currentUser!.uid
+        
+        self.ref.child(userid).setValue(timeStamp)
+        
+        if metronome {
+            self.ref.child(userid).child(timeStamp).setValue(["rowsNumber":rowsNumber, "columnsNumber":columnsNumber, "densityNumber":densityNumber, "tempo": tempo, "color1": colors[color1], "color2": colors[color2]])
+        }
+        else {
+            self.ref.child(userid).child(timeStamp).setValue(["rowsNumber":rowsNumber, "columnsNumber":columnsNumber, "densityNumber":densityNumber, "color1": colors[color1], "color2": colors[color2]])
+        }
+ */
     }
     
     /*
