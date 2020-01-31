@@ -1,0 +1,6 @@
+framework module Pods_RhythmDots {
+  umbrella header "Pods-RhythmDots-umbrella.h"
+
+  export *
+  module * { export * }
+}

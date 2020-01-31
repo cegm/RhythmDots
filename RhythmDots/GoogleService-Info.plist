@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1076203045656-n789altdp887lpquej49aj2p3fqvsbac.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1076203045656-n789altdp887lpquej49aj2p3fqvsbac</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDPwKarrVt_Q-30S9Ljy-BxJZWsBfF91uM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1076203045656</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.eduardogil.RhythmDots</string>
+	<key>PROJECT_ID</key>
+	<string>rhythm-dots</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rhythm-dots.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1076203045656:ios:9df7e61af20df6d770146d</string>
+	<key>DATABASE_URL</key>
+	<string>https://rhythm-dots.firebaseio.com</string>
+</dict>
+</plist>
