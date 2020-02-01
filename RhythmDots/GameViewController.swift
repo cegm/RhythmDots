@@ -73,14 +73,16 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var pickerStackViewWidthConstraintPortrait: NSLayoutConstraint!
     var pickerStackViewHeightConstraintPortrait: NSLayoutConstraint!
     
+    var participant: String!
+    
     let ref = Database.database().reference()
+    var handle: AuthStateDidChangeListenerHandle!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataArray = ["English", "Maths", "History", "German", "Science"]
-        dataArray.append("New entry...")
+        
         
         let landscape = UIApplication.shared.statusBarOrientation.isLandscape
         iPhone = isiPhone(landscape: landscape)
@@ -89,7 +91,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession.delegate = self
         
-
+        
         if master {
             
             swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
@@ -104,7 +106,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             
             createPicker()
             hidePicker(animation: false)
-
+            
             newGame()
         }
         else {
@@ -129,6 +131,9 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            // ...
+        }
     }
     
     @objc func deviceRotated(){
@@ -146,6 +151,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         else {
             sendCommand(command: "quit")
         }
+        Auth.auth().removeStateDidChangeListener(handle!)
     }
     override func viewDidDisappear(_ animated: Bool) {
         invalidateTimer()
@@ -296,6 +302,11 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                     removeGestures()
                     self.score = Double(Double(self.countCorrect)/(Double(self.countCorrect + self.countIncorrect)))*100
                     if countCorrect + countIncorrect != rowsNumber*columnsNumber {
+                        
+                        if countCorrect == 0 && countIncorrect == 0 {
+                            self.score = 0.0
+                        }
+                        
                         presentAlert(message: String(format: "The number of swipes provided does not match the dimensions of the grid. The approximate score is %.0f. Do you want to register this value?", self.score), newEntry: false)
                     }
                     else {
@@ -554,15 +565,15 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     func sendParameters() {
         let parameters:[String:String] = ["linearGrid": gridNumbers.description,
-                                              "columnsNumber": String(columnsNumber),
-                                              "rowsNumber": String(rowsNumber),
-                                              "densityNumber": String(densityNumber),
-                                              "metronome": String(metronome),
-                                              "tempo": String(tempo),
-                                              "color1": String(color1),
-                                              "color2": String(color2),
-                                              "master": "false"]
-            
+                                          "columnsNumber": String(columnsNumber),
+                                          "rowsNumber": String(rowsNumber),
+                                          "densityNumber": String(densityNumber),
+                                          "metronome": String(metronome),
+                                          "tempo": String(tempo),
+                                          "color1": String(color1),
+                                          "color2": String(color2),
+                                          "master": "false"]
+        
         var paramString = parameters.description
         paramString = paramString.replacingCharacters(in: ...paramString.startIndex, with: "{")
         //paramString = paramString.replacingCharacters(in: paramString.endIndex.predecessor(), with: "}")
@@ -721,7 +732,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         
         let landscape = UIApplication.shared.statusBarOrientation.isLandscape
         return setSizeConstraints(view: view, landscape: landscape)
-
+        
     }
     
     func setSizeConstraints(view: UIView, landscape: Bool) -> [NSLayoutConstraint] {
@@ -735,26 +746,26 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         else {
             if isiPadPro(landscape: landscape) {
                 /*
-                if landscape {
-                    widthConstant = -825
-                    heightConstant = -720
-                } else {
-                    widthConstant = -500
-                    heightConstant = -1075
-                }*/
+                 if landscape {
+                 widthConstant = -825
+                 heightConstant = -720
+                 } else {
+                 widthConstant = -500
+                 heightConstant = -1075
+                 }*/
                 widthConstant = -500
                 heightConstant = -1075
             }
             else {
                 /*
-                if landscape {
-                    widthConstant = -485
-                    heightConstant = -470
-                }
-                else {
-                    widthConstant = -230
-                    heightConstant = -750
-                }*/
+                 if landscape {
+                 widthConstant = -485
+                 heightConstant = -470
+                 }
+                 else {
+                 widthConstant = -230
+                 heightConstant = -750
+                 }*/
                 widthConstant = -230
                 heightConstant = -750
             }
@@ -792,6 +803,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     func setPicker() {
+        retrieveData()
         picker = UIPickerView()
         picker.delegate = self as UIPickerViewDelegate
         picker.dataSource = self as UIPickerViewDataSource
@@ -814,10 +826,10 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         toolBar.isUserInteractionEnabled = true
         
         /*let path = UIBezierPath(roundedRect: toolBar.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 20, height: 20))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = toolBar.bounds
-        maskLayer.path = path.cgPath
-        toolBar.layer.mask = maskLayer*/
+         let maskLayer = CAShapeLayer()
+         maskLayer.frame = toolBar.bounds
+         maskLayer.path = path.cgPath
+         toolBar.layer.mask = maskLayer*/
         toolBar.layer.cornerRadius = 20.0
         toolBar.clipsToBounds = true
         if #available(iOS 11.0, *) {
@@ -831,11 +843,23 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         return 1
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return dataArray.count
+        let num: Int
+        if dataArray != nil {
+            num = dataArray.count
+        }
+        else {
+            num = 0
+        }
+        return num
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let row = dataArray[row]
-        return row
+        if dataArray != nil {
+            return dataArray[row]
+        }
+        else {
+            return ""
+        }
+        
     }
     
     @objc func doneClick() {
@@ -844,10 +868,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             presentAlert(message: "New entry", newEntry: true)
         }
         else {
-            let name = selectedRow
-            print(name)
-            print(self.score)
-            register()
+            participant = selectedRow
+            register(newEntry: false)
         }
         
         hidePicker(animation: true)
@@ -895,9 +917,8 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 textField.placeholder = "Name"
             }
             self.done = UIAlertAction(title: "Done", style: .default) { [unowned alert] _ in
-                let name = alert.textFields![0].text
-                print(name!)
-                print(self.score)
+                self.participant = alert.textFields![0].text
+                self.register(newEntry: true)
                 // do something interesting with "answer" here
             }
             alert.addAction(self.done)
@@ -909,29 +930,50 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
             }
             alert.addAction(self.done)
         }
-
+        
         present(alert, animated: true)
     }
     
-    func register() {
-        /*
+    func retrieveData() {
+        let userid = Auth.auth().currentUser!.uid
+        ref.child("scores").child(userid).observeSingleEvent(of: .value, with: { snapshot in
+            let dict = snapshot.value as? [String:AnyObject]
+            print(":(((((((((")
+            print(dict)
+            if dict != nil {
+                self.dataArray = Array(dict!.keys)
+                self.dataArray.sort()
+            }
+            else {
+                self.dataArray = []
+            }
+            self.dataArray.append("New entry...")
+            self.picker.reloadAllComponents()
+            if self.participant != nil {
+                self.picker.selectRow(self.dataArray.firstIndex(of: self.participant)!, inComponent: 0, animated: false)
+            }
+        })
+    }
+    
+    func register(newEntry: Bool) {
         let date = Date()
         let dateFormatter:DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
         let timeStamp:String = dateFormatter.string(from: date)
         
         //let user = Auth.auth().currentUser!.email!.components(separatedBy: "@")[0].replacingOccurrences(of: ".", with: "")
         let userid = Auth.auth().currentUser!.uid
         
-        self.ref.child(userid).setValue(timeStamp)
-        
         if metronome {
-            self.ref.child(userid).child(timeStamp).setValue(["rowsNumber":rowsNumber, "columnsNumber":columnsNumber, "densityNumber":densityNumber, "tempo": tempo, "color1": colors[color1], "color2": colors[color2]])
+            self.ref.child("scores").child(userid).child(participant).child(timeStamp).setValue(["rowsNumber":rowsNumber, "columnsNumber":columnsNumber, "densityNumber":densityNumber, "tempo": tempo, "color1": colors[color1], "color2": colors[color2], "score": score])
         }
-        else {
-            self.ref.child(userid).child(timeStamp).setValue(["rowsNumber":rowsNumber, "columnsNumber":columnsNumber, "densityNumber":densityNumber, "color1": colors[color1], "color2": colors[color2]])
+        else { self.ref.child("scores").child(userid).child(participant).child(timeStamp).setValue(["rowsNumber":rowsNumber, "columnsNumber":columnsNumber, "densityNumber":densityNumber, "color1": colors[color1], "color2": colors[color2], "score": score])
         }
- */
+        
+        if newEntry {
+            retrieveData()
+        }
+        
     }
     
     /*
@@ -944,3 +986,4 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
      }
      */
 }
+
