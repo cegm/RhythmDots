@@ -43,7 +43,6 @@
                                                         <state key="normal" title="Master"/>
                                                         <connections>
                                                             <action selector="masterButtonPushed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gMj-Ws-xPx"/>
-                                                            <segue destination="Q4n-SJ-qQA" kind="show" id="h1r-Nt-B61"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vkR-Gz-A24">
@@ -106,6 +105,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="miY-nY-bkt"/>
+                    <connections>
+                        <segue destination="Q4n-SJ-qQA" kind="show" identifier="SettingsViewController" id="uPf-CB-13x"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -241,49 +243,49 @@
                                         <rect key="frame" x="0.0" y="362" width="375" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aco-3k-9nX" userLabel="Black Button">
-                                                <rect key="frame" x="0.0" y="19" width="45" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="45" height="60"/>
                                                 <state key="normal" title="Button" image="black"/>
                                                 <connections>
                                                     <action selector="changeColor10:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="Xxf-xN-NAK"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUS-a0-X02" userLabel="Red Button">
-                                                <rect key="frame" x="55" y="19" width="45" height="22"/>
+                                                <rect key="frame" x="55" y="0.0" width="45" height="60"/>
                                                 <state key="normal" title="Button" image="redOff"/>
                                                 <connections>
                                                     <action selector="changeColor11:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="wrB-lb-heg"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fnC-yd-Pf4" userLabel="Orange Button">
-                                                <rect key="frame" x="110" y="19" width="45" height="22"/>
+                                                <rect key="frame" x="110" y="0.0" width="45" height="60"/>
                                                 <state key="normal" title="Button" image="orangeOff"/>
                                                 <connections>
                                                     <action selector="changeColor12:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="LpK-Pk-OUc"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gm1-MM-Pgg" userLabel="Yellow Button">
-                                                <rect key="frame" x="165" y="19" width="45" height="22"/>
+                                                <rect key="frame" x="165" y="0.0" width="45" height="60"/>
                                                 <state key="normal" title="Button" image="yellowOff"/>
                                                 <connections>
                                                     <action selector="changeColor13:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="4jA-Th-61K"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1u-8T-Nb0" userLabel="Green Button">
-                                                <rect key="frame" x="220" y="19" width="45" height="22"/>
+                                                <rect key="frame" x="220" y="0.0" width="45" height="60"/>
                                                 <state key="normal" title="Button" image="greenOff"/>
                                                 <connections>
                                                     <action selector="changeColor14:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="VAP-cI-mEM"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0g3-wa-8hw" userLabel="Blue Button">
-                                                <rect key="frame" x="275" y="19" width="45" height="22"/>
+                                                <rect key="frame" x="275" y="0.0" width="45" height="60"/>
                                                 <state key="normal" title="Button" image="blueOff"/>
                                                 <connections>
                                                     <action selector="changeColor15:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="Gk1-q8-Nr7"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qti-bI-Q1p" userLabel="Purple Button">
-                                                <rect key="frame" x="330" y="19" width="45" height="22"/>
+                                                <rect key="frame" x="330" y="0.0" width="45" height="60"/>
                                                 <state key="normal" title="Button" image="purpleOff"/>
                                                 <connections>
                                                     <action selector="changeColor16:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="bR2-km-WCg"/>
@@ -301,49 +303,49 @@
                                         <rect key="frame" x="0.0" y="482.5" width="375" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLv-sO-0T9" userLabel="Black Button">
-                                                <rect key="frame" x="0.0" y="19" width="42.5" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="42.5" height="60"/>
                                                 <state key="normal" title="Button" image="black"/>
                                                 <connections>
                                                     <action selector="changeColor20:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="pEP-sg-gW3"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7t-fP-roh" userLabel="Red Button">
-                                                <rect key="frame" x="55.5" y="19" width="42.5" height="22"/>
+                                                <rect key="frame" x="55.5" y="0.0" width="42.5" height="60"/>
                                                 <state key="normal" title="Button" image="redOff"/>
                                                 <connections>
                                                     <action selector="changeColor21:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="soU-mV-jVw"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8SL-q5-r51" userLabel="Orange Button">
-                                                <rect key="frame" x="111" y="19" width="42.5" height="22"/>
+                                                <rect key="frame" x="111" y="0.0" width="42.5" height="60"/>
                                                 <state key="normal" title="Button" image="orangeOff"/>
                                                 <connections>
                                                     <action selector="changeColor22:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="lFU-CV-BPM"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hQA-Ak-aPv" userLabel="Yellow Button">
-                                                <rect key="frame" x="166.5" y="19" width="42" height="22"/>
+                                                <rect key="frame" x="166.5" y="0.0" width="42" height="60"/>
                                                 <state key="normal" title="Button" image="yellowOff"/>
                                                 <connections>
                                                     <action selector="changeColor23:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="LzJ-Os-Rey"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eac-NX-sPc" userLabel="Green Button">
-                                                <rect key="frame" x="221.5" y="19" width="42.5" height="22"/>
+                                                <rect key="frame" x="221.5" y="0.0" width="42.5" height="60"/>
                                                 <state key="normal" title="Button" image="greenOff"/>
                                                 <connections>
                                                     <action selector="changeColor24:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="qol-RQ-SD5"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zva-bm-Pn7" userLabel="Blue Button">
-                                                <rect key="frame" x="277" y="19" width="42.5" height="22"/>
+                                                <rect key="frame" x="277" y="0.0" width="42.5" height="60"/>
                                                 <state key="normal" title="Button" image="blueOff"/>
                                                 <connections>
                                                     <action selector="changeColor25:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="iHj-ct-cvJ"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8RW-Nx-OBW" userLabel="Purple Button">
-                                                <rect key="frame" x="332.5" y="19" width="42.5" height="22"/>
+                                                <rect key="frame" x="332.5" y="0.0" width="42.5" height="60"/>
                                                 <state key="normal" title="Button" image="purpleOff"/>
                                                 <connections>
                                                     <action selector="changeColor26:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="8SD-9N-SZ5"/>
