@@ -7,8 +7,10 @@ target 'RhythmDots' do
 
   # Pods for RhythmDots
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
   pod ‘FirebaseUI/Auth'
   pod 'FirebaseUI/Google'
+  pod 'GoogleSignIn'
   pod 'Firebase/Database'
   pod 'Firebase/Analytics'
 

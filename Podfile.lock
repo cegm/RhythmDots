@@ -90,10 +90,12 @@ PODS:
 
 DEPENDENCIES:
   - Firebase/Analytics
+  - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
   - FirebaseUI/Auth
   - FirebaseUI/Google
+  - GoogleSignIn
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -130,6 +132,6 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
 
-PODFILE CHECKSUM: 12ac9a7f2ba7811f690e39ec5358f8531b1f1f7c
+PODFILE CHECKSUM: 6f7431f3dc7fab33597664cd795340ffd351e7b0
 
 COCOAPODS: 1.6.1
