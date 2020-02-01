@@ -58,7 +58,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     
     var iPhone: Bool!
     var picker: UIPickerView!
-    var dataArray: [String]!
+    var dataArray = ["New entry..."]
     var blurEffectView: UIVisualEffectView!
     var toolBar: UIToolbar!
     var pickerStackView: UIStackView!
@@ -863,7 +863,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     @objc func doneClick() {
-        let selectedRow = dataArray![picker.selectedRow(inComponent: 0)]
+        let selectedRow = dataArray[picker.selectedRow(inComponent: 0)]
         if selectedRow == "New entry..." {
             presentAlert(message: "New entry", newEntry: true)
         }
