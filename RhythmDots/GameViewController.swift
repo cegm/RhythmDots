@@ -938,8 +938,6 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         let userid = Auth.auth().currentUser!.uid
         ref.child("scores").child(userid).observeSingleEvent(of: .value, with: { snapshot in
             let dict = snapshot.value as? [String:AnyObject]
-            print(":(((((((((")
-            print(dict)
             if dict != nil {
                 self.dataArray = Array(dict!.keys)
                 self.dataArray.sort()
