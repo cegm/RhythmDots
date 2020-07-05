@@ -74,7 +74,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataArray = ["English", "Maths", "History", "German", "Science"]
+        dataArray = ["Sí", "puedo", "hacer", "commits", "o no?"]
         dataArray.append("New entry...")
         
         let landscape = UIApplication.shared.statusBarOrientation.isLandscape
