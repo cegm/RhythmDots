@@ -174,7 +174,6 @@
 				BFABC0EB58ABCF0ADF379302 /* Pods-RhythmDotsUITests.debug.xcconfig */,
 				50320B59B6C074230E9193F2 /* Pods-RhythmDotsUITests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -624,9 +623,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KKP4ZV39J4;
 				INFOPLIST_FILE = RhythmDots/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDots;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cegm.RhythmDots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -641,9 +640,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KKP4ZV39J4;
 				INFOPLIST_FILE = RhythmDots/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDots;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cegm.RhythmDots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
