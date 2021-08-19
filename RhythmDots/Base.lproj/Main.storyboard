@@ -361,6 +361,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t6O-j0-3UG">
                                                 <rect key="frame" x="125" y="0.0" width="125" height="62.5"/>
                                                 <state key="normal" title="My Programs"/>
+                                                <connections>
+                                                    <action selector="displayMyPrograms:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="Fea-gl-cGS"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXJ-CJ-rwV">
                                                 <rect key="frame" x="250" y="0.0" width="125" height="62.5"/>
@@ -404,7 +407,7 @@
                         <outlet property="columnsLabel" destination="3Gy-op-tcS" id="IgT-DN-AqP"/>
                         <outlet property="densityLabel" destination="gyo-jb-aab" id="SpJ-Vq-qux"/>
                         <outlet property="metronomeSwitch" destination="5b0-90-0zf" id="fGF-p8-gWT"/>
-                        <outlet property="programsButton" destination="t6O-j0-3UG" id="LuN-gs-fjs"/>
+                        <outlet property="myProgramsButton" destination="t6O-j0-3UG" id="z8D-Ns-8sn"/>
                         <outlet property="rowsLabel" destination="fmE-j9-XFc" id="png-XD-VWI"/>
                         <outlet property="tempoLabel" destination="dKM-mq-0bq" id="tMW-4L-pHc"/>
                         <outlet property="tempoStepper" destination="eHL-gH-YzD" id="lrI-YW-C7O"/>

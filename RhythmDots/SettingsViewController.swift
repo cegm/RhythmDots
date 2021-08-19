@@ -37,13 +37,15 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var button24: UIButton!
     @IBOutlet weak var button25: UIButton!
     @IBOutlet weak var button26: UIButton!
-    @IBOutlet weak var programsButton: UIButton!
+    @IBOutlet weak var myProgramsButton: UIButton!
     
     
     var buttons1: [UIButton] = []
     var buttons2: [UIButton] = []
     var selectedColor1: Int = 0
     var selectedColor2: Int = 0
+    
+    var handle: AuthStateDidChangeListenerHandle!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,37 +72,50 @@ class SettingsViewController: UIViewController {
         buttons1[0].setImage(dots[0], for: .normal)
         buttons2[0].setImage(dots[0], for: .normal)
         
-        // Authentication process begins.
-        let user: FIRUser? = Auth.auth().currentUser
+        changeMyPorgramsButtonStatus(enabled: false) // Only available if user is authenticated.
         
-        // Check if user is already authenticated.
-        if user == nil {
-            // Load FirebaseUI to handle authentication.
-            // 1. Access the FUIAuth default auth UI singleton.
-            guard let authUI = FUIAuth.defaultAuthUI()
-            else { return }
+        
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if user == nil {
+                // Load FirebaseUI to handle authentication.
+                // 1. Access the FUIAuth default auth UI singleton.
+                guard let authUI = FUIAuth.defaultAuthUI()
+                else { return }
 
-            // 2. Set the FUIAuth's singleton's delegate.
-            authUI.delegate = self
-            
-            // 3. Set authentication methods providers.
-            let providers: [FUIAuthProvider] = [
-              FUIGoogleAuth(),
-              //FUIFacebookAuth(),
-              //FUITwitterAuth(),
-              //FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()),
-            ]
-            authUI.providers = providers
+                // 2. Set the FUIAuth's singleton's delegate.
+                authUI.delegate = self
+                
+                // 3. Set authentication methods providers.
+                let providers: [FUIAuthProvider] = [
+                  FUIGoogleAuth(),
+                  //FUIEmailAuth(),
+                  //FUIFacebookAuth(),
+                  //FUITwitterAuth(),
+                  //FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()),
+                ]
+                authUI.providers = providers
 
-            // 4. Present the auth view controller.
-            let authViewController = authUI.authViewController()
-            present(authViewController, animated: true)
-            
-            
-            // 5. Implementation of the FUIAuthDelegate protocol is done after
-            //  the closing curly brace of the LoginViewController class
+                // 4. Present the auth view controller.
+                let authViewController = authUI.authViewController()
+                self.present(authViewController, animated: true)
+                
+                
+                // 5. Implementation of the FUIAuthDelegate protocol is done after
+                //  the closing curly brace of the LoginViewController class
+            }
+            else {
+                self.changeMyPorgramsButtonStatus(enabled: true)
+            }
         }
-        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+        do {
+          try Auth.auth().signOut()
+        } catch let err {
+          print(err)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -206,6 +221,26 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    // Hide or show myProgramsButton according to Bool parameter enabled.
+    func changeMyPorgramsButtonStatus(enabled: Bool) {
+        myProgramsButton.isEnabled = enabled
+        myProgramsButton.isHidden = !enabled
+    }
+    
+    @IBAction func displayMyPrograms(_ sender: UIButton) {
+        
+        let user = Auth.auth().currentUser
+        if let user = user {
+            // The user's ID, unique to the Firebase project.
+            // Do NOT use this value to authenticate with your backend server,
+            // if you have one. Use getTokenWithCompletion:completion: instead.
+            let uid = user.uid
+            let dataPicker = DataPicker(uid: uid)
+            dataPicker.myFunction()
+        }
+    }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         if segue.destination is GameViewController
@@ -244,7 +279,12 @@ extension SettingsViewController: FUIAuthDelegate {
     func authUI(_ authUI: FUIAuth, didSignInWith user: FIRUser?, error: Error?) {
         // Error handling during authentication.
         if let error = error {
-            assertionFailure("Error signing in: \(error.localizedDescription)")
+            //assertionFailure("Error signing in: \(error.localizedDescription)")
+            
+            print(error)
+            // Hide myProgramsButton
+            changeMyPorgramsButtonStatus(enabled: false)
+            
             return
         }
 
