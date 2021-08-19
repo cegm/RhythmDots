@@ -14,13 +14,25 @@ typealias FIRUser = FirebaseAuth.User
 
 class SettingsViewController: UIViewController {
     
+    var columnsNumber: Int = 5
+    var rowsNumber: Int = 5
+    var densityNumber: Int = 50
+    var metronome: Bool = true
+    var tempo: Double = 60
+    var color1: Int = 0
+    var color2: Int = 0
+    
     @IBOutlet weak var columnsLabel: UILabel!
+    @IBOutlet weak var columnsStepper: UIStepper!
     @IBOutlet weak var rowsLabel: UILabel!
+    @IBOutlet weak var rowsStepper: UIStepper!
     @IBOutlet weak var densityLabel: UILabel!
+    @IBOutlet weak var densityStepper: UIStepper!
     @IBOutlet weak var metronomeSwitch: UISwitch!
     @IBOutlet weak var bpmLabel: UILabel!
     @IBOutlet weak var tempoLabel: UILabel!
     @IBOutlet weak var tempoStepper: UIStepper!
+    
     var dots: [UIImage] = [UIImage(named: "black")!, UIImage(named: "red")!, UIImage(named: "orange")!, UIImage(named: "yellow")!, UIImage(named: "green")!, UIImage(named: "blue")!, UIImage(named: "purple")!, UIImage(named: "blank")!]
     var dotsOff: [UIImage] = [UIImage(named: "blackOff")!, UIImage(named: "redOff")!, UIImage(named: "orangeOff")!, UIImage(named: "yellowOff")!, UIImage(named: "greenOff")!, UIImage(named: "blueOff")!, UIImage(named: "purpleOff")!]
     @IBOutlet weak var button10: UIButton!
@@ -50,15 +62,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Default parameters
-        columnsLabel.text = "5"
-        rowsLabel.text = "5"
-        densityLabel.text = "50"
-        tempoLabel.text = "60"
-        metronomeSwitch.isOn = true
-        bpmLabel.isEnabled = true
-        tempoLabel.isEnabled = true
-        tempoStepper.isEnabled = true
+        applyUserSettings()
         
         // Settings for color buttons
         buttons1 = [button10, button11, button12, button13, button14, button15, button16]
@@ -73,7 +77,6 @@ class SettingsViewController: UIViewController {
         buttons2[0].setImage(dots[0], for: .normal)
         
         changeMyPorgramsButtonStatus(enabled: false) // Only available if user is authenticated.
-        
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if user == nil {
@@ -104,7 +107,7 @@ class SettingsViewController: UIViewController {
                 //  the closing curly brace of the LoginViewController class
             }
             else {
-                self.changeMyPorgramsButtonStatus(enabled: true)
+                self.changeMyPorgramsButtonStatus(enabled: true)  // Only available if user is authenticated.
             }
         }
     }
@@ -121,6 +124,34 @@ class SettingsViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func applyUserSettings() {
+        // Default parameters
+        setLabelAndStepper(label: columnsLabel, stepper: columnsStepper, value: columnsNumber)
+        setLabelAndStepper(label: rowsLabel, stepper: rowsStepper, value: rowsNumber)
+        setLabelAndStepper(label: densityLabel, stepper: densityStepper, value: densityNumber)
+        
+        metronomeSwitch.isOn = metronome
+        bpmLabel.isEnabled = metronome
+        tempoLabel.isEnabled = metronome
+        tempoStepper.isEnabled = metronome
+        
+        var value: Double!
+        if metronome {
+            value = tempo
+        }
+        else {
+            value = 60
+        }
+        
+       setLabelAndStepper(label: tempoLabel, stepper: tempoStepper, value: Int(value))
+        
+    }
+    
+    func setLabelAndStepper(label: UILabel, stepper: UIStepper, value: Int) {
+        label.text = String(value)
+        stepper.value = Double(value)
     }
     
     @IBAction func changeColumns(_ sender: UIStepper) {

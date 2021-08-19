@@ -27,12 +27,28 @@ class DataPicker {
 
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                
-                //print(document.data()?["program1"].)
-                
-                //print(document.data()?["program1"] as? [String: Any])
+                if let doumentData = document.data() {
+                    print(doumentData)
+                    
+                    var keepRetrieving = true
+                    var n = 0
+                    repeat {
+                        if let currentProgram = doumentData["program\(n )"] {
+                            print(currentProgram)
+                            
+                            
+                            //for notificaton in userNotifications  {
+                            //    let body = notificaton["body"] as? String ?? ""
+                            //    let title = notificaton["title"] as? String ?? ""
+                            //    print(body, title)
+                            //}
+                        }
+                        else {
+                            keepRetrieving = false
+                        }
+                        n = n + 1
+                    } while keepRetrieving
+                }
             } else {
                 print("Document does not exist")
             }

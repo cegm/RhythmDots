@@ -405,10 +405,13 @@
                         <outlet property="button25" destination="Zva-bm-Pn7" id="z3g-J7-FGu"/>
                         <outlet property="button26" destination="8RW-Nx-OBW" id="09N-Fg-SLk"/>
                         <outlet property="columnsLabel" destination="3Gy-op-tcS" id="IgT-DN-AqP"/>
+                        <outlet property="columnsStepper" destination="AwT-DX-Nhy" id="Dm1-oM-mc9"/>
                         <outlet property="densityLabel" destination="gyo-jb-aab" id="SpJ-Vq-qux"/>
+                        <outlet property="densityStepper" destination="OLE-Kz-gg3" id="nAe-bU-hZ6"/>
                         <outlet property="metronomeSwitch" destination="5b0-90-0zf" id="fGF-p8-gWT"/>
                         <outlet property="myProgramsButton" destination="t6O-j0-3UG" id="z8D-Ns-8sn"/>
                         <outlet property="rowsLabel" destination="fmE-j9-XFc" id="png-XD-VWI"/>
+                        <outlet property="rowsStepper" destination="fVx-fH-YJH" id="UCw-wC-ios"/>
                         <outlet property="tempoLabel" destination="dKM-mq-0bq" id="tMW-4L-pHc"/>
                         <outlet property="tempoStepper" destination="eHL-gH-YzD" id="lrI-YW-C7O"/>
                     </connections>
