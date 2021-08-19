@@ -109,6 +109,7 @@ class SettingsViewController: UIViewController {
                     let uid = user.uid
                     print(uid)
                     self.userData = UserData(uid: uid)
+                    //self.userData.getUserPrograms()
                     print("Sí tenía que cambiar esa madre")
                     self.getUserSettings(programNumber: 0)
                     self.applyUserSettings()
@@ -165,8 +166,8 @@ class SettingsViewController: UIViewController {
         
         setLabelAndStepper(label: tempoLabel, stepper: tempoStepper, value: Int(value))
         
-        changeColor(colorNumber: 1, buttonNumber: selectedColor1)
-        changeColor(colorNumber: 2, buttonNumber: selectedColor2)
+        buttons1[selectedColor1].setImage(dots[selectedColor1], for: .normal)
+        buttons1[selectedColor2].setImage(dots[selectedColor2], for: .normal)
     }
     
     func setLabelAndStepper(label: UILabel, stepper: UIStepper, value: Int) {
