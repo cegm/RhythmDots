@@ -19,8 +19,8 @@ class SettingsViewController: UIViewController {
     var densityNumber: Int = 50
     var metronome: Bool = true
     var tempo: Double = 60
-    var color1: Int = 0
-    var color2: Int = 0
+    var selectedColor1: Int = 0
+    var selectedColor2: Int = 0
     
     @IBOutlet weak var columnsLabel: UILabel!
     @IBOutlet weak var columnsStepper: UIStepper!
@@ -51,18 +51,15 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var button26: UIButton!
     @IBOutlet weak var myProgramsButton: UIButton!
     
-    
     var buttons1: [UIButton] = []
     var buttons2: [UIButton] = []
-    var selectedColor1: Int = 0
-    var selectedColor2: Int = 0
+    
+    var userData = UserData()
     
     var handle: AuthStateDidChangeListenerHandle!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        applyUserSettings()
         
         // Settings for color buttons
         buttons1 = [button10, button11, button12, button13, button14, button15, button16]
@@ -73,8 +70,6 @@ class SettingsViewController: UIViewController {
         for button in buttons2 {
             button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         }
-        buttons1[0].setImage(dots[0], for: .normal)
-        buttons2[0].setImage(dots[0], for: .normal)
         
         changeMyPorgramsButtonStatus(enabled: false) // Only available if user is authenticated.
         
@@ -108,8 +103,19 @@ class SettingsViewController: UIViewController {
             }
             else {
                 self.changeMyPorgramsButtonStatus(enabled: true)  // Only available if user is authenticated.
+                print("Sí entra al if")
+                let user = Auth.auth().currentUser
+                if let user = user {
+                    let uid = user.uid
+                    print(uid)
+                    self.userData = UserData(uid: uid)
+                    print("Sí tenía que cambiar esa madre")
+                    self.getUserSettings(programNumber: 0)
+                    self.applyUserSettings()
+                }
             }
         }
+        applyUserSettings()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -124,6 +130,18 @@ class SettingsViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func getUserSettings(programNumber: Int) {
+        print(self.userData.uid)
+        print(self.userData.userPrograms)
+        self.columnsNumber = self.userData.userPrograms[programNumber]["columnsNumber"] as! Int
+        self.rowsNumber = self.userData.userPrograms[programNumber]["rowsNumber"] as! Int
+        self.densityNumber = self.userData.userPrograms[programNumber]["densityNumber"] as! Int
+        self.metronome = self.userData.userPrograms[programNumber]["metronome"] as! Bool
+        self.tempo = self.userData.userPrograms[programNumber]["tempo"] as! Double
+        self.selectedColor1 = self.userData.userPrograms[programNumber]["selectedColor1"] as! Int
+        self.selectedColor2 = self.userData.userPrograms[programNumber]["selectedColor2"] as! Int
     }
     
     func applyUserSettings() {
@@ -145,8 +163,10 @@ class SettingsViewController: UIViewController {
             value = 60
         }
         
-       setLabelAndStepper(label: tempoLabel, stepper: tempoStepper, value: Int(value))
+        setLabelAndStepper(label: tempoLabel, stepper: tempoStepper, value: Int(value))
         
+        changeColor(colorNumber: 1, buttonNumber: selectedColor1)
+        changeColor(colorNumber: 2, buttonNumber: selectedColor2)
     }
     
     func setLabelAndStepper(label: UILabel, stepper: UIStepper, value: Int) {
@@ -266,8 +286,8 @@ class SettingsViewController: UIViewController {
             // Do NOT use this value to authenticate with your backend server,
             // if you have one. Use getTokenWithCompletion:completion: instead.
             let uid = user.uid
-            let dataPicker = DataPicker(uid: uid)
-            dataPicker.myFunction()
+            //let dataPicker = DataPicker(uid: uid)
+            //dataPicker.myFunction()
         }
     }
     
