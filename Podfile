@@ -7,9 +7,11 @@ target 'RhythmDots' do
 
   # Pods for RhythmDots
   pod 'Firebase/Core'
-  pod ‘FirebaseUI/Auth'
+  pod 'FirebaseUI/Auth'
+  pod 'FirebaseUI/Email’
   pod 'FirebaseUI/Google'
   pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
   pod 'Firebase/Analytics'
 
   target 'RhythmDotsTests' do

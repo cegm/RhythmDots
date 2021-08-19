@@ -88,7 +88,7 @@ class SettingsViewController: UIViewController {
                 // 3. Set authentication methods providers.
                 let providers: [FUIAuthProvider] = [
                   FUIGoogleAuth(),
-                  //FUIEmailAuth(),
+                  FUIEmailAuth(),
                   //FUIFacebookAuth(),
                   //FUITwitterAuth(),
                   //FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()),
