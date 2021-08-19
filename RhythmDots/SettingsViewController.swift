@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseUI
+
+typealias FIRUser = FirebaseAuth.User
 
 class SettingsViewController: UIViewController {
     
@@ -33,6 +37,9 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var button24: UIButton!
     @IBOutlet weak var button25: UIButton!
     @IBOutlet weak var button26: UIButton!
+    @IBOutlet weak var programsButton: UIButton!
+    
+    
     var buttons1: [UIButton] = []
     var buttons2: [UIButton] = []
     var selectedColor1: Int = 0
@@ -41,7 +48,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        // Default parameters
         columnsLabel.text = "5"
         rowsLabel.text = "5"
         densityLabel.text = "50"
@@ -50,6 +57,8 @@ class SettingsViewController: UIViewController {
         bpmLabel.isEnabled = true
         tempoLabel.isEnabled = true
         tempoStepper.isEnabled = true
+        
+        // Settings for color buttons
         buttons1 = [button10, button11, button12, button13, button14, button15, button16]
         buttons2 = [button20, button21, button22, button23, button24, button25, button26]
         for button in buttons1 {
@@ -60,6 +69,37 @@ class SettingsViewController: UIViewController {
         }
         buttons1[0].setImage(dots[0], for: .normal)
         buttons2[0].setImage(dots[0], for: .normal)
+        
+        // Authentication process begins.
+        let user: FIRUser? = Auth.auth().currentUser
+        
+        // Check if user is already authenticated.
+        if user == nil {
+            // Load FirebaseUI to handle authentication.
+            // 1. Access the FUIAuth default auth UI singleton.
+            guard let authUI = FUIAuth.defaultAuthUI()
+            else { return }
+
+            // 2. Set the FUIAuth's singleton's delegate.
+            authUI.delegate = self
+            
+            // 3. Set authentication methods providers.
+            let providers: [FUIAuthProvider] = [
+              FUIGoogleAuth(),
+              //FUIFacebookAuth(),
+              //FUITwitterAuth(),
+              //FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()),
+            ]
+            authUI.providers = providers
+
+            // 4. Present the auth view controller.
+            let authViewController = authUI.authViewController()
+            present(authViewController, animated: true)
+            
+            
+            // 5. Implementation of the FUIAuthDelegate protocol is done after
+            //  the closing curly brace of the LoginViewController class
+        }
         
     }
     
@@ -180,7 +220,11 @@ class SettingsViewController: UIViewController {
             vc?.color2 = selectedColor2
             vc?.master = true
         }
+        
     }
+    
+
+    
     
     /*
      // MARK: - Navigation
@@ -193,4 +237,17 @@ class SettingsViewController: UIViewController {
      */
     
 
+}
+
+// Conform the SettingsViewController to the FUIAuthDelegate protocol.
+extension SettingsViewController: FUIAuthDelegate {
+    func authUI(_ authUI: FUIAuth, didSignInWith user: FIRUser?, error: Error?) {
+        // Error handling during authentication.
+        if let error = error {
+            assertionFailure("Error signing in: \(error.localizedDescription)")
+            return
+        }
+
+        print("handle user signup / login")
+    }
 }
