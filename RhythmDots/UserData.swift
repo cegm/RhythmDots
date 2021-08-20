@@ -14,16 +14,14 @@ class UserData {
     var userPrograms: [[String: Any]] = []
     
     init(uid: String) {
-        print("Me instancio?")
         self.uid = uid
-        getUserPrograms()
-        //self.userPrograms = getUserPrograms()
+        self.userPrograms = [self.getDefaultProgramDictionary()]
     }
     
     init() {
         self.userPrograms = [self.getDefaultProgramDictionary()]
     }
-    
+    /*
     func getUserPrograms() {
         var userPrograms: [[String: Any]] = [self.getDefaultProgramDictionary()]
         self.userPrograms = userPrograms
@@ -74,7 +72,6 @@ class UserData {
                 }
                 
             }
-            /*
             if let documentData: [String: Any] = ["program0":["selectedColor2": 1, "metronome": true, "tempo": 120.0, "columnsNumber": 9, "selectedColor1": 3, "densityNumber": 100, "rowsNumber": 17], "program1":["selectedColor2": 6, "metronome": true, "tempo": 100.0, "columnsNumber": 6, "selectedColor1": 4, "densityNumber": 100, "rowsNumber": 6]] {
                 var n = 0
                 userPrograms = []
@@ -109,9 +106,9 @@ class UserData {
                     }
                     n = n + 1
                 } while n <= 5
-            }*/
+            }
         }
-    }
+    }*/
     
     func getUserProgramData(completion: @escaping ([String: Any]?, Error?) -> Void) {
         let docRef = Firestore.firestore().collection("usersPrograms").document(self.uid)

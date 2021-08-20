@@ -103,29 +103,25 @@ class SettingsViewController: UIViewController {
             }
             else {
                 self.changeMyPorgramsButtonStatus(enabled: true)  // Only available if user is authenticated.
-                print("Sí entra al if")
+                
                 let user = Auth.auth().currentUser
                 if let user = user {
                     let uid = user.uid
-                    print(uid)
                     self.userData = UserData(uid: uid)
-                    //self.userData.getUserPrograms()
-                    print("Sí tenía que cambiar esa madre")
-                    self.getUserSettings(programNumber: 0)
-                    self.applyUserSettings()
+                    self.getUserSettings()
                 }
             }
         }
-        applyUserSettings()
+        //applyUserSettings()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(handle!)
-        do {
+        /*do {
           try Auth.auth().signOut()
         } catch let err {
           print(err)
-        }
+        }*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -133,14 +129,64 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func getUserSettings(programNumber: Int) {
-        print(self.userData.uid)
-        print(self.userData.userPrograms)
+    func getUserSettings() {
+        var userPrograms: [[String: Any]] = [self.userData.getDefaultProgramDictionary()]
+        self.userData.getUserProgramData { (documentData, error) in
+            if let error = error {
+               print(error)
+               return
+            }
+            if let documentData = documentData {
+                var n = 0
+                userPrograms = []
+                repeat {
+                    if let currentProgramData = documentData["program\(n)"] as? [String:Any] {
+                    
+                        print("Sí hay datos!")
+                        print(currentProgramData)
+                        
+                        let columnsNumber = currentProgramData["columnsNumber"] as? Int ?? 5
+                        let rowsNumber = currentProgramData["rowsNumber"] as? Int ?? 5
+                        let densityNumber = currentProgramData["densityNumber"] as? Int ?? 50
+                        var metronome: Bool = true
+                        var tempo = currentProgramData["tempo"] as? Double ?? 60
+                        let selectedColor1 = currentProgramData["color1"] as? Int ?? 0
+                        let selectedColor2 = currentProgramData["color2"] as? Int ?? 0
+                        
+                        if tempo <= 0 {
+                            metronome = false
+                            tempo = 60
+                        }
+                        else {
+                            metronome = true
+                        }
+                        let currentProgram = self.userData.getProgramDictionary(columnsNumber: columnsNumber,
+                                                                  rowsNumber: rowsNumber,
+                                                                  densityNumber: densityNumber,
+                                                                  metronome: metronome,
+                                                                  tempo: tempo,
+                                                                  selectedColor1: selectedColor1,
+                                                                  selectedColor2: selectedColor2)
+                        userPrograms.append(currentProgram)
+                    }
+                    n = n + 1
+                } while n <= 5
+                self.userData.userPrograms = userPrograms
+                self.loadUserSettings(programNumber: 1)
+                self.applyUserSettings()
+            }
+            
+        }
+    }
+    
+    func loadUserSettings(programNumber: Int) {
         self.columnsNumber = self.userData.userPrograms[programNumber]["columnsNumber"] as! Int
         self.rowsNumber = self.userData.userPrograms[programNumber]["rowsNumber"] as! Int
         self.densityNumber = self.userData.userPrograms[programNumber]["densityNumber"] as! Int
         self.metronome = self.userData.userPrograms[programNumber]["metronome"] as! Bool
         self.tempo = self.userData.userPrograms[programNumber]["tempo"] as! Double
+        buttons1[selectedColor1].setImage(dotsOff[selectedColor1], for: .normal)
+        buttons2[selectedColor2].setImage(dotsOff[selectedColor2], for: .normal)
         self.selectedColor1 = self.userData.userPrograms[programNumber]["selectedColor1"] as! Int
         self.selectedColor2 = self.userData.userPrograms[programNumber]["selectedColor2"] as! Int
     }
@@ -167,7 +213,8 @@ class SettingsViewController: UIViewController {
         setLabelAndStepper(label: tempoLabel, stepper: tempoStepper, value: Int(value))
         
         buttons1[selectedColor1].setImage(dots[selectedColor1], for: .normal)
-        buttons1[selectedColor2].setImage(dots[selectedColor2], for: .normal)
+        buttons2[selectedColor2].setImage(dots[selectedColor2], for: .normal)
+        
     }
     
     func setLabelAndStepper(label: UILabel, stepper: UIStepper, value: Int) {
@@ -280,16 +327,8 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func displayMyPrograms(_ sender: UIButton) {
-        
-        let user = Auth.auth().currentUser
-        if let user = user {
-            // The user's ID, unique to the Firebase project.
-            // Do NOT use this value to authenticate with your backend server,
-            // if you have one. Use getTokenWithCompletion:completion: instead.
-            let uid = user.uid
-            //let dataPicker = DataPicker(uid: uid)
-            //dataPicker.myFunction()
-        }
+        print("antes")
+        print("después")
     }
     
     
