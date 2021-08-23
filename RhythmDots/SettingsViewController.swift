@@ -107,8 +107,15 @@ class SettingsViewController: UIViewController {
                 let user = Auth.auth().currentUser
                 if let user = user {
                     let uid = user.uid
-                    self.userData = UserData(uid: uid)
-                    self.getUserSettings()
+                    self.userData = UserData(uid: uid) { (userData, error) in
+                        if let error = error {
+                            print("SettingsViewController.swift: Error loading user data: \(error)")
+                        }
+                        if userData != nil {
+                            self.loadUserSettings(programNumber: 0)
+                        }
+                        self.applyUserSettings()
+                    }
                 }
             }
         }
@@ -128,57 +135,7 @@ class SettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func getUserSettings() {
-        var userPrograms: [[String: Any]] = [self.userData.getDefaultProgramDictionary()]
-        self.userData.getUserProgramData { (documentData, error) in
-            if let error = error {
-               print(error)
-               return
-            }
-            if let documentData = documentData {
-                var n = 0
-                userPrograms = []
-                repeat {
-                    if let currentProgramData = documentData["program\(n)"] as? [String:Any] {
-                    
-                        print("Sí hay datos!")
-                        print(currentProgramData)
-                        
-                        let columnsNumber = currentProgramData["columnsNumber"] as? Int ?? 5
-                        let rowsNumber = currentProgramData["rowsNumber"] as? Int ?? 5
-                        let densityNumber = currentProgramData["densityNumber"] as? Int ?? 50
-                        var metronome: Bool = true
-                        var tempo = currentProgramData["tempo"] as? Double ?? 60
-                        let selectedColor1 = currentProgramData["color1"] as? Int ?? 0
-                        let selectedColor2 = currentProgramData["color2"] as? Int ?? 0
-                        
-                        if tempo <= 0 {
-                            metronome = false
-                            tempo = 60
-                        }
-                        else {
-                            metronome = true
-                        }
-                        let currentProgram = self.userData.getProgramDictionary(columnsNumber: columnsNumber,
-                                                                  rowsNumber: rowsNumber,
-                                                                  densityNumber: densityNumber,
-                                                                  metronome: metronome,
-                                                                  tempo: tempo,
-                                                                  selectedColor1: selectedColor1,
-                                                                  selectedColor2: selectedColor2)
-                        userPrograms.append(currentProgram)
-                    }
-                    n = n + 1
-                } while n <= 5
-                self.userData.userPrograms = userPrograms
-                self.loadUserSettings(programNumber: 1)
-                self.applyUserSettings()
-            }
-            
-        }
-    }
-    
+
     func loadUserSettings(programNumber: Int) {
         self.columnsNumber = self.userData.userPrograms[programNumber]["columnsNumber"] as! Int
         self.rowsNumber = self.userData.userPrograms[programNumber]["rowsNumber"] as! Int
@@ -327,8 +284,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func displayMyPrograms(_ sender: UIButton) {
-        print("antes")
-        print("después")
+        print(self.userData.userPrograms)
     }
     
     
