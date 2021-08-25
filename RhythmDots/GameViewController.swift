@@ -55,7 +55,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var score: Double = 0
     var done: UIAlertAction!
     
-    
+    // Variables necesarias para el picker
     var iPhone: Bool!
     var picker: UIPickerView!
     var dataArray: [String]!
@@ -72,6 +72,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     var pickerStackViewHeightConstraintLandscape: NSLayoutConstraint!
     var pickerStackViewWidthConstraintPortrait: NSLayoutConstraint!
     var pickerStackViewHeightConstraintPortrait: NSLayoutConstraint!
+    //
     
     let ref = Database.database().reference()
     
