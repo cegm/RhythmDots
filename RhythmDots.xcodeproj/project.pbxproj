@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9C494CD52358ED5A00D230CF /* click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C494CD42358ED5A00D230CF /* click.mp3 */; };
 		9C62714C26CE860E0024BD62 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C62714926CE85FE0024BD62 /* UserData.swift */; };
+		9C7543D726DABF5E0082BD71 /* ButtonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7543D526DABF550082BD71 /* ButtonClass.swift */; };
 		9C989AFF23E3A13000AD3AFC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C989AFE23E3A13000AD3AFC /* GoogleService-Info.plist */; };
 		9C9C235626CE15B300DD906D /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9C235426CE0B3900DD906D /* DataPicker.swift */; };
 		A58EC27EBE936F7DF3EBEADD /* Pods_RhythmDotsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E6E0BE5F6BEC132DD4D5EA /* Pods_RhythmDotsUITests.framework */; };
@@ -52,6 +53,7 @@
 		97DBC97FD2CC610E3DB280C3 /* Pods-RhythmDots.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDots.release.xcconfig"; path = "Target Support Files/Pods-RhythmDots/Pods-RhythmDots.release.xcconfig"; sourceTree = "<group>"; };
 		9C494CD42358ED5A00D230CF /* click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = click.mp3; sourceTree = "<group>"; };
 		9C62714926CE85FE0024BD62 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		9C7543D526DABF550082BD71 /* ButtonClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonClass.swift; sourceTree = "<group>"; };
 		9C989AFE23E3A13000AD3AFC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9C9C235426CE0B3900DD906D /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
 		A72DA3D720F3C22A006901D8 /* RhythmDots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RhythmDots.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +147,7 @@
 				A72DA3E320F3C22A006901D8 /* LaunchScreen.storyboard */,
 				A72DA3E620F3C22A006901D8 /* Info.plist */,
 				A776E32E20F3EE59003A1358 /* SettingsViewController.swift */,
+				9C7543D526DABF550082BD71 /* ButtonClass.swift */,
 				9C989AFE23E3A13000AD3AFC /* GoogleService-Info.plist */,
 				9C9C235426CE0B3900DD906D /* DataPicker.swift */,
 				9C62714926CE85FE0024BD62 /* UserData.swift */,
@@ -458,6 +461,7 @@
 				A7B35C5220F4195C002DDD24 /* GameViewController.swift in Sources */,
 				A72DA3DD20F3C22A006901D8 /* ViewController.swift in Sources */,
 				A72DA3DB20F3C22A006901D8 /* AppDelegate.swift in Sources */,
+				9C7543D726DABF5E0082BD71 /* ButtonClass.swift in Sources */,
 				9C9C235626CE15B300DD906D /* DataPicker.swift in Sources */,
 				A776E32F20F3EE59003A1358 /* SettingsViewController.swift in Sources */,
 			);

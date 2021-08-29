@@ -34,24 +34,25 @@ class DataPicker: UIViewController {
     var pickerStackViewHeightConstraintPortrait: NSLayoutConstraint!
     //
     
-    /*
+    
     init() {
+        super.init(nibName: nil, bundle: nil)
         dataArray = ["Default", "New entry..."]
         
-        //let landscape = UIApplication.shared.statusBarOrientation.isLandscape
-        //iPhone = isiPhone(landscape: landscape)
+        let landscape = UIApplication.shared.statusBarOrientation.isLandscape
+        self.iPhone = self.isiPhone(landscape: landscape)
         
-        //createPicker()
-        //hidePicker(animation: false)
+        self.createPicker()
+        self.hidePicker(animation: false)
         
-        //NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
-    }*/
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func deviceRotated(){
+    @objc func deviceRotated(){
         //activateConstraints()
     }
     
@@ -277,6 +278,7 @@ class DataPicker: UIViewController {
        }
        
        func showPicker(animation: Bool) {
+        print("what=")
            UIView.animate(withDuration: 0.3) {
                self.blurEffectView.alpha = 1
                self.picker.alpha = 1

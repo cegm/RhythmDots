@@ -56,6 +56,8 @@ class SettingsViewController: UIViewController {
     
     var userData = UserData()
     
+    var buttonClass = ButtonClass()
+    
     var handle: AuthStateDidChangeListenerHandle!
     
     override func viewDidLoad() {
@@ -285,7 +287,17 @@ class SettingsViewController: UIViewController {
     
     @IBAction func displayMyPrograms(_ sender: UIButton) {
         print(self.userData.userPrograms)
+        //let dataPicker = DataPicker()
+        //dataPicker.showPicker(animation: true)
+        
+        
+        //let buttonClass = ButtonClass()
+        self.view.addSubview(buttonClass.button)
+        
+        
     }
+    
+    
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
