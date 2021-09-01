@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 import FirebaseFirestore
 
-class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class ProtoDataPicker: UIViewController {
     
     // Variables necesarias para el picker
     var done: UIAlertAction!
@@ -35,38 +35,34 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     //
     
     
-    override init() {
-        super.init()  // call this so that you can use self below
+    init() {
+        super.init(nibName: nil, bundle: nil)
         dataArray = ["Default", "New entry..."]
         
-        //let landscape = UIApplication.shared.statusBarOrientation.isLandscape
-        //self.iPhone = self.isiPhone(landscape: landscape)
+        let landscape = UIApplication.shared.statusBarOrientation.isLandscape
+        self.iPhone = self.isiPhone(landscape: landscape)
         
         self.createPicker()
-        //self.hidePicker(animation: false)
+        self.hidePicker(animation: false)
         
-        //NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
-    /*
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    */
     
-    /*
     @objc func deviceRotated(){
         //activateConstraints()
     }
-    */
     
     func createPicker() {
-           //setBlurryEffect()
+           setBlurryEffect()
            setPicker()
            setToolbar()
            setPickerStackView(array: [toolBar, picker])
-           //activateConstraints()
+           activateConstraints()
     }
-    /*
     func isiPhone(landscape: Bool) -> Bool {
         if landscape {
             return UIScreen.main.bounds.size.height < 415
@@ -75,9 +71,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
             return UIScreen.main.bounds.size.width < 415
         }
     }
-    */
     
-    /*
     func isiPadPro(landscape: Bool) -> Bool {
         if landscape {
             return UIScreen.main.bounds.size.height > 1000
@@ -86,9 +80,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
             return UIScreen.main.bounds.size.width > 1000
         }
     }
-    */
     
-    /*
     func setBlurryEffect() {
         let blurEffect = UIBlurEffect(style: .light)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -114,7 +106,6 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         blurEffectView.layer.cornerRadius = 20.0
         blurEffectView.clipsToBounds = true
     }
-    */
     
     func setPickerStackView(array: [UIView]) {
         pickerStackView = UIStackView(arrangedSubviews: array)
@@ -122,9 +113,8 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         pickerStackView.distribution = .fill
         pickerStackView.alignment = .fill
         pickerStackView.translatesAutoresizingMaskIntoConstraints = false
-        //self.view.addSubview(pickerStackView) ---------------_> MMMMMMUy importante
+        self.view.addSubview(pickerStackView)
         
-        /*
         let constraints = setConstraints(view: pickerStackView)
         
         pickerStackViewWidthConstraintLandscape = constraints[0]
@@ -133,10 +123,8 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         pickerStackViewHeightConstraintPortrait = constraints[3]
         pickerStackView.layer.cornerRadius = 20.0
         pickerStackView.clipsToBounds = true;
-        */
     }
     
-    /*
     func setConstraints(view: UIView) -> [NSLayoutConstraint] {
         view.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         if iPhone {
@@ -150,8 +138,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         let landscape = UIApplication.shared.statusBarOrientation.isLandscape
         return setSizeConstraints(view: view, landscape: landscape)
     }
-    */
-    /*
+    
     func setSizeConstraints(view: UIView, landscape: Bool) -> [NSLayoutConstraint] {
         let widthConstant: CGFloat
         let heightConstant: CGFloat
@@ -196,9 +183,6 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         let heightPortrait = view.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: heightConstant)
         return [widthLandscape, heightLandscape, widthPortrait, heightPortrait]
     }
-    */
-    
-    /*
     func activateConstraints() {
         if UIDevice.current.orientation.isLandscape {
             blurEffectViewWidthConstraintLandscape.isActive = true
@@ -223,12 +207,10 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
             pickerStackViewHeightConstraintPortrait.isActive = true
         }
     }
-    */
-    
     func setPicker() {
         picker = UIPickerView()
-        picker.delegate = self as UIPickerViewDelegate
-        picker.dataSource = self as UIPickerViewDataSource
+        //picker.delegate = self as UIPickerViewDelegate
+        //picker.dataSource = self as UIPickerViewDataSource
     }
     
     func setToolbar() {
@@ -276,14 +258,13 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     @objc func doneClick() {
         let selectedRow = dataArray![picker.selectedRow(inComponent: 0)]
         if selectedRow == "New entry..." {
-            print("New entry")
-            //presentAlert(message: "New entry", newEntry: true)
+            presentAlert(message: "New entry", newEntry: true)
         }
         else {
-            let name = selectedRow
-            print(name)
+            //let name = selectedRow
+            //print(name)
             //print(self.score)
-            //register()
+            register()
         }
         hidePicker(animation: true)
     }
@@ -319,7 +300,6 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         toolBar.isUserInteractionEnabled = false
     }
     
-    /*
     func presentAlert(message: String, newEntry: Bool) {
         let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .default) { [unowned alert] _ in
@@ -345,10 +325,8 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         }
         present(alert, animated: true)
     }
-    */
-    
-    /*
     func register() {
+        /*
         let date = Date()
         let dateFormatter:DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
@@ -365,6 +343,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         else {
             self.ref.child(userid).child(timeStamp).setValue(["rowsNumber":rowsNumber, "columnsNumber":columnsNumber, "densityNumber":densityNumber, "color1": colors[color1], "color2": colors[color2]])
         }
-    }
     */
+    }
+
 }

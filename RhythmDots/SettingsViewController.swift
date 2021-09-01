@@ -57,6 +57,7 @@ class SettingsViewController: UIViewController {
     var userData = UserData()
     
     var buttonClass = ButtonClass()
+    var dataPicker = DataPicker()
     
     var handle: AuthStateDidChangeListenerHandle!
     
@@ -287,11 +288,8 @@ class SettingsViewController: UIViewController {
     
     @IBAction func displayMyPrograms(_ sender: UIButton) {
         print(self.userData.userPrograms)
-        //let dataPicker = DataPicker()
-        //dataPicker.showPicker(animation: true)
         
-        
-        //let buttonClass = ButtonClass()
+        self.view.addSubview(dataPicker.pickerStackView)
         self.view.addSubview(buttonClass.button)
         
         
