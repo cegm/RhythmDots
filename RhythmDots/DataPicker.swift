@@ -23,6 +23,13 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     var toolBar: UIToolbar!
     var pickerStackView: UIStackView!
     
+    var centerXAnchor: NSLayoutXAxisAnchor!
+    var centerYAnchor: NSLayoutYAxisAnchor!
+    var bottomAnchor: NSLayoutYAxisAnchor!
+    var heightAnchor: NSLayoutDimension!
+    var widthAnchor: NSLayoutDimension!
+    
+    
     var blurEffectViewWidthConstraintLandscape: NSLayoutConstraint!
     var blurEffectViewHeightConstraintLandscape: NSLayoutConstraint!
     var blurEffectViewWidthConstraintPortrait: NSLayoutConstraint!
@@ -34,24 +41,38 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     var pickerStackViewHeightConstraintPortrait: NSLayoutConstraint!
     //
     
-    
+    /*
     override init() {
         super.init()  // call this so that you can use self below
         dataArray = ["Default", "New entry..."]
         
-        //let landscape = UIApplication.shared.statusBarOrientation.isLandscape
-        //self.iPhone = self.isiPhone(landscape: landscape)
+        self.landscape = UIApplication.shared.statusBarOrientation.isLandscape
+        self.iPhone = UIDevice.current.userInterfaceIdiom == .phone
         
         self.createPicker()
         //self.hidePicker(animation: false)
         
         //NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
-    /*
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     */
+    
+    init(centerXAnchor: NSLayoutXAxisAnchor, centerYAnchor: NSLayoutYAxisAnchor, bottomAnchor: NSLayoutYAxisAnchor, heightAnchor: NSLayoutDimension, widthAnchor: NSLayoutDimension) {
+        super.init()  // call this so that you can use self below
+        dataArray = ["Default", "New entry..."]
+        
+        self.landscape = UIApplication.shared.statusBarOrientation.isLandscape
+        self.iPhone = UIDevice.current.userInterfaceIdiom == .phone
+        self.centerXAnchor = centerXAnchor
+        self.centerYAnchor = centerYAnchor
+        self.bottomAnchor = bottomAnchor
+        self.heightAnchor = heightAnchor
+        self.widthAnchor = widthAnchor
+        
+        self.createPicker()
+        //self.hidePicker(animation: false)
+        
+        //NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
     
     /*
     @objc func deviceRotated(){
@@ -77,7 +98,6 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     }
     */
     
-    /*
     func isiPadPro(landscape: Bool) -> Bool {
         if landscape {
             return UIScreen.main.bounds.size.height > 1000
@@ -86,7 +106,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
             return UIScreen.main.bounds.size.width > 1000
         }
     }
-    */
+    
     
     /*
     func setBlurryEffect() {
@@ -116,6 +136,8 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     }
     */
     
+    
+    
     func setPickerStackView(array: [UIView]) {
         pickerStackView = UIStackView(arrangedSubviews: array)
         pickerStackView.axis = .vertical
@@ -123,36 +145,40 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         pickerStackView.alignment = .fill
         pickerStackView.translatesAutoresizingMaskIntoConstraints = false
         //self.view.addSubview(pickerStackView) ---------------_> MMMMMMUy importante
-        
-        /*
-        let constraints = setConstraints(view: pickerStackView)
-        
-        pickerStackViewWidthConstraintLandscape = constraints[0]
-        pickerStackViewHeightConstraintLandscape = constraints[1]
-        pickerStackViewWidthConstraintPortrait = constraints[2]
-        pickerStackViewHeightConstraintPortrait = constraints[3]
-        pickerStackView.layer.cornerRadius = 20.0
-        pickerStackView.clipsToBounds = true;
-        */
     }
     
-    /*
-    func setConstraints(view: UIView) -> [NSLayoutConstraint] {
-        view.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+    func constraints() {
+        self.setPickerStackViewConstraints()
+        self.activateConstraints()
+    }
+    
+    func setPickerStackViewConstraints() {
+        let constraints = getConstraints(view: self.pickerStackView)
+        
+        self.pickerStackViewWidthConstraintLandscape = constraints[0]
+        self.pickerStackViewHeightConstraintLandscape = constraints[1]
+        self.pickerStackViewWidthConstraintPortrait = constraints[2]
+        self.pickerStackViewHeightConstraintPortrait = constraints[3]
+        self.pickerStackView.layer.cornerRadius = 20.0
+        self.pickerStackView.clipsToBounds = true;
+    }
+    
+    
+    func getConstraints(view: UIView) -> [NSLayoutConstraint] {
+        view.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         if iPhone {
-            //view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-            view.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+            //view.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+            view.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         }
         else {
-            view.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+            view.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         }
         
-        let landscape = UIApplication.shared.statusBarOrientation.isLandscape
-        return setSizeConstraints(view: view, landscape: landscape)
+        self.landscape = UIApplication.shared.statusBarOrientation.isLandscape
+        return getSizeConstraints(view: view, landscape: self.landscape)
     }
-    */
-    /*
-    func setSizeConstraints(view: UIView, landscape: Bool) -> [NSLayoutConstraint] {
+    
+    func getSizeConstraints(view: UIView, landscape: Bool) -> [NSLayoutConstraint] {
         let widthConstant: CGFloat
         let heightConstant: CGFloat
         
@@ -190,40 +216,39 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
                 heightConstant = -750
             }
         }
-        let widthLandscape = view.widthAnchor.constraint(equalTo: self.view.heightAnchor, constant: widthConstant)
-        let heightLandscape = view.heightAnchor.constraint(equalTo: self.view.widthAnchor, constant: heightConstant)
-        let widthPortrait = view.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: widthConstant)
-        let heightPortrait = view.heightAnchor.constraint(equalTo: self.view.heightAnchor, constant: heightConstant)
+        let widthLandscape = view.widthAnchor.constraint(equalTo: self.heightAnchor, constant: widthConstant)
+        let heightLandscape = view.heightAnchor.constraint(equalTo: self.widthAnchor, constant: heightConstant)
+        let widthPortrait = view.widthAnchor.constraint(equalTo: self.widthAnchor, constant: widthConstant)
+        let heightPortrait = view.heightAnchor.constraint(equalTo: self.heightAnchor, constant: heightConstant)
         return [widthLandscape, heightLandscape, widthPortrait, heightPortrait]
     }
-    */
     
-    /*
     func activateConstraints() {
         if UIDevice.current.orientation.isLandscape {
+            /*
             blurEffectViewWidthConstraintLandscape.isActive = true
             blurEffectViewHeightConstraintLandscape.isActive = true
             blurEffectViewWidthConstraintPortrait.isActive = false
             blurEffectViewHeightConstraintPortrait.isActive = false
-            
+            */
             pickerStackViewWidthConstraintLandscape.isActive = true
             pickerStackViewHeightConstraintLandscape.isActive = true
             pickerStackViewWidthConstraintPortrait.isActive = false
             pickerStackViewHeightConstraintPortrait.isActive = false
         }
         else {
+            /*
             blurEffectViewWidthConstraintLandscape.isActive = false
             blurEffectViewHeightConstraintLandscape.isActive = false
             blurEffectViewWidthConstraintPortrait.isActive = true
             blurEffectViewHeightConstraintPortrait.isActive = true
-            
+            */
             pickerStackViewWidthConstraintLandscape.isActive = false
             pickerStackViewHeightConstraintLandscape.isActive = false
             pickerStackViewWidthConstraintPortrait.isActive = true
             pickerStackViewHeightConstraintPortrait.isActive = true
         }
     }
-    */
     
     func setPicker() {
         picker = UIPickerView()

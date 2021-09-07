@@ -57,7 +57,7 @@ class SettingsViewController: UIViewController {
     var userData = UserData()
     
     var buttonClass = ButtonClass()
-    var dataPicker = DataPicker()
+    var dataPicker: DataPicker!
     
     var handle: AuthStateDidChangeListenerHandle!
     
@@ -75,6 +75,12 @@ class SettingsViewController: UIViewController {
         }
         
         changeMyPorgramsButtonStatus(enabled: false) // Only available if user is authenticated.
+        
+        self.dataPicker = DataPicker(centerXAnchor: self.view.centerXAnchor,
+                                     centerYAnchor: self.view.centerYAnchor,
+                                     bottomAnchor: self.view.bottomAnchor,
+                                     heightAnchor: self.view.heightAnchor,
+                                     widthAnchor: self.view.widthAnchor)
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if user == nil {
@@ -290,6 +296,9 @@ class SettingsViewController: UIViewController {
         print(self.userData.userPrograms)
         
         self.view.addSubview(dataPicker.pickerStackView)
+        dataPicker.constraints()
+        
+        
         self.view.addSubview(buttonClass.button)
         
         
