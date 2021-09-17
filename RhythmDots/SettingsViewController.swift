@@ -81,6 +81,10 @@ class SettingsViewController: UIViewController {
                                      bottomAnchor: self.view.bottomAnchor,
                                      heightAnchor: self.view.heightAnchor,
                                      widthAnchor: self.view.widthAnchor)
+        self.view.addSubview(dataPicker.blurEffectView)
+        self.view.addSubview(dataPicker.pickerStackView)
+        self.dataPicker.constraints()
+        self.dataPicker.hidePicker(animation: false)
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if user == nil {
@@ -295,11 +299,12 @@ class SettingsViewController: UIViewController {
     @IBAction func displayMyPrograms(_ sender: UIButton) {
         print(self.userData.userPrograms)
         
-        self.view.addSubview(dataPicker.pickerStackView)
-        dataPicker.constraints()
+        //self.view.addSubview(dataPicker.blurEffectView)
+        //self.view.addSubview(dataPicker.pickerStackView)
+        //dataPicker.constraints()
+        self.dataPicker.showPicker(animation: true)
         
-        
-        self.view.addSubview(buttonClass.button)
+        //self.view.addSubview(buttonClass.button)
         
         
     }

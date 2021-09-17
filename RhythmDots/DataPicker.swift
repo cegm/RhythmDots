@@ -81,12 +81,13 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     */
     
     func createPicker() {
-           //setBlurryEffect()
+           setBlurryEffect()
            setPicker()
            setToolbar()
            setPickerStackView(array: [toolBar, picker])
            //activateConstraints()
     }
+    
     /*
     func isiPhone(landscape: Bool) -> Bool {
         if landscape {
@@ -108,21 +109,14 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     }
     
     
-    /*
+    
     func setBlurryEffect() {
         let blurEffect = UIBlurEffect(style: .light)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = self.view.frame
-        self.view.addSubview(blurEffectView)
+        //blurEffectView.frame = self.view.frame
+        //self.view.addSubview(blurEffectView)
         
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let constraints = setConstraints(view: blurEffectView)
-
-        blurEffectViewWidthConstraintLandscape = constraints[0]
-        blurEffectViewHeightConstraintLandscape = constraints[1]
-        blurEffectViewWidthConstraintPortrait = constraints[2]
-        blurEffectViewHeightConstraintPortrait = constraints[3]
         
         blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.55)
            
@@ -130,11 +124,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         blurEffectView.layer.shadowOpacity = 0.3
         blurEffectView.layer.shadowOffset = .zero
         blurEffectView.layer.shadowRadius = 4
-           
-        blurEffectView.layer.cornerRadius = 20.0
-        blurEffectView.clipsToBounds = true
     }
-    */
     
     
     
@@ -148,8 +138,20 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     }
     
     func constraints() {
+        self.setBlurEffectViewConstraints()
         self.setPickerStackViewConstraints()
         self.activateConstraints()
+    }
+    
+    func setBlurEffectViewConstraints() {
+        let constraints = getConstraints(view: blurEffectView)
+        
+        blurEffectViewWidthConstraintLandscape = constraints[0]
+        blurEffectViewHeightConstraintLandscape = constraints[1]
+        blurEffectViewWidthConstraintPortrait = constraints[2]
+        blurEffectViewHeightConstraintPortrait = constraints[3]
+        blurEffectView.layer.cornerRadius = 20.0
+        blurEffectView.clipsToBounds = true
     }
     
     func setPickerStackViewConstraints() {
@@ -160,15 +162,15 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         self.pickerStackViewWidthConstraintPortrait = constraints[2]
         self.pickerStackViewHeightConstraintPortrait = constraints[3]
         self.pickerStackView.layer.cornerRadius = 20.0
-        self.pickerStackView.clipsToBounds = true;
+        self.pickerStackView.clipsToBounds = true
     }
     
     
     func getConstraints(view: UIView) -> [NSLayoutConstraint] {
         view.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         if iPhone {
-            //view.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-            view.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+            view.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+            //view.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         }
         else {
             view.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
@@ -184,7 +186,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         
         if iPhone {
             widthConstant = 0
-            heightConstant = -625
+            heightConstant = -400//-625
         }
         else {
             if isiPadPro(landscape: landscape) {
@@ -225,24 +227,24 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     
     func activateConstraints() {
         if UIDevice.current.orientation.isLandscape {
-            /*
+            
             blurEffectViewWidthConstraintLandscape.isActive = true
             blurEffectViewHeightConstraintLandscape.isActive = true
             blurEffectViewWidthConstraintPortrait.isActive = false
             blurEffectViewHeightConstraintPortrait.isActive = false
-            */
+            
             pickerStackViewWidthConstraintLandscape.isActive = true
             pickerStackViewHeightConstraintLandscape.isActive = true
             pickerStackViewWidthConstraintPortrait.isActive = false
             pickerStackViewHeightConstraintPortrait.isActive = false
         }
         else {
-            /*
+            
             blurEffectViewWidthConstraintLandscape.isActive = false
             blurEffectViewHeightConstraintLandscape.isActive = false
             blurEffectViewWidthConstraintPortrait.isActive = true
             blurEffectViewHeightConstraintPortrait.isActive = true
-            */
+            
             pickerStackViewWidthConstraintLandscape.isActive = false
             pickerStackViewHeightConstraintLandscape.isActive = false
             pickerStackViewWidthConstraintPortrait.isActive = true
