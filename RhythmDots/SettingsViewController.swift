@@ -76,16 +76,6 @@ class SettingsViewController: UIViewController {
         
         changeMyPorgramsButtonStatus(enabled: false) // Only available if user is authenticated.
         
-        self.dataPicker = DataPicker(centerXAnchor: self.view.centerXAnchor,
-                                     centerYAnchor: self.view.centerYAnchor,
-                                     bottomAnchor: self.view.bottomAnchor,
-                                     heightAnchor: self.view.heightAnchor,
-                                     widthAnchor: self.view.widthAnchor)
-        self.view.addSubview(dataPicker.blurEffectView)
-        self.view.addSubview(dataPicker.pickerStackView)
-        self.dataPicker.constraints()
-        self.dataPicker.hidePicker(animation: false)
-        
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if user == nil {
                 // Load FirebaseUI to handle authentication.
@@ -126,6 +116,15 @@ class SettingsViewController: UIViewController {
                         }
                         if userData != nil {
                             self.loadUserSettings(programNumber: 0)
+                            let programsDataArray = self.userData.getProgramsDataArray()
+                            
+                            self.dataPicker = DataPicker(dataArray: programsDataArray,
+                                                         centerXAnchor: self.view.centerXAnchor,
+                                                         centerYAnchor: self.view.centerYAnchor,
+                                                         bottomAnchor: self.view.bottomAnchor,
+                                                         heightAnchor: self.view.heightAnchor,
+                                                         widthAnchor: self.view.widthAnchor)
+                            
                         }
                         self.applyUserSettings()
                     }
@@ -297,13 +296,14 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func displayMyPrograms(_ sender: UIButton) {
-        print(self.userData.userPrograms)
+        //print(self.userData.userPrograms)
+        //print(self.userData.getProgramsDataArray())
         
-        //self.view.addSubview(dataPicker.blurEffectView)
-        //self.view.addSubview(dataPicker.pickerStackView)
-        //dataPicker.constraints()
+        self.view.addSubview(dataPicker.blurEffectView)
+        self.view.addSubview(dataPicker.pickerStackView)
+        self.dataPicker.constraints()
         self.dataPicker.showPicker(animation: true)
-        
+        //print()
         //self.view.addSubview(buttonClass.button)
         
         

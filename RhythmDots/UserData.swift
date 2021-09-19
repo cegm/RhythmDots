@@ -53,6 +53,7 @@ class UserData {
                         userPrograms = []
                         repeat {
                             if let currentProgramData = documentData["program\(n)"] as? [String:Any] {
+                                let name = currentProgramData["name"] as? String ?? "Default"
                                 let columnsNumber = currentProgramData["columnsNumber"] as? Int ?? 5
                                 let rowsNumber = currentProgramData["rowsNumber"] as? Int ?? 5
                                 let densityNumber = currentProgramData["densityNumber"] as? Int ?? 50
@@ -68,13 +69,14 @@ class UserData {
                                 else {
                                     metronome = true
                                 }
-                                let currentProgram = self.getProgramDictionary(columnsNumber: columnsNumber,
-                                                                          rowsNumber: rowsNumber,
-                                                                          densityNumber: densityNumber,
-                                                                          metronome: metronome,
-                                                                          tempo: tempo,
-                                                                          selectedColor1: selectedColor1,
-                                                                          selectedColor2: selectedColor2)
+                                let currentProgram = self.getProgramDictionary(name: name,
+                                                                               columnsNumber: columnsNumber,
+                                                                               rowsNumber: rowsNumber,
+                                                                               densityNumber: densityNumber,
+                                                                               metronome: metronome,
+                                                                               tempo: tempo,
+                                                                               selectedColor1: selectedColor1,
+                                                                               selectedColor2: selectedColor2)
                                 userPrograms.append(currentProgram)
                             }
                             n = n + 1
@@ -88,18 +90,20 @@ class UserData {
     }
     
     func getDefaultProgramDictionary() -> [String : Any] {
-        let defaultProgramDictionary: [String: Any] = self.getProgramDictionary(columnsNumber: 5,
-                                                                      rowsNumber: 5,
-                                                                      densityNumber: 50,
-                                                                      metronome: true,
-                                                                      tempo: 60,
-                                                                      selectedColor1: 0,
-                                                                      selectedColor2: 0)
+        let defaultProgramDictionary: [String: Any] = self.getProgramDictionary(name: "Default",
+                                                                                columnsNumber: 5,
+                                                                                rowsNumber: 5,
+                                                                                densityNumber: 50,
+                                                                                metronome: true,
+                                                                                tempo: 60,
+                                                                                selectedColor1: 0,
+                                                                                selectedColor2: 0)
         return defaultProgramDictionary
     }
     
-    func getProgramDictionary(columnsNumber: Int, rowsNumber: Int, densityNumber: Int, metronome: Bool, tempo: Double, selectedColor1: Int, selectedColor2: Int) -> [String : Any] {
-        let programDictionary = ["columnsNumber": columnsNumber,
+    func getProgramDictionary(name: String, columnsNumber: Int, rowsNumber: Int, densityNumber: Int, metronome: Bool, tempo: Double, selectedColor1: Int, selectedColor2: Int) -> [String : Any] {
+        let programDictionary = ["name": name,
+                                 "columnsNumber": columnsNumber,
                                  "rowsNumber": rowsNumber,
                                  "densityNumber": densityNumber,
                                  "metronome": metronome,
@@ -108,4 +112,13 @@ class UserData {
                                  "selectedColor2": selectedColor2] as [String : Any]
         return programDictionary
     }
+    
+    func getProgramsDataArray() -> [String] {
+        var programsDataArray: [String] = []
+        for program in userPrograms {
+            programsDataArray.append(program["name"] as! String)
+        }
+        return programsDataArray
+    }
+    
 }

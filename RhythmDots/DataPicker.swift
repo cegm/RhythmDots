@@ -39,26 +39,12 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     var pickerStackViewHeightConstraintLandscape: NSLayoutConstraint!
     var pickerStackViewWidthConstraintPortrait: NSLayoutConstraint!
     var pickerStackViewHeightConstraintPortrait: NSLayoutConstraint!
-    //
     
-    /*
-    override init() {
-        super.init()  // call this so that you can use self below
-        dataArray = ["Default", "New entry..."]
-        
-        self.landscape = UIApplication.shared.statusBarOrientation.isLandscape
-        self.iPhone = UIDevice.current.userInterfaceIdiom == .phone
-        
-        self.createPicker()
-        //self.hidePicker(animation: false)
-        
-        //NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
-    }
-    */
     
-    init(centerXAnchor: NSLayoutXAxisAnchor, centerYAnchor: NSLayoutYAxisAnchor, bottomAnchor: NSLayoutYAxisAnchor, heightAnchor: NSLayoutDimension, widthAnchor: NSLayoutDimension) {
+    init(dataArray: [String], centerXAnchor: NSLayoutXAxisAnchor, centerYAnchor: NSLayoutYAxisAnchor, bottomAnchor: NSLayoutYAxisAnchor, heightAnchor: NSLayoutDimension, widthAnchor: NSLayoutDimension) {
         super.init()  // call this so that you can use self below
-        dataArray = ["Default", "New entry..."]
+        self.dataArray = dataArray//["Default", "New entry..."]
+        self.dataArray.append("New entry...")
         
         self.landscape = UIApplication.shared.statusBarOrientation.isLandscape
         self.iPhone = UIDevice.current.userInterfaceIdiom == .phone
@@ -69,16 +55,12 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         self.widthAnchor = widthAnchor
         
         self.createPicker()
-        //self.hidePicker(animation: false)
         
-        //NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
-    
-    /*
     @objc func deviceRotated(){
         //activateConstraints()
     }
-    */
     
     func createPicker() {
            setBlurryEffect()
@@ -344,6 +326,9 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         }
         picker.isUserInteractionEnabled = false
         toolBar.isUserInteractionEnabled = false
+        
+        blurEffectView.removeFromSuperview()
+        pickerStackView.removeFromSuperview()
     }
     
     /*
