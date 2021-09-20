@@ -12,6 +12,7 @@ import FirebaseFirestore
 class UserData {
     var uid: String = "-"
     var userPrograms: [[String: Any]] = []
+    let maxNumUserPrograms = 5
     
     init(uid: String, completion: @escaping (UserData?, Error?) -> Void) {
         self.uid = uid
@@ -49,28 +50,18 @@ class UserData {
                 if let document = document, document.exists {
                     
                     if let documentData = document.data() {
-                        print(documentData)
-                        print(type(of: documentData))
                         var n = 0
                         userPrograms = []
                         repeat {
                             if let currentProgramData = documentData["program\(n)"] as? [String:Any] {
-                                print(type(of: currentProgramData))
-                                print(type(of: ["value": "field"]))
                                 let name = currentProgramData["name"] as? String ?? "Default"
-                                print(name)
                                 let columnsNumber = currentProgramData["columnsNumber"] as? Int ?? 5
-                                print(columnsNumber)
                                 let rowsNumber = currentProgramData["rowsNumber"] as? Int ?? 5
-                                print(rowsNumber)
                                 let densityNumber = currentProgramData["densityNumber"] as? Int ?? 50
-                                print(densityNumber)
                                 let metronome = currentProgramData["metronome"] as? Bool ?? true
                                 let tempo = currentProgramData["tempo"] as? Double ?? 60
                                 let selectedColor1 = currentProgramData["selectedColor1"] as? Int ?? 0
-                                print(selectedColor1)
                                 let selectedColor2 = currentProgramData["selectedColor2"] as? Int ?? 0
-                                print(selectedColor1)
                                 
                                 let currentProgram = self.getProgramDictionary(name: name,
                                                                                columnsNumber: columnsNumber,
@@ -83,7 +74,7 @@ class UserData {
                                 userPrograms.append(currentProgram)
                             }
                             n = n + 1
-                        } while n <= 5
+                        } while n <= self.maxNumUserPrograms
                     }
                     completion(userPrograms, nil)
                     //return
@@ -126,16 +117,35 @@ class UserData {
     
     func addUserProgram(programDictionary: [String : Any]) {
         let numUserPrograms = userPrograms.count
-        print(numUserPrograms)
         
         if self.uid != "-" {
-            let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
-            ref.setData(["program\(numUserPrograms)": programDictionary], merge: true) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
+            if numUserPrograms < maxNumUserPrograms {
+                let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
+                ref.setData(["program\(numUserPrograms)": programDictionary], merge: true) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                    else {
+                        print("Document added with ID: \(ref.documentID)")
+                    }
                 }
-                else {
-                    print("Document added with ID: \(ref.documentID)")
+            }
+        }
+    }
+    
+    func updateUserProgram(numUserProgram: Int, programDictionary: [String : Any]) {
+        let numUserPrograms = userPrograms.count
+        
+        if self.uid != "-" {
+            if numUserProgram < numUserPrograms {
+                let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
+                ref.updateData(["program\(numUserProgram)": programDictionary]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    }
+                    else {
+                        print("Document added with ID: \(ref.documentID)")
+                    }
                 }
             }
         }

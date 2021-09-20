@@ -55,11 +55,13 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     var buttons2: [UIButton] = []
     
     var userData = UserData()
+    var handle: AuthStateDidChangeListenerHandle!
     
     var buttonClass = ButtonClass()
     var dataPicker: DataPicker!
+    var done: UIAlertAction!
     
-    var handle: AuthStateDidChangeListenerHandle!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,29 +107,7 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
                 //  the closing curly brace of the LoginViewController class
             }
             else {
-                let user = Auth.auth().currentUser
-                if let user = user {
-                    let uid = user.uid
-                    self.userData = UserData(uid: uid) { (userData, error) in
-                        if let error = error {
-                            print("SettingsViewController.swift: Error loading user data: \(error)")
-                        }
-                        if userData != nil {
-                            self.loadUserSettings(programNumber: 0)
-                            let programsDataArray = self.userData.getProgramsDataArray()
-                            
-                            self.dataPicker = DataPicker(dataArray: programsDataArray,
-                                                         centerXAnchor: self.view.centerXAnchor,
-                                                         centerYAnchor: self.view.centerYAnchor,
-                                                         bottomAnchor: self.view.bottomAnchor,
-                                                         heightAnchor: self.view.heightAnchor,
-                                                         widthAnchor: self.view.widthAnchor)
-                            self.dataPicker.delegate = self
-                        }
-                        self.applyUserSettings()
-                        self.changeMyPorgramsButtonStatus(enabled: true)  // Only available if user is authenticated.
-                    }
-                }
+                self.initializeUserData(programNumber: 0)
             }
         }
         //applyUserSettings()
@@ -146,6 +126,33 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func initializeUserData(programNumber: Int) {
+        let user = Auth.auth().currentUser
+        if let user = user {
+            let uid = user.uid
+            self.userData = UserData(uid: uid) { (userData, error) in
+                if let error = error {
+                    print("SettingsViewController.swift: Error loading user data: \(error)")
+                }
+                if userData != nil {
+                    self.loadUserSettings(programNumber: programNumber)
+                    let programsDataArray = self.userData.getProgramsDataArray()
+                    
+                    self.dataPicker = DataPicker(dataArray: programsDataArray,
+                                                 centerXAnchor: self.view.centerXAnchor,
+                                                 centerYAnchor: self.view.centerYAnchor,
+                                                 bottomAnchor: self.view.bottomAnchor,
+                                                 heightAnchor: self.view.heightAnchor,
+                                                 widthAnchor: self.view.widthAnchor)
+                    self.dataPicker.delegate = self
+                    self.dataPicker.picker.selectRow(programNumber, inComponent: 0, animated: true)
+                }
+                self.applyUserSettings()
+                self.changeMyPorgramsButtonStatus(enabled: true)  // Only available if user is authenticated.
+            }
+        }
     }
 
     func loadUserSettings(programNumber: Int) {
@@ -293,7 +300,7 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     }
     
     @IBAction func displayMyPrograms(_ sender: UIButton) {
-        print(self.userData.userPrograms)
+        //print(self.userData.userPrograms)
         //print(self.userData.getProgramsDataArray())
         
         self.view.addSubview(dataPicker.blurEffectView)
@@ -326,23 +333,60 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
         
     }
     
-    func didPressDoneButton(selectedRowIndex: Int) {
-        if selectedRowIndex < self.userData.userPrograms.count {
+    func didClickToolbarButton(selectedRowIndex: Int, overwrite: Bool) {
+        if selectedRowIndex < self.userData.userPrograms.count && !overwrite {
             self.loadUserSettings(programNumber: selectedRowIndex)
             self.applyUserSettings()
         }
         else {
-            let programDictionary = self.userData.getProgramDictionary(name: "Name \(selectedRowIndex)",
-                                                                       columnsNumber: self.columnsNumber,
-                                                                       rowsNumber: self.rowsNumber,
-                                                                       densityNumber: self.densityNumber,
-                                                                       metronome: self.metronome,
-                                                                       tempo: self.tempo,
-                                                                       selectedColor1: self.selectedColor1,
-                                                                       selectedColor2: self.selectedColor2)
-            print(programDictionary)
+            presentAlert(message: "New entry", newEntry: true, selectedRowIndex: selectedRowIndex, overwrite: overwrite)
+        }
+    }
+    
+    func presentAlert(message: String, newEntry: Bool, selectedRowIndex: Int, overwrite: Bool) {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .default) { [unowned alert] _ in
+        }
+        alert.addAction(cancel)
+        
+        if newEntry {
+            alert.addTextField { (textField) in
+                textField.placeholder = "Name"
+            }
+            self.done = UIAlertAction(title: "Done", style: .default) { [unowned alert] _ in
+                let name = alert.textFields![0].text
+                self.saveCurrentSettingsAsUserProgram(name: name ?? "My Program \(selectedRowIndex)", selectedRowIndex: selectedRowIndex, overwrite: overwrite)
+            }
+            alert.addAction(self.done)
+        }
+        else {
+            self.done = UIAlertAction(title: "Done", style: .default) { [unowned alert] _ in
+                // do something interesting with "answer" here
+            }
+            alert.addAction(self.done)
+        }
+
+        present(alert, animated: true)
+    }
+    
+    func saveCurrentSettingsAsUserProgram(name: String, selectedRowIndex: Int, overwrite: Bool) {
+        let programDictionary = self.userData.getProgramDictionary(name: name,
+                                                                   columnsNumber: self.columnsNumber,
+                                                                   rowsNumber: self.rowsNumber,
+                                                                   densityNumber: self.densityNumber,
+                                                                   metronome: self.metronome,
+                                                                   tempo: self.tempo,
+                                                                   selectedColor1: self.selectedColor1,
+                                                                   selectedColor2: self.selectedColor2)
+        print(programDictionary)
+        if overwrite {
+            self.userData.updateUserProgram(numUserProgram: selectedRowIndex, programDictionary: programDictionary)
+        }
+        else {
             self.userData.addUserProgram(programDictionary: programDictionary)
         }
+        
+        initializeUserData(programNumber: selectedRowIndex)
     }
 
     

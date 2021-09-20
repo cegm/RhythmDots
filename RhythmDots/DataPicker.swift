@@ -11,7 +11,7 @@ import Foundation
 import FirebaseFirestore
 
 protocol DataPickerDelegate: NSObject {
-    func didPressDoneButton(selectedRowIndex: Int)
+    func didClickToolbarButton(selectedRowIndex: Int, overwrite: Bool)
 }
 
 class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
@@ -48,8 +48,10 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     
     init(dataArray: [String], centerXAnchor: NSLayoutXAxisAnchor, centerYAnchor: NSLayoutYAxisAnchor, bottomAnchor: NSLayoutYAxisAnchor, heightAnchor: NSLayoutDimension, widthAnchor: NSLayoutDimension) {
         super.init()  // call this so that you can use self below
-        self.dataArray = dataArray//["Default", "New entry..."]
-        self.dataArray.append("New entry...")
+        self.dataArray = dataArray
+        if self.dataArray.count < 5 {
+            self.dataArray.append("New entry...")
+        }
         
         self.landscape = UIApplication.shared.statusBarOrientation.isLandscape
         self.iPhone = UIDevice.current.userInterfaceIdiom == .phone
@@ -228,7 +230,6 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     
     func activateConstraints() {
         if UIDevice.current.orientation.isLandscape {
-            print("landscape")
             blurEffectViewWidthConstraintPortrait.isActive = false
             blurEffectViewHeightConstraintPortrait.isActive = false
             blurEffectViewWidthConstraintLandscape.isActive = true
@@ -240,7 +241,6 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
             pickerStackViewHeightConstraintLandscape.isActive = true
         }
         else {
-            print("portrait")
             blurEffectViewWidthConstraintLandscape.isActive = false
             blurEffectViewHeightConstraintLandscape.isActive = false
             blurEffectViewWidthConstraintPortrait.isActive = true
@@ -260,19 +260,23 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     }
     
     func setToolbar() {
-        toolBar = UIToolbar()
+        toolBar = UIToolbar(frame:CGRect(x:0, y:0, width:100, height:100))
         toolBar.barStyle = .default
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
+        //toolBar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         toolBar.sizeToFit()
            
         // Adding Button ToolBar
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
            doneButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let leftSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let middleButton = UIBarButtonItem(title: "Overwrite", style: .plain, target: self, action: #selector(overwriteClick))
+        middleButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        let rightSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
         cancelButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.setItems([cancelButton, leftSpace, middleButton, rightSpace, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
            
         /*let path = UIBezierPath(roundedRect: toolBar.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 20, height: 20))
@@ -282,6 +286,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         toolBar.layer.mask = maskLayer*/
         toolBar.layer.cornerRadius = 20.0
         toolBar.clipsToBounds = true
+        
         if #available(iOS 11.0, *) {
             toolBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         }
@@ -303,26 +308,20 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     
     @objc func doneClick() {
         let selectedRowIndex = picker.selectedRow(inComponent: 0)
-        let selectedRowText = dataArray![selectedRowIndex]
-        if selectedRowText == "New entry..." {
-            print("New entry")
-            //presentAlert(message: "New entry", newEntry: true)
-        }
-        else {
-            let name = selectedRowText
-            print(name)
-            //print(self.score)
-            //register()
-        }
         hidePicker(animation: true)
-        delegate.didPressDoneButton(selectedRowIndex: selectedRowIndex)
+        delegate.didClickToolbarButton(selectedRowIndex: selectedRowIndex, overwrite: false)
+    }
+    
+    @objc func overwriteClick() {
+        let selectedRowIndex = picker.selectedRow(inComponent: 0)
+        hidePicker(animation: true)
+        delegate.didClickToolbarButton(selectedRowIndex: selectedRowIndex, overwrite: true)
     }
     
     @objc func cancelClick() {
         hidePicker(animation: true)
     }
     func showPicker(animation: Bool) {
-        print("what=")
         UIView.animate(withDuration: 0.3) {
             self.blurEffectView.alpha = 1
             self.picker.alpha = 1
