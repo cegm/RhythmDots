@@ -39,8 +39,8 @@ class UserData {
         var userPrograms: [[String: Any]] = [self.getDefaultProgramDictionary()]
 
         if self.uid != "-" {
-            let docRef = Firestore.firestore().collection("usersPrograms").document(self.uid)
-            docRef.getDocument { (document, error) in
+            let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
+            ref.getDocument { (document, error) in
                 if let error = error {
                     // Return default user programs and error message
                     completion(userPrograms, error)
@@ -49,26 +49,29 @@ class UserData {
                 if let document = document, document.exists {
                     
                     if let documentData = document.data() {
+                        print(documentData)
+                        print(type(of: documentData))
                         var n = 0
                         userPrograms = []
                         repeat {
                             if let currentProgramData = documentData["program\(n)"] as? [String:Any] {
+                                print(type(of: currentProgramData))
+                                print(type(of: ["value": "field"]))
                                 let name = currentProgramData["name"] as? String ?? "Default"
+                                print(name)
                                 let columnsNumber = currentProgramData["columnsNumber"] as? Int ?? 5
+                                print(columnsNumber)
                                 let rowsNumber = currentProgramData["rowsNumber"] as? Int ?? 5
+                                print(rowsNumber)
                                 let densityNumber = currentProgramData["densityNumber"] as? Int ?? 50
-                                var metronome: Bool = true
-                                var tempo = currentProgramData["tempo"] as? Double ?? 60
-                                let selectedColor1 = currentProgramData["color1"] as? Int ?? 0
-                                let selectedColor2 = currentProgramData["color2"] as? Int ?? 0
+                                print(densityNumber)
+                                let metronome = currentProgramData["metronome"] as? Bool ?? true
+                                let tempo = currentProgramData["tempo"] as? Double ?? 60
+                                let selectedColor1 = currentProgramData["selectedColor1"] as? Int ?? 0
+                                print(selectedColor1)
+                                let selectedColor2 = currentProgramData["selectedColor2"] as? Int ?? 0
+                                print(selectedColor1)
                                 
-                                if tempo <= 0 {
-                                    metronome = false
-                                    tempo = 60
-                                }
-                                else {
-                                    metronome = true
-                                }
                                 let currentProgram = self.getProgramDictionary(name: name,
                                                                                columnsNumber: columnsNumber,
                                                                                rowsNumber: rowsNumber,
@@ -119,6 +122,23 @@ class UserData {
             programsDataArray.append(program["name"] as! String)
         }
         return programsDataArray
+    }
+    
+    func addUserProgram(programDictionary: [String : Any]) {
+        let numUserPrograms = userPrograms.count
+        print(numUserPrograms)
+        
+        if self.uid != "-" {
+            let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
+            ref.setData(["program\(numUserPrograms)": programDictionary], merge: true) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                }
+                else {
+                    print("Document added with ID: \(ref.documentID)")
+                }
+            }
+        }
     }
     
 }

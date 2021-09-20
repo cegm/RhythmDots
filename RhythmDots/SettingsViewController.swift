@@ -135,7 +135,7 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(handle!)
-        self.dataPicker = nil
+        //self.dataPicker = nil
         /*do {
           try Auth.auth().signOut()
         } catch let err {
@@ -149,15 +149,17 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     }
 
     func loadUserSettings(programNumber: Int) {
-        self.columnsNumber = self.userData.userPrograms[programNumber]["columnsNumber"] as! Int
-        self.rowsNumber = self.userData.userPrograms[programNumber]["rowsNumber"] as! Int
-        self.densityNumber = self.userData.userPrograms[programNumber]["densityNumber"] as! Int
-        self.metronome = self.userData.userPrograms[programNumber]["metronome"] as! Bool
-        self.tempo = self.userData.userPrograms[programNumber]["tempo"] as! Double
-        buttons1[selectedColor1].setImage(dotsOff[selectedColor1], for: .normal)
-        buttons2[selectedColor2].setImage(dotsOff[selectedColor2], for: .normal)
-        self.selectedColor1 = self.userData.userPrograms[programNumber]["selectedColor1"] as! Int
-        self.selectedColor2 = self.userData.userPrograms[programNumber]["selectedColor2"] as! Int
+        if self.userData.userPrograms.count > 0 {
+            self.columnsNumber = self.userData.userPrograms[programNumber]["columnsNumber"] as! Int
+            self.rowsNumber = self.userData.userPrograms[programNumber]["rowsNumber"] as! Int
+            self.densityNumber = self.userData.userPrograms[programNumber]["densityNumber"] as! Int
+            self.metronome = self.userData.userPrograms[programNumber]["metronome"] as! Bool
+            self.tempo = self.userData.userPrograms[programNumber]["tempo"] as! Double
+            buttons1[selectedColor1].setImage(dotsOff[selectedColor1], for: .normal)
+            buttons2[selectedColor2].setImage(dotsOff[selectedColor2], for: .normal)
+            self.selectedColor1 = self.userData.userPrograms[programNumber]["selectedColor1"] as! Int
+            self.selectedColor2 = self.userData.userPrograms[programNumber]["selectedColor2"] as! Int
+        }
     }
     
     func applyUserSettings() {
@@ -171,15 +173,8 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
         tempoLabel.isEnabled = metronome
         tempoStepper.isEnabled = metronome
         
-        var value: Double!
-        if metronome {
-            value = tempo
-        }
-        else {
-            value = 60
-        }
         
-        setLabelAndStepper(label: tempoLabel, stepper: tempoStepper, value: Int(value))
+        setLabelAndStepper(label: tempoLabel, stepper: tempoStepper, value: Int(tempo))
         
         buttons1[selectedColor1].setImage(dots[selectedColor1], for: .normal)
         buttons2[selectedColor2].setImage(dots[selectedColor2], for: .normal)
@@ -193,31 +188,29 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     
     @IBAction func changeColumns(_ sender: UIStepper) {
         columnsLabel.text = Int(sender.value).description
+        columnsNumber = Int(columnsLabel.text!)!
     }
     
     @IBAction func changeRows(_ sender: UIStepper) {
         rowsLabel.text = Int(sender.value).description
+        rowsNumber = Int(rowsLabel.text!)!
     }
     
     @IBAction func changeDensity(_ sender: UIStepper) {
         densityLabel.text = Int(sender.value).description
+        densityNumber = Int(densityLabel.text!)!
     }
     
     @IBAction func changeTempo(_ sender: UIStepper) {
         tempoLabel.text = Int(sender.value).description
+        tempo = Double(tempoLabel.text!)!
     }
     
     @IBAction func metronome(_ sender: UISwitch) {
-        if metronomeSwitch.isOn {
-            bpmLabel.isEnabled = true
-            tempoLabel.isEnabled = true
-            tempoStepper.isEnabled = true
-        }
-        else {
-            bpmLabel.isEnabled = false
-            tempoLabel.isEnabled = false
-            tempoStepper.isEnabled = false
-        }
+        metronome = metronomeSwitch.isOn
+        bpmLabel.isEnabled = metronome
+        tempoLabel.isEnabled = metronome
+        tempoStepper.isEnabled = metronome
     }
     
     @IBAction func changeColor10(_ sender: UIButton) {
@@ -278,13 +271,17 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     
     func changeColor(colorNumber: Int, buttonNumber: Int) {
         if colorNumber == 1 {
-            buttons1[buttonNumber].setImage(dots[buttonNumber], for: .normal)
-            buttons1[selectedColor1].setImage(dotsOff[selectedColor1], for: .normal)
+            if selectedColor1 != buttonNumber {
+                buttons1[buttonNumber].setImage(dots[buttonNumber], for: .normal)
+                buttons1[selectedColor1].setImage(dotsOff[selectedColor1], for: .normal)
+            }
             selectedColor1 = buttonNumber
         }
         else {
-            buttons2[buttonNumber].setImage(dots[buttonNumber], for: .normal)
-            buttons2[selectedColor2].setImage(dotsOff[selectedColor2], for: .normal)
+            if selectedColor2 != buttonNumber {
+                buttons2[buttonNumber].setImage(dots[buttonNumber], for: .normal)
+                buttons2[selectedColor2].setImage(dotsOff[selectedColor2], for: .normal)
+            }
             selectedColor2 = buttonNumber
         }
     }
@@ -296,7 +293,7 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     }
     
     @IBAction func displayMyPrograms(_ sender: UIButton) {
-        //print(self.userData.userPrograms)
+        print(self.userData.userPrograms)
         //print(self.userData.getProgramsDataArray())
         
         self.view.addSubview(dataPicker.blurEffectView)
@@ -330,12 +327,21 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     }
     
     func didPressDoneButton(selectedRowIndex: Int) {
-        print(selectedRowIndex)
-        print(self.userData.userPrograms.count)
-        
         if selectedRowIndex < self.userData.userPrograms.count {
             self.loadUserSettings(programNumber: selectedRowIndex)
             self.applyUserSettings()
+        }
+        else {
+            let programDictionary = self.userData.getProgramDictionary(name: "Name \(selectedRowIndex)",
+                                                                       columnsNumber: self.columnsNumber,
+                                                                       rowsNumber: self.rowsNumber,
+                                                                       densityNumber: self.densityNumber,
+                                                                       metronome: self.metronome,
+                                                                       tempo: self.tempo,
+                                                                       selectedColor1: self.selectedColor1,
+                                                                       selectedColor2: self.selectedColor2)
+            print(programDictionary)
+            self.userData.addUserProgram(programDictionary: programDictionary)
         }
     }
 
