@@ -12,7 +12,7 @@ import FirebaseUI
 
 typealias FIRUser = FirebaseAuth.User
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController, DataPickerDelegate {
     
     var columnsNumber: Int = 5
     var rowsNumber: Int = 5
@@ -122,6 +122,7 @@ class SettingsViewController: UIViewController {
                                                          bottomAnchor: self.view.bottomAnchor,
                                                          heightAnchor: self.view.heightAnchor,
                                                          widthAnchor: self.view.widthAnchor)
+                            self.dataPicker.delegate = self
                         }
                         self.applyUserSettings()
                         self.changeMyPorgramsButtonStatus(enabled: true)  // Only available if user is authenticated.
@@ -328,6 +329,15 @@ class SettingsViewController: UIViewController {
         
     }
     
+    func didPressDoneButton(selectedRowIndex: Int) {
+        print(selectedRowIndex)
+        print(self.userData.userPrograms.count)
+        
+        if selectedRowIndex < self.userData.userPrograms.count {
+            self.loadUserSettings(programNumber: selectedRowIndex)
+            self.applyUserSettings()
+        }
+    }
 
     
     

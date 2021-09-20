@@ -10,6 +10,10 @@ import UIKit
 import Foundation
 import FirebaseFirestore
 
+protocol DataPickerDelegate: NSObject {
+    func didPressDoneButton(selectedRowIndex: Int)
+}
+
 class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     // Variables necesarias para el picker
@@ -38,6 +42,8 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     var pickerStackViewHeightConstraintLandscape: NSLayoutConstraint!
     var pickerStackViewWidthConstraintPortrait: NSLayoutConstraint!
     var pickerStackViewHeightConstraintPortrait: NSLayoutConstraint!
+    
+    weak var delegate:DataPickerDelegate!
     
     
     init(dataArray: [String], centerXAnchor: NSLayoutXAxisAnchor, centerYAnchor: NSLayoutYAxisAnchor, bottomAnchor: NSLayoutYAxisAnchor, heightAnchor: NSLayoutDimension, widthAnchor: NSLayoutDimension) {
@@ -296,18 +302,20 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     }
     
     @objc func doneClick() {
-        let selectedRow = dataArray![picker.selectedRow(inComponent: 0)]
-        if selectedRow == "New entry..." {
+        let selectedRowIndex = picker.selectedRow(inComponent: 0)
+        let selectedRowText = dataArray![selectedRowIndex]
+        if selectedRowText == "New entry..." {
             print("New entry")
             //presentAlert(message: "New entry", newEntry: true)
         }
         else {
-            let name = selectedRow
+            let name = selectedRowText
             print(name)
             //print(self.score)
             //register()
         }
         hidePicker(animation: true)
+        delegate.didPressDoneButton(selectedRowIndex: selectedRowIndex)
     }
     
     @objc func cancelClick() {
