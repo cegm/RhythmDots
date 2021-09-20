@@ -29,7 +29,6 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     var heightAnchor: NSLayoutDimension!
     var widthAnchor: NSLayoutDimension!
     
-    
     var blurEffectViewWidthConstraintLandscape: NSLayoutConstraint!
     var blurEffectViewHeightConstraintLandscape: NSLayoutConstraint!
     var blurEffectViewWidthConstraintPortrait: NSLayoutConstraint!
@@ -58,8 +57,15 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         
         NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
+    
     @objc func deviceRotated(){
-        //activateConstraints()
+        print("rotó")
+        if !self.isHidden() {
+            if blurEffectViewWidthConstraintLandscape != nil {
+                activateConstraints()
+            }
+            //constraints()
+        }
     }
     
     func createPicker() {
@@ -83,10 +89,10 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     
     func isiPadPro(landscape: Bool) -> Bool {
         if landscape {
-            return UIScreen.main.bounds.size.height > 1000
+            return UIScreen.main.bounds.size.height > 1500
         }
         else {
-            return UIScreen.main.bounds.size.width > 1000
+            return UIScreen.main.bounds.size.width > 1500
         }
     }
     
@@ -116,6 +122,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         pickerStackView.distribution = .fill
         pickerStackView.alignment = .fill
         pickerStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         //self.view.addSubview(pickerStackView) ---------------_> MMMMMMUy importante
     }
     
@@ -163,65 +170,71 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     }
     
     func getSizeConstraints(view: UIView, landscape: Bool) -> [NSLayoutConstraint] {
-        let widthConstant: CGFloat
-        let heightConstant: CGFloat
+        //let widthConstant: CGFloat
+        //let heightConstant: CGFloat
+        
+        let widthLandscapeMultiplier: CGFloat
+        let heightLandscapeMultiplier: CGFloat
+        let widthPortraitMultiplier: CGFloat
+        let heightPortraitMultiplier: CGFloat
         
         if iPhone {
-            widthConstant = 0
-            heightConstant = -400//-625
+            widthLandscapeMultiplier = 1
+            heightLandscapeMultiplier = 0.55
+            widthPortraitMultiplier = 1
+            heightPortraitMultiplier = 0.4
+            
+            /*if landscape {
+                widthConstant = 0
+                heightConstant = -170
+            } else
+            {
+                widthConstant = 0
+                heightConstant = -400
+            }*/
         }
         else {
-            if isiPadPro(landscape: landscape) {
-                /*
-                if landscape {
-                    widthConstant = -825
-                    heightConstant = -720
-                } else
-                {
-                    widthConstant = -500
-                    heightConstant = -1075
-                }
-                */
-                widthConstant = -500
-                heightConstant = -1075
-            }
-            else {
-                /*
-                if landscape {
-                    widthConstant = -485
-                    heightConstant = -470
-                }
-                else {
-                    widthConstant = -230
-                    heightConstant = -750
-                }
-                 */
-                widthConstant = -230
-                heightConstant = -750
-            }
+            /*if landscape {
+                widthConstant = 0
+                heightConstant = -170
+            } else
+            {
+                widthConstant = 0
+                heightConstant = -400//-400
+            }*/
+            widthLandscapeMultiplier = 0.7
+            heightLandscapeMultiplier = 0.32
+            widthPortraitMultiplier = 0.85
+            heightPortraitMultiplier = 0.25
         }
-        let widthLandscape = view.widthAnchor.constraint(equalTo: self.heightAnchor, constant: widthConstant)
-        let heightLandscape = view.heightAnchor.constraint(equalTo: self.widthAnchor, constant: heightConstant)
-        let widthPortrait = view.widthAnchor.constraint(equalTo: self.widthAnchor, constant: widthConstant)
-        let heightPortrait = view.heightAnchor.constraint(equalTo: self.heightAnchor, constant: heightConstant)
+        //let widthLandscape = view.widthAnchor.constraint(equalTo: self.heightAnchor, constant: widthConstant)
+        //let heightLandscape = view.heightAnchor.constraint(equalTo: self.widthAnchor, constant: heightConstant)
+        //let widthPortrait = view.widthAnchor.constraint(equalTo: self.widthAnchor, constant: widthConstant)
+        //let heightPortrait = view.heightAnchor.constraint(equalTo: self.heightAnchor, constant: heightConstant)
+        
+        let widthLandscape = view.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: widthLandscapeMultiplier)
+        let heightLandscape = view.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: heightLandscapeMultiplier)
+        let widthPortrait = view.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: widthPortraitMultiplier)
+        let heightPortrait = view.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: heightPortraitMultiplier)
+        
         return [widthLandscape, heightLandscape, widthPortrait, heightPortrait]
     }
     
     func activateConstraints() {
         if UIDevice.current.orientation.isLandscape {
-            
-            blurEffectViewWidthConstraintLandscape.isActive = true
-            blurEffectViewHeightConstraintLandscape.isActive = true
+            print("landscape")
             blurEffectViewWidthConstraintPortrait.isActive = false
             blurEffectViewHeightConstraintPortrait.isActive = false
+            blurEffectViewWidthConstraintLandscape.isActive = true
+            blurEffectViewHeightConstraintLandscape.isActive = true
             
-            pickerStackViewWidthConstraintLandscape.isActive = true
-            pickerStackViewHeightConstraintLandscape.isActive = true
             pickerStackViewWidthConstraintPortrait.isActive = false
             pickerStackViewHeightConstraintPortrait.isActive = false
+            pickerStackViewWidthConstraintLandscape.isActive = true
+            pickerStackViewHeightConstraintLandscape.isActive = true
         }
         else {
-            
+            print("portrait")
             blurEffectViewWidthConstraintLandscape.isActive = false
             blurEffectViewHeightConstraintLandscape.isActive = false
             blurEffectViewWidthConstraintPortrait.isActive = true
@@ -329,6 +342,10 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         
         blurEffectView.removeFromSuperview()
         pickerStackView.removeFromSuperview()
+    }
+    
+    func isHidden() -> Bool {
+        return self.blurEffectView.alpha == 0 && self.picker.alpha == 0 && self.toolBar.alpha == 0
     }
     
     /*

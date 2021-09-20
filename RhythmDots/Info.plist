@@ -16,6 +16,17 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1076203045656-n789altdp887lpquej49aj2p3fqvsbac</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -37,6 +48,7 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -45,20 +57,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-        <!-- Google Sign-in Section -->
-        <key>CFBundleURLTypes</key>
-        <array>
-        	<dict>
-	        	<key>CFBundleTypeRole</key>
-	        	<string>Editor</string>
-	        	<key>CFBundleURLSchemes</key>
-	        	<array>
-		        	<!-- TODO Replace this value: -->
-		        	<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-		        	<string>com.googleusercontent.apps.1076203045656-n789altdp887lpquej49aj2p3fqvsbac</string>
-	        	</array>
-        	</dict>
-        </array>
-        <!-- End of the Google Sign-in Section -->
 </dict>
 </plist>

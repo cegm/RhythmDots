@@ -105,8 +105,6 @@ class SettingsViewController: UIViewController {
                 //  the closing curly brace of the LoginViewController class
             }
             else {
-                self.changeMyPorgramsButtonStatus(enabled: true)  // Only available if user is authenticated.
-                
                 let user = Auth.auth().currentUser
                 if let user = user {
                     let uid = user.uid
@@ -124,9 +122,9 @@ class SettingsViewController: UIViewController {
                                                          bottomAnchor: self.view.bottomAnchor,
                                                          heightAnchor: self.view.heightAnchor,
                                                          widthAnchor: self.view.widthAnchor)
-                            
                         }
                         self.applyUserSettings()
+                        self.changeMyPorgramsButtonStatus(enabled: true)  // Only available if user is authenticated.
                     }
                 }
             }
@@ -136,6 +134,7 @@ class SettingsViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(handle!)
+        self.dataPicker = nil
         /*do {
           try Auth.auth().signOut()
         } catch let err {
