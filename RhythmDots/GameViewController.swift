@@ -886,9 +886,9 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
     }
     
     func presentAlert(message: String, newEntry: Bool) {
+        /*
         let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .default) { [unowned alert] _ in
-        }
+        let cancel = UIAlertAction(title: "Cancel", style: .default) { [unowned alert] _ in }
         alert.addAction(cancel)
         
         if newEntry {
@@ -912,6 +912,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         }
 
         present(alert, animated: true)
+    */
     }
     
     func register() {

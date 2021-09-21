@@ -57,11 +57,8 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     var userData = UserData()
     var handle: AuthStateDidChangeListenerHandle!
     
-    var buttonClass = ButtonClass()
     var dataPicker: DataPicker!
     var done: UIAlertAction!
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -345,8 +342,7 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     
     func presentAlert(message: String, newEntry: Bool, selectedRowIndex: Int, overwrite: Bool) {
         let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .default) { [unowned alert] _ in
-        }
+        let cancel = UIAlertAction(title: "Cancel", style: .default) // { [unowned alert] _ in }
         alert.addAction(cancel)
         
         if newEntry {
@@ -360,9 +356,7 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
             alert.addAction(self.done)
         }
         else {
-            self.done = UIAlertAction(title: "Done", style: .default) { [unowned alert] _ in
-                // do something interesting with "answer" here
-            }
+            self.done = UIAlertAction(title: "Done", style: .default) //{ [unowned alert] _ in }
             alert.addAction(self.done)
         }
 

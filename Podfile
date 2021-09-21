@@ -6,22 +6,22 @@ target 'RhythmDots' do
   use_frameworks!
 
   # Pods for RhythmDots
-  pod 'Firebase/Core'
+  #pod 'Firebase/Core'
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Email’
   pod 'FirebaseUI/Google'
   pod 'Firebase/Database'
   pod 'Firebase/Firestore'
-  pod 'Firebase/Analytics'
+  #pod 'Firebase/Analytics'
 
-  target 'RhythmDotsTests' do
-    inherit! :search_paths
+  #target 'RhythmDotsTests' do
+    #inherit! :search_paths
     # Pods for testing
-  end
+  #end
 
-  target 'RhythmDotsUITests' do
-    inherit! :search_paths
+  #target 'RhythmDotsUITests' do
+    #inherit! :search_paths
     # Pods for testing
-  end
+  #end
 
 end

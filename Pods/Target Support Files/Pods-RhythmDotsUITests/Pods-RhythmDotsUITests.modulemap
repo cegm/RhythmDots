@@ -1,6 +1,0 @@
-framework module Pods_RhythmDotsUITests {
-  umbrella header "Pods-RhythmDotsUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

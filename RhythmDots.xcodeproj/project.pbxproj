@@ -10,10 +10,7 @@
 		9C494CD52358ED5A00D230CF /* click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C494CD42358ED5A00D230CF /* click.mp3 */; };
 		9C62714C26CE860E0024BD62 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C62714926CE85FE0024BD62 /* UserData.swift */; };
 		9C6767C926DC130300562895 /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6767C726DC130000562895 /* DataPicker.swift */; };
-		9C7543D726DABF5E0082BD71 /* ButtonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7543D526DABF550082BD71 /* ButtonClass.swift */; };
 		9C989AFF23E3A13000AD3AFC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C989AFE23E3A13000AD3AFC /* GoogleService-Info.plist */; };
-		9C9C235626CE15B300DD906D /* ProtoDataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9C235426CE0B3900DD906D /* ProtoDataPicker.swift */; };
-		A58EC27EBE936F7DF3EBEADD /* Pods_RhythmDotsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E6E0BE5F6BEC132DD4D5EA /* Pods_RhythmDotsUITests.framework */; };
 		A72DA3DB20F3C22A006901D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72DA3DA20F3C22A006901D8 /* AppDelegate.swift */; };
 		A72DA3DD20F3C22A006901D8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72DA3DC20F3C22A006901D8 /* ViewController.swift */; };
 		A72DA3E020F3C22A006901D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A72DA3DE20F3C22A006901D8 /* Main.storyboard */; };
@@ -24,7 +21,6 @@
 		A75CC5612C8B63F2474A42FF /* Pods_RhythmDots.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEDAB41920AE66F264F48056 /* Pods_RhythmDots.framework */; };
 		A776E32F20F3EE59003A1358 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A776E32E20F3EE59003A1358 /* SettingsViewController.swift */; };
 		A7B35C5220F4195C002DDD24 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B35C5120F4195C002DDD24 /* GameViewController.swift */; };
-		EE19F93325B5265AFE4149BF /* Pods_RhythmDotsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E22402259FC6C29500C05A8 /* Pods_RhythmDotsTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,19 +41,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2AB9F26B968422969A5CD697 /* Pods-RhythmDotsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDotsTests.release.xcconfig"; path = "Target Support Files/Pods-RhythmDotsTests/Pods-RhythmDotsTests.release.xcconfig"; sourceTree = "<group>"; };
-		2E22402259FC6C29500C05A8 /* Pods_RhythmDotsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RhythmDotsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		37C38BD6348F44FB9A82A0C0 /* Pods-RhythmDotsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDotsTests.debug.xcconfig"; path = "Target Support Files/Pods-RhythmDotsTests/Pods-RhythmDotsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		50320B59B6C074230E9193F2 /* Pods-RhythmDotsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDotsUITests.release.xcconfig"; path = "Target Support Files/Pods-RhythmDotsUITests/Pods-RhythmDotsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5CA3DFBB3D8B160D80A33316 /* Pods-RhythmDots.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDots.debug.xcconfig"; path = "Target Support Files/Pods-RhythmDots/Pods-RhythmDots.debug.xcconfig"; sourceTree = "<group>"; };
-		83E6E0BE5F6BEC132DD4D5EA /* Pods_RhythmDotsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RhythmDotsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97DBC97FD2CC610E3DB280C3 /* Pods-RhythmDots.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDots.release.xcconfig"; path = "Target Support Files/Pods-RhythmDots/Pods-RhythmDots.release.xcconfig"; sourceTree = "<group>"; };
 		9C494CD42358ED5A00D230CF /* click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = click.mp3; sourceTree = "<group>"; };
 		9C62714926CE85FE0024BD62 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		9C6767C726DC130000562895 /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
-		9C7543D526DABF550082BD71 /* ButtonClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonClass.swift; sourceTree = "<group>"; };
 		9C989AFE23E3A13000AD3AFC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		9C9C235426CE0B3900DD906D /* ProtoDataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtoDataPicker.swift; sourceTree = "<group>"; };
 		A72DA3D720F3C22A006901D8 /* RhythmDots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RhythmDots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A72DA3DA20F3C22A006901D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A72DA3DC20F3C22A006901D8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -73,7 +62,6 @@
 		A72DA3FC20F3C22A006901D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A776E32E20F3EE59003A1358 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		A7B35C5120F4195C002DDD24 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		BFABC0EB58ABCF0ADF379302 /* Pods-RhythmDotsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDotsUITests.debug.xcconfig"; path = "Target Support Files/Pods-RhythmDotsUITests/Pods-RhythmDotsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		EEDAB41920AE66F264F48056 /* Pods_RhythmDots.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RhythmDots.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -90,7 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE19F93325B5265AFE4149BF /* Pods_RhythmDotsTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +85,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A58EC27EBE936F7DF3EBEADD /* Pods_RhythmDotsUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,8 +95,6 @@
 			isa = PBXGroup;
 			children = (
 				EEDAB41920AE66F264F48056 /* Pods_RhythmDots.framework */,
-				2E22402259FC6C29500C05A8 /* Pods_RhythmDotsTests.framework */,
-				83E6E0BE5F6BEC132DD4D5EA /* Pods_RhythmDotsUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -149,9 +133,7 @@
 				A72DA3E320F3C22A006901D8 /* LaunchScreen.storyboard */,
 				A72DA3E620F3C22A006901D8 /* Info.plist */,
 				A776E32E20F3EE59003A1358 /* SettingsViewController.swift */,
-				9C7543D526DABF550082BD71 /* ButtonClass.swift */,
 				9C989AFE23E3A13000AD3AFC /* GoogleService-Info.plist */,
-				9C9C235426CE0B3900DD906D /* ProtoDataPicker.swift */,
 				9C6767C726DC130000562895 /* DataPicker.swift */,
 				9C62714926CE85FE0024BD62 /* UserData.swift */,
 			);
@@ -181,10 +163,6 @@
 			children = (
 				5CA3DFBB3D8B160D80A33316 /* Pods-RhythmDots.debug.xcconfig */,
 				97DBC97FD2CC610E3DB280C3 /* Pods-RhythmDots.release.xcconfig */,
-				37C38BD6348F44FB9A82A0C0 /* Pods-RhythmDotsTests.debug.xcconfig */,
-				2AB9F26B968422969A5CD697 /* Pods-RhythmDotsTests.release.xcconfig */,
-				BFABC0EB58ABCF0ADF379302 /* Pods-RhythmDotsUITests.debug.xcconfig */,
-				50320B59B6C074230E9193F2 /* Pods-RhythmDotsUITests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -216,7 +194,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A72DA40220F3C22A006901D8 /* Build configuration list for PBXNativeTarget "RhythmDotsTests" */;
 			buildPhases = (
-				16DF2263856604319A50034A /* [CP] Check Pods Manifest.lock */,
 				A72DA3E720F3C22A006901D8 /* Sources */,
 				A72DA3E820F3C22A006901D8 /* Frameworks */,
 				A72DA3E920F3C22A006901D8 /* Resources */,
@@ -235,7 +212,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A72DA40520F3C22A006901D8 /* Build configuration list for PBXNativeTarget "RhythmDotsUITests" */;
 			buildPhases = (
-				386E0DF9A791527E74CFDF04 /* [CP] Check Pods Manifest.lock */,
 				A72DA3F220F3C22A006901D8 /* Sources */,
 				A72DA3F320F3C22A006901D8 /* Frameworks */,
 				A72DA3F420F3C22A006901D8 /* Resources */,
@@ -329,28 +305,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		16DF2263856604319A50034A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RhythmDotsTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		35E4D38B62B3A09C5F755F8D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -375,28 +329,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RhythmDots/Pods-RhythmDots-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		386E0DF9A791527E74CFDF04 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RhythmDotsUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		476D8BBA877C5CB8672BEAB9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -404,11 +336,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-RhythmDots/Pods-RhythmDots-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/abseil/absl.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -416,11 +350,13 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMAppAuth.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/absl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -465,8 +401,6 @@
 				A72DA3DD20F3C22A006901D8 /* ViewController.swift in Sources */,
 				9C6767C926DC130300562895 /* DataPicker.swift in Sources */,
 				A72DA3DB20F3C22A006901D8 /* AppDelegate.swift in Sources */,
-				9C7543D726DABF5E0082BD71 /* ButtonClass.swift in Sources */,
-				9C9C235626CE15B300DD906D /* ProtoDataPicker.swift in Sources */,
 				A776E32F20F3EE59003A1358 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,7 +603,6 @@
 		};
 		A72DA40320F3C22A006901D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 37C38BD6348F44FB9A82A0C0 /* Pods-RhythmDotsTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -686,7 +619,6 @@
 		};
 		A72DA40420F3C22A006901D8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2AB9F26B968422969A5CD697 /* Pods-RhythmDotsTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -703,7 +635,6 @@
 		};
 		A72DA40620F3C22A006901D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFABC0EB58ABCF0ADF379302 /* Pods-RhythmDotsUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -719,7 +650,6 @@
 		};
 		A72DA40720F3C22A006901D8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 50320B59B6C074230E9193F2 /* Pods-RhythmDotsUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
