@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C3FB6B526FE68430033B76F /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3FB6B426FE68430033B76F /* InfoViewController.swift */; };
 		9C494CD52358ED5A00D230CF /* click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9C494CD42358ED5A00D230CF /* click.mp3 */; };
 		9C62714C26CE860E0024BD62 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C62714926CE85FE0024BD62 /* UserData.swift */; };
 		9C6767C926DC130300562895 /* DataPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6767C726DC130000562895 /* DataPicker.swift */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		5CA3DFBB3D8B160D80A33316 /* Pods-RhythmDots.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDots.debug.xcconfig"; path = "Target Support Files/Pods-RhythmDots/Pods-RhythmDots.debug.xcconfig"; sourceTree = "<group>"; };
 		97DBC97FD2CC610E3DB280C3 /* Pods-RhythmDots.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RhythmDots.release.xcconfig"; path = "Target Support Files/Pods-RhythmDots/Pods-RhythmDots.release.xcconfig"; sourceTree = "<group>"; };
+		9C3FB6B426FE68430033B76F /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		9C494CD42358ED5A00D230CF /* click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = click.mp3; sourceTree = "<group>"; };
 		9C62714926CE85FE0024BD62 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		9C6767C726DC130000562895 /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				9C989AFE23E3A13000AD3AFC /* GoogleService-Info.plist */,
 				9C6767C726DC130000562895 /* DataPicker.swift */,
 				9C62714926CE85FE0024BD62 /* UserData.swift */,
+				9C3FB6B426FE68430033B76F /* InfoViewController.swift */,
 			);
 			path = RhythmDots;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				9C62714C26CE860E0024BD62 /* UserData.swift in Sources */,
 				A7B35C5220F4195C002DDD24 /* GameViewController.swift in Sources */,
 				A72DA3DD20F3C22A006901D8 /* ViewController.swift in Sources */,
+				9C3FB6B526FE68430033B76F /* InfoViewController.swift in Sources */,
 				9C6767C926DC130300562895 /* DataPicker.swift in Sources */,
 				A72DA3DB20F3C22A006901D8 /* AppDelegate.swift in Sources */,
 				A776E32F20F3EE59003A1358 /* SettingsViewController.swift in Sources */,

@@ -16,7 +16,6 @@ class UserData {
     
     init(uid: String, completion: @escaping (UserData?, Error?) -> Void) {
         self.uid = uid
-        
         self.setUserPrograms() { (userPrograms, error) in
             if let error = error {
                 print("Error loading user data: \(error)")
@@ -27,18 +26,45 @@ class UserData {
                 self.userPrograms = userPrograms
                 completion(self, error)
             }
-            
         }
     }
     
     init() {
         self.userPrograms = [self.getDefaultProgramDictionary()]
     }
-
+    
+    func createUserData() {
+        if self.uid != "-" {
+            let ref = Firestore.firestore().collection("usersPrograms").document(uid)
+            ref.setData(["program0": "null"]) { err in
+                if let err = err {
+                    print("Error creating user data: \(err)")
+                }
+                else {
+                    print("User added with ID: \(self.uid)")
+                }
+            }
+        }
+    }
+    
     
     func setUserPrograms(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
+        
         var userPrograms: [[String: Any]] = [self.getDefaultProgramDictionary()]
-
+        
+        if self.uid != "-" {
+            let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
+            ref.getDocument { (document, error) in
+                if let error = error {
+                    completion(userPrograms, error)
+                }
+                if let document = document, !document.exists {
+                    self.createUserData()
+                }
+            }
+        }
+        
+        
         if self.uid != "-" {
             let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
             ref.getDocument { (document, error) in
@@ -114,6 +140,8 @@ class UserData {
         }
         return programsDataArray
     }
+    
+    
     
     func addUserProgram(programDictionary: [String : Any]) {
         let numUserPrograms = userPrograms.count

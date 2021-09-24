@@ -112,12 +112,6 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         Auth.auth().removeStateDidChangeListener(handle!)
-        //self.dataPicker = nil
-        /*do {
-          try Auth.auth().signOut()
-        } catch let err {
-          print(err)
-        }*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -297,21 +291,12 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     }
     
     @IBAction func displayMyPrograms(_ sender: UIButton) {
-        //print(self.userData.userPrograms)
-        //print(self.userData.getProgramsDataArray())
-        
+        self.view.addSubview(dataPicker.shadowView)
         self.view.addSubview(dataPicker.blurEffectView)
         self.view.addSubview(dataPicker.pickerStackView)
         self.dataPicker.constraints()
         self.dataPicker.showPicker(animation: true)
-        //print()
-        //self.view.addSubview(buttonClass.button)
-        
-        
     }
-    
-    
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -336,7 +321,19 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
             self.applyUserSettings()
         }
         else {
-            presentAlert(message: "New entry", newEntry: true, selectedRowIndex: selectedRowIndex, overwrite: overwrite)
+            let message: String!
+            let newEntry: Bool!
+            if overwrite {
+                message = "Are you sure you want to overwrite the selected program?"
+                newEntry = false
+            }
+            else {
+                message = "Name your new program"
+                newEntry = true
+            }
+            
+            presentAlert(message: message, newEntry: newEntry, selectedRowIndex: selectedRowIndex, overwrite: overwrite)
+            
         }
     }
     
@@ -356,7 +353,11 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
             alert.addAction(self.done)
         }
         else {
-            self.done = UIAlertAction(title: "Done", style: .default) //{ [unowned alert] _ in }
+            self.done = UIAlertAction(title: "Overwrite", style: .default) { _ in
+                let message = "Name your new program"
+                let newEntry = true
+                self.presentAlert(message: message, newEntry: newEntry, selectedRowIndex: selectedRowIndex, overwrite: overwrite)
+            }
             alert.addAction(self.done)
         }
 
@@ -372,7 +373,6 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
                                                                    tempo: self.tempo,
                                                                    selectedColor1: self.selectedColor1,
                                                                    selectedColor2: self.selectedColor2)
-        print(programDictionary)
         if overwrite {
             self.userData.updateUserProgram(numUserProgram: selectedRowIndex, programDictionary: programDictionary)
         }

@@ -68,13 +68,13 @@
                                         <rect key="frame" x="0.0" y="467.5" width="375" height="155.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o1T-uf-tpK">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="14.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFF-CZ-VAD">
-                                                <rect key="frame" x="0.0" y="20.5" width="375" height="135"/>
+                                                <rect key="frame" x="0.0" y="14.5" width="375" height="141"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <attributedString key="attributedText">
                                                     <fragment>
@@ -208,7 +208,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XD5-4d-EIu" userLabel="Tempo Stack View">
                                         <rect key="frame" x="0.0" y="249" width="375" height="62.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beats per minute" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MrY-im-bqQ" userLabel="Tempo">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tempo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MrY-im-bqQ" userLabel="Tempo">
                                                 <rect key="frame" x="0.0" y="21" width="125" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -388,6 +388,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TRC-rj-DUZ"/>
                     </view>
+                    <navigationItem key="navigationItem" id="srU-LK-ua7"/>
                     <connections>
                         <outlet property="bpmLabel" destination="MrY-im-bqQ" id="kth-4f-n4e"/>
                         <outlet property="button10" destination="Aco-3k-9nX" id="BMP-Us-KNB"/>
@@ -475,6 +476,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MNC-XW-5Qz"/>
                     </view>
+                    <navigationItem key="navigationItem" id="eJu-fE-Q1K"/>
                     <connections>
                         <outlet property="gridStackView" destination="CwZ-TR-hsL" id="Wj1-Ns-iSu"/>
                         <outlet property="label" destination="nIW-U8-kuN" id="xKp-5J-BgL"/>
@@ -631,67 +633,86 @@ Cg
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tVj-eQ-BHC"/>
                     </view>
+                    <navigationItem key="navigationItem" id="YkC-3c-0mI"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XmA-3J-bzb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1764" y="824"/>
         </scene>
-        <!--View Controller-->
+        <!--Info View Controller-->
         <scene sceneID="IKt-yQ-uih">
             <objects>
-                <viewController id="5Xw-eN-jrx" sceneMemberID="viewController">
+                <viewController id="5Xw-eN-jrx" customClass="InfoViewController" customModule="RhythmDots" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5id-GT-Mhv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xH4-x8-5b4">
-                                <rect key="frame" x="10" y="73.5" width="347" height="561.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <attributedString key="attributedText">
-                                    <fragment>
-                                        <mutableString key="content">Description:
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3oI-Va-7g3">
+                                <rect key="frame" x="20" y="64" width="335" height="583"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xH4-x8-5b4">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="553"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <attributedString key="attributedText">
+                                            <fragment>
+                                                <string key="content">Description:
 This app is a game in which people can train the movement of the eyes needed to read. It consists of a grid of dots of two colors and blank spaces. To play you simply have to look at each cell of the grid (from the left to the right and from the top to the bottom of the screen) and read aloud the name of the color of the dot if the cell is a dot or remain silent if the cell is a blank space. It is your choice to activate the metronome!
 
 Goal: 
 Develop skills related to attentional nets (Posner, 1991) and some motor skills of the eyes such as fixation and saccade in order to train the abilities needed to start reading.
 
 Instructions: 
-</mutableString>
-                                        <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" lineSpacing="1" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">	1.	Set the iOS device in front of the player. The distance between the layer ant the device should be approximately the resulting distance of placing the elbow next to the screen of the device and the fist next the cheek of the player. (This is known as Harmon distance).
+</string>
+                                                <attributes>
+                                                    <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" lineSpacing="1" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                        <tabStops/>
+                                                    </paragraphStyle>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment>
+                                                <string key="content">	1.	Set the iOS device in front of the player. The distance between the layer ant the device should be approximately the resulting distance of placing the elbow next to the screen of the device and the fist next the cheek of the player. (This is known as Harmon distance).
 	2.	It is recommended that the device is on a stand with an angle of ten degrees.
 	3.	Manage the settings of the game based on the needs of the player
 	4.	Play!
 </string>
-                                        <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                                <attributes>
+                                                    <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                        <tabStops/>
+                                                    </paragraphStyle>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foL-uy-qGg">
+                                        <rect key="frame" x="0.0" y="553" width="335" height="30"/>
+                                        <state key="normal" title="Logout">
+                                            <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="logout:" destination="5Xw-eN-jrx" eventType="touchUpInside" id="cAK-iB-72b"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="xH4-x8-5b4" firstAttribute="leading" secondItem="zHN-7S-ZtS" secondAttribute="leading" multiplier="1.05" constant="10" id="3tz-AI-zYa"/>
-                            <constraint firstItem="zHN-7S-ZtS" firstAttribute="trailing" secondItem="xH4-x8-5b4" secondAttribute="trailing" multiplier="1.05" id="Dot-Os-jZn"/>
-                            <constraint firstItem="zHN-7S-ZtS" firstAttribute="top" secondItem="xH4-x8-5b4" secondAttribute="top" multiplier="0.6" id="YNF-Zr-nZB"/>
-                            <constraint firstItem="zHN-7S-ZtS" firstAttribute="bottom" secondItem="xH4-x8-5b4" secondAttribute="bottom" multiplier="1.05" id="dvE-Zk-dlu"/>
+                            <constraint firstItem="3oI-Va-7g3" firstAttribute="leading" secondItem="zHN-7S-ZtS" secondAttribute="leading" constant="20" id="9fM-SK-4NF"/>
+                            <constraint firstItem="zHN-7S-ZtS" firstAttribute="bottom" secondItem="3oI-Va-7g3" secondAttribute="bottom" constant="20" id="LEH-1e-MIm"/>
+                            <constraint firstItem="zHN-7S-ZtS" firstAttribute="trailing" secondItem="3oI-Va-7g3" secondAttribute="trailing" constant="20" id="Wx9-Pf-beX"/>
+                            <constraint firstItem="3oI-Va-7g3" firstAttribute="top" secondItem="zHN-7S-ZtS" secondAttribute="top" constant="20" id="e4o-VX-Ygi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zHN-7S-ZtS"/>
                     </view>
+                    <navigationItem key="navigationItem" id="vcm-i1-IkF"/>
+                    <connections>
+                        <outlet property="logoutButton" destination="foL-uy-qGg" id="X4M-Ek-NeZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gir-4j-peK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -717,7 +738,7 @@ Instructions:
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="NbT-wN-yJo"/>
+        <segue reference="WYa-d8-ZF2"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="black" width="300" height="300"/>
