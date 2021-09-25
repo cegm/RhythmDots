@@ -33,15 +33,17 @@ class UserData {
         self.userPrograms = [self.getDefaultProgramDictionary()]
     }
     
-    func createUserData() {
+    func createUserData(completion: @escaping (Error?) -> Void) {
         if self.uid != "-" {
             let ref = Firestore.firestore().collection("usersPrograms").document(uid)
-            ref.setData(["program0": "null"]) { err in
-                if let err = err {
-                    print("Error creating user data: \(err)")
+            ref.setData(["program0": "null"]) { error in
+                if let error = error {
+                    print("Error creating user data: \(error)")
+                    completion(error)
                 }
                 else {
                     print("User added with ID: \(self.uid)")
+                    completion(nil)
                 }
             }
         }
@@ -59,12 +61,32 @@ class UserData {
                     completion(userPrograms, error)
                 }
                 if let document = document, !document.exists {
-                    self.createUserData()
+                    self.createUserData() { (addingUserError) in
+                        print("estoy en el compleshion")
+                        self.setUserPrograms() { (userPrograms, error) in
+                            print("segundo intento")
+                            if let error = error {
+                                print("Error loading user data: \(error)")
+                                completion(nil, error)
+                                return
+                            }
+                            if let userPrograms = userPrograms {
+                                self.userPrograms = userPrograms
+                                completion(nil, error)
+                            }
+                        }
+                        if let addingUserError = addingUserError {
+                            print("Error adding user data: \(addingUserError)")
+                            completion(userPrograms, addingUserError)
+                            return
+                        }
+                    }
+                    return
                 }
             }
         }
         
-        
+        print("primer intento")
         if self.uid != "-" {
             let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
             ref.getDocument { (document, error) in
