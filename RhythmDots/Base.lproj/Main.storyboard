@@ -35,21 +35,12 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="78"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-xY-9OF">
-                                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="78"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="78"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                         <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <state key="normal" title="Master"/>
+                                                        <state key="normal" title="Play!"/>
                                                         <connections>
                                                             <segue destination="Q4n-SJ-qQA" kind="show" id="h1r-Nt-B61"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vkR-Gz-A24">
-                                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="78"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                                        <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <state key="normal" title="Slave"/>
-                                                        <connections>
-                                                            <segue destination="LJp-3W-UfG" kind="show" id="WYa-d8-ZF2"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -738,9 +729,6 @@ Instructions:
             <point key="canvasLocation" x="24.800000000000001" y="13.943028485757123"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="WYa-d8-ZF2"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="black" width="300" height="300"/>
         <image name="blueOff" width="300" height="300"/>

@@ -19,16 +19,6 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if segue.destination is GameViewController
-        {
-            let vc = segue.destination as? GameViewController
-            vc?.master = false
-        }
-    }
-
 
 }
 

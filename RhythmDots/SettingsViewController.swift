@@ -310,7 +310,6 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
             vc?.tempo = Double(tempoLabel.text!)!
             vc?.color1 = selectedColor1
             vc?.color2 = selectedColor2
-            vc?.master = true
         }
         
     }
