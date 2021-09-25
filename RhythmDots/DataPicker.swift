@@ -17,7 +17,8 @@ protocol DataPickerDelegate: NSObject {
 class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     // Variables necesarias para el picker
-    var done: UIAlertAction!
+    var numUserPrograms: Int!
+    let maxNumUserPrograms = 5
     
     var iPhone: Bool!
     var landscape: Bool!
@@ -55,10 +56,10 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     init(dataArray: [String], centerXAnchor: NSLayoutXAxisAnchor, centerYAnchor: NSLayoutYAxisAnchor, bottomAnchor: NSLayoutYAxisAnchor, heightAnchor: NSLayoutDimension, widthAnchor: NSLayoutDimension) {
         super.init()  // call this so that you can use self below
         self.dataArray = dataArray
-        if self.dataArray.count < 5 {
+        self.numUserPrograms = self.dataArray.count
+        if self.numUserPrograms < self.maxNumUserPrograms {
             self.dataArray.append("Save current settings...")
         }
-        
         self.landscape = UIApplication.shared.statusBarOrientation.isLandscape
         self.iPhone = UIDevice.current.userInterfaceIdiom == .phone
         self.centerXAnchor = centerXAnchor
@@ -269,8 +270,14 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
            doneButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
         let leftSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let middleButton = UIBarButtonItem(title: "Overwrite", style: .plain, target: self, action: #selector(overwriteClick))
-        middleButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        let middleButton: UIBarButtonItem!
+        if self.numUserPrograms < self.maxNumUserPrograms {
+            middleButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        }
+        else {
+            middleButton = UIBarButtonItem(title: "Overwrite", style: .plain, target: self, action: #selector(overwriteClick))
+            middleButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        }
         let rightSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
         cancelButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)

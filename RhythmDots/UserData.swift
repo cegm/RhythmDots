@@ -16,21 +16,67 @@ class UserData {
     
     init(uid: String, completion: @escaping (UserData?, Error?) -> Void) {
         self.uid = uid
-        self.setUserPrograms() { (userPrograms, error) in
-            if let error = error {
-                print("Error loading user data: \(error)")
-                completion(nil, error)
-                return
+        self.userExists() {(exists, error) in
+            if exists ?? false {
+                if let error = error {
+                    print("Error checking if user exists: \(error)")
+                    completion(self, error)
+                    return
+                }
+                self.setUserPrograms() { (userPrograms, readingUserProgramsError) in
+                    if let readingUserProgramsError = readingUserProgramsError {
+                        print("Error loading user data: \(readingUserProgramsError)")
+                        completion(self, readingUserProgramsError)
+                        return
+                    }
+                    if let userPrograms = userPrograms {
+                        self.userPrograms = userPrograms
+                        completion(self, nil)
+                    }
+                }
             }
-            if let userPrograms = userPrograms {
-                self.userPrograms = userPrograms
-                completion(self, error)
+            else {
+                self.createUserData() { (addingUserError) in
+                    if let addingUserError = addingUserError {
+                        print("Error creating user data: \(addingUserError)")
+                        completion(self, addingUserError)
+                        //return
+                    }
+                    self.setUserPrograms() { (userPrograms, readingUserProgramsError) in
+                        if let readingUserProgramsError = readingUserProgramsError {
+                            print("Error loading user data: \(readingUserProgramsError)")
+                            completion(self, readingUserProgramsError)
+                            return
+                        }
+                        if let userPrograms = userPrograms {
+                            self.userPrograms = userPrograms
+                            completion(self, nil)
+                        }
+                    }
+                }
             }
         }
     }
     
     init() {
         self.userPrograms = [self.getDefaultProgramDictionary()]
+    }
+    
+    func userExists(completion: @escaping (Bool?, Error?) -> Void) {
+        if self.uid != "-" {
+            let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
+            ref.getDocument { (document, error) in
+                if let error = error {
+                    completion(false, error)
+                }
+                if let document = document, !document.exists {
+                    completion(false, nil)
+                }
+                else {
+                    completion(true, nil)
+                }
+            }
+        }
     }
     
     func createUserData(completion: @escaping (Error?) -> Void) {
@@ -50,43 +96,10 @@ class UserData {
     }
     
     
+    
     func setUserPrograms(completion: @escaping ([[String: Any]]?, Error?) -> Void) {
         
         var userPrograms: [[String: Any]] = [self.getDefaultProgramDictionary()]
-        
-        if self.uid != "-" {
-            let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
-            ref.getDocument { (document, error) in
-                if let error = error {
-                    completion(userPrograms, error)
-                }
-                if let document = document, !document.exists {
-                    self.createUserData() { (addingUserError) in
-                        print("estoy en el compleshion")
-                        self.setUserPrograms() { (userPrograms, error) in
-                            print("segundo intento")
-                            if let error = error {
-                                print("Error loading user data: \(error)")
-                                completion(nil, error)
-                                return
-                            }
-                            if let userPrograms = userPrograms {
-                                self.userPrograms = userPrograms
-                                completion(nil, error)
-                            }
-                        }
-                        if let addingUserError = addingUserError {
-                            print("Error adding user data: \(addingUserError)")
-                            completion(userPrograms, addingUserError)
-                            return
-                        }
-                    }
-                    return
-                }
-            }
-        }
-        
-        print("primer intento")
         if self.uid != "-" {
             let ref = Firestore.firestore().collection("usersPrograms").document(self.uid)
             ref.getDocument { (document, error) in

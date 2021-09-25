@@ -2,7 +2,7 @@
 //  GameViewController.swift
 //  RhythmDots
 //
-//  Created by Jorge Rotter on 7/10/18.
+//  Created by Eduardo Gil on 7/10/18.
 //  Copyright © 2018 Eduardo Gil. All rights reserved.
 //
 

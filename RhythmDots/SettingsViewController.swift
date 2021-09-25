@@ -76,8 +76,6 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
         changeMyPorgramsButtonStatus(enabled: false) // Only available if user is authenticated.
         
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            print(user!)
-            
             if user == nil {
                 // Load FirebaseUI to handle authentication.
                 // 1. Access the FUIAuth default auth UI singleton.
@@ -106,9 +104,7 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
                 //  the closing curly brace of the LoginViewController class
             }
             else {
-                print("Usuariooooo")
                 self.initializeUserData(programNumber: 0)
-                print("fin")
             }
         }
         //applyUserSettings()
@@ -124,13 +120,10 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     }
     
     func initializeUserData(programNumber: Int) {
-        print("inicio")
         let user = Auth.auth().currentUser
         if let user = user {
             let uid = user.uid
-            print(uid)
             self.userData = UserData(uid: uid) { (userData, error) in
-                print("mitad")
                 if let error = error {
                     print("SettingsViewController.swift: Error loading user data: \(error)")
                 }
