@@ -367,6 +367,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXJ-CJ-rwV">
                                                 <rect key="frame" x="250" y="0.0" width="125" height="62.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                 <state key="normal" title="Start">
                                                     <color key="titleColor" red="0.018254790455102921" green="0.477000892162323" blue="0.98541337251663208" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
@@ -496,16 +497,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p9S-v4-ZCK">
-                                <rect key="frame" x="0.0" y="73.5" width="357" height="561.5"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9S-v4-ZCK">
+                                <rect key="frame" x="34" y="66" width="307" height="579"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText">
                                     <fragment>
-                                        <string key="content">	•	</string>
+                                        <string key="content">•	</string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="10" name="Menlo-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
@@ -514,9 +515,9 @@
                                         <string key="content">Columns: Vertical arrangement of the grid. It ranges from 5 to 25. The higher the number of columns, the smaller the size of the cells and the harder the game.
 </string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
@@ -526,19 +527,19 @@
 Cg
 </string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" lineSpacing="1" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" lineSpacing="1" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
                                     </fragment>
                                     <fragment>
-                                        <string key="content">	•	</string>
+                                        <string key="content">•	</string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="10" name="Menlo-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
@@ -547,9 +548,9 @@ Cg
                                         <string key="content">Rows: Horizontal arrangement of the grid. It ranges from 5 to 25. The higher the number of rows, the smaller the size of the cells and the harder the game.
 </string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
@@ -559,19 +560,19 @@ Cg
 Cg
 </string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" lineSpacing="1" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" lineSpacing="1" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
                                     </fragment>
                                     <fragment>
-                                        <string key="content">	•	</string>
+                                        <string key="content">•	</string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="10" name="Menlo-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
@@ -580,9 +581,9 @@ Cg
                                         <string key="content">Density: Determines how likely is a cell to contain a color dot. The higher the density number, the fuller the grid.
 </string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
@@ -592,19 +593,19 @@ Cg
 Cg
 </string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" lineSpacing="1" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" lineSpacing="1" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
                                     </fragment>
                                     <fragment>
-                                        <string key="content">	•	</string>
+                                        <string key="content">•	</string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="10" name="Menlo-Regular"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
@@ -613,9 +614,9 @@ Cg
                                         <string key="content">Metronome: If you activate the metronome, you can set it between 10 and 250 beats per minute. It is recommended to play the game first without the metronome.
 </string>
                                         <attributes>
-                                            <color key="NSColor" red="0.27059" green="0.27059" blue="0.27059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="55" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" headIndent="29" defaultTabInterval="28" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
                                                 <tabStops/>
                                             </paragraphStyle>
                                         </attributes>
@@ -626,10 +627,10 @@ Cg
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="tVj-eQ-BHC" firstAttribute="bottom" secondItem="p9S-v4-ZCK" secondAttribute="bottom" multiplier="1.05" id="9fo-ep-dLg"/>
-                            <constraint firstItem="tVj-eQ-BHC" firstAttribute="top" secondItem="p9S-v4-ZCK" secondAttribute="top" multiplier="0.6" id="AhE-03-LTz"/>
-                            <constraint firstItem="tVj-eQ-BHC" firstAttribute="trailing" secondItem="p9S-v4-ZCK" secondAttribute="trailing" multiplier="1.05" id="ccT-67-9oQ"/>
-                            <constraint firstItem="p9S-v4-ZCK" firstAttribute="leading" secondItem="tVj-eQ-BHC" secondAttribute="leading" multiplier="1.05" id="lv3-eV-cge"/>
+                            <constraint firstItem="p9S-v4-ZCK" firstAttribute="centerY" secondItem="tVj-eQ-BHC" secondAttribute="centerY" id="IUg-g4-gwV"/>
+                            <constraint firstItem="p9S-v4-ZCK" firstAttribute="centerX" secondItem="tVj-eQ-BHC" secondAttribute="centerX" id="XbS-N7-AAB"/>
+                            <constraint firstItem="p9S-v4-ZCK" firstAttribute="top" secondItem="tVj-eQ-BHC" secondAttribute="top" multiplier="1.5" id="c0s-rj-nFb"/>
+                            <constraint firstItem="tVj-eQ-BHC" firstAttribute="trailing" secondItem="p9S-v4-ZCK" secondAttribute="trailing" multiplier="1.1" id="gpN-ZK-7Gb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tVj-eQ-BHC"/>
                     </view>
@@ -648,10 +649,10 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3oI-Va-7g3">
-                                <rect key="frame" x="20" y="64" width="335" height="583"/>
+                                <rect key="frame" x="34" y="66" width="307" height="579"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xH4-x8-5b4">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="553"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="307" height="549"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <attributedString key="attributedText">
                                             <fragment>
@@ -689,7 +690,7 @@ Instructions:
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="foL-uy-qGg">
-                                        <rect key="frame" x="0.0" y="553" width="335" height="30"/>
+                                        <rect key="frame" x="0.0" y="549" width="307" height="30"/>
                                         <state key="normal" title="Logout">
                                             <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -702,10 +703,10 @@ Instructions:
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="3oI-Va-7g3" firstAttribute="leading" secondItem="zHN-7S-ZtS" secondAttribute="leading" constant="20" id="9fM-SK-4NF"/>
-                            <constraint firstItem="zHN-7S-ZtS" firstAttribute="bottom" secondItem="3oI-Va-7g3" secondAttribute="bottom" constant="20" id="LEH-1e-MIm"/>
-                            <constraint firstItem="zHN-7S-ZtS" firstAttribute="trailing" secondItem="3oI-Va-7g3" secondAttribute="trailing" constant="20" id="Wx9-Pf-beX"/>
-                            <constraint firstItem="3oI-Va-7g3" firstAttribute="top" secondItem="zHN-7S-ZtS" secondAttribute="top" constant="20" id="e4o-VX-Ygi"/>
+                            <constraint firstItem="3oI-Va-7g3" firstAttribute="centerX" secondItem="zHN-7S-ZtS" secondAttribute="centerX" id="2sc-ZS-6Sm"/>
+                            <constraint firstItem="3oI-Va-7g3" firstAttribute="centerY" secondItem="zHN-7S-ZtS" secondAttribute="centerY" id="AD2-eS-AbM"/>
+                            <constraint firstItem="zHN-7S-ZtS" firstAttribute="trailing" secondItem="3oI-Va-7g3" secondAttribute="trailing" multiplier="1.1" id="fVi-pL-iTl"/>
+                            <constraint firstItem="3oI-Va-7g3" firstAttribute="top" secondItem="zHN-7S-ZtS" secondAttribute="top" multiplier="1.5" id="r7Q-Uj-M2O"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zHN-7S-ZtS"/>
                     </view>
@@ -738,7 +739,7 @@ Instructions:
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="WYa-d8-ZF2"/>
+        <segue reference="NbT-wN-yJo"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="black" width="300" height="300"/>

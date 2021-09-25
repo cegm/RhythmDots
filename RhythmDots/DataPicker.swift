@@ -89,15 +89,6 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
            //activateConstraints()
     }
     
-    func isiPadPro(landscape: Bool) -> Bool {
-        if landscape {
-            return UIScreen.main.bounds.size.height > 1500
-        }
-        else {
-            return UIScreen.main.bounds.size.width > 1500
-        }
-    }
-    
     func setShadowView() {
         shadowView = UIView()
         shadowView.translatesAutoresizingMaskIntoConstraints = false
@@ -124,7 +115,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     func setPickerStackView(array: [UIView]) {
         pickerStackView = UIStackView(arrangedSubviews: array)
         pickerStackView.axis = .vertical
-        pickerStackView.distribution = .fill
+        pickerStackView.distribution = .fillProportionally
         pickerStackView.alignment = .fill
         pickerStackView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -190,9 +181,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         
         if !fullScreen {
             if iPhone {
-                widthLandscapeMultiplier = 1
-                heightLandscapeMultiplier = 0.55
-                widthPortraitMultiplier = 1
+                heightLandscapeMultiplier = 0.6
                 heightPortraitMultiplier = 0.4
             }
             else {
