@@ -103,7 +103,12 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         
-        blurEffectView.backgroundColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 0.55)
+        if #available(iOS 13.0, *) {
+            blurEffectView.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.4)
+        } else {
+            // Fallback on earlier versions
+            blurEffectView.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.55)
+        }
            
         blurEffectView.layer.shadowColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1).cgColor
         blurEffectView.layer.shadowOpacity = 0.3
@@ -271,6 +276,12 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
            doneButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
         let leftSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let middleButton: UIBarButtonItem!
+        middleButton = UIBarButtonItem(title: "Overwrite", style: .plain, target: self, action: #selector(overwriteClick))
+        middleButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        if self.numUserPrograms == 0 {
+            middleButton.isEnabled = false
+        }
+        /*
         if self.numUserPrograms < self.maxNumUserPrograms {
             middleButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         }
@@ -278,6 +289,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
             middleButton = UIBarButtonItem(title: "Overwrite", style: .plain, target: self, action: #selector(overwriteClick))
             middleButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
         }
+        */
         let rightSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
         cancelButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
@@ -309,6 +321,15 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let row = dataArray[row]
         return row
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if row >= numUserPrograms {
+            print(row)
+            self.toolBar.items?[2].isEnabled = false
+        }
+        else {
+            self.toolBar.items?[2].isEnabled = true
+        }
     }
     
     @objc func doneClick() {
