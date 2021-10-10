@@ -49,6 +49,8 @@
 		9C62714926CE85FE0024BD62 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		9C6767C726DC130000562895 /* DataPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPicker.swift; sourceTree = "<group>"; };
 		9C989AFE23E3A13000AD3AFC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9CB91E3A270F336300CCF9B3 /* RhythmDots.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RhythmDots.entitlements; sourceTree = "<group>"; };
+		9CB91E3B270F337C00CCF9B3 /* RhythmDotsRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RhythmDotsRelease.entitlements; sourceTree = "<group>"; };
 		A72DA3D720F3C22A006901D8 /* RhythmDots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RhythmDots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A72DA3DA20F3C22A006901D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A72DA3DC20F3C22A006901D8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,8 @@
 		A72DA3D920F3C22A006901D8 /* RhythmDots */ = {
 			isa = PBXGroup;
 			children = (
+				9CB91E3B270F337C00CCF9B3 /* RhythmDotsRelease.entitlements */,
+				9CB91E3A270F336300CCF9B3 /* RhythmDots.entitlements */,
 				9C494CD42358ED5A00D230CF /* click.mp3 */,
 				A72DA3DA20F3C22A006901D8 /* AppDelegate.swift */,
 				A72DA3DC20F3C22A006901D8 /* ViewController.swift */,
@@ -529,6 +533,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -579,8 +584,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -590,12 +597,14 @@
 			baseConfigurationReference = 76C4A80C89D4A1DCA1F27FAE /* Pods-RhythmDots.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RhythmDots/RhythmDots.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KKP4ZV39J4;
 				INFOPLIST_FILE = RhythmDots/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDots;
+				MARKETING_VERSION = 2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cegm.RhythmDots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -607,12 +616,14 @@
 			baseConfigurationReference = 9B85852FA3EF11446B2E2156 /* Pods-RhythmDots.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RhythmDots/RhythmDotsRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KKP4ZV39J4;
 				INFOPLIST_FILE = RhythmDots/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.eduardogil.RhythmDots;
+				MARKETING_VERSION = 2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cegm.RhythmDots;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

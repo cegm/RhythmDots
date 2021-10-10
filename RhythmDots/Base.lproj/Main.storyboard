@@ -501,13 +501,19 @@
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9S-v4-ZCK">
                                         <rect key="frame" x="20" y="64" width="335" height="627"/>
-                                        <mutableString key="text">• Columns: Vertical arrangement of the grid. It ranges from 5 to 25. The higher the number of columns, the smaller the size of the cells and the harder the game.
+                                        <mutableString key="text">The game consists of a grid of dots of two colors and blank spaces. The settings of the grid can be adjusted as follows.
+
+• Columns: Vertical arrangement of the grid. It ranges from 5 to 25. The higher the number of columns, the smaller the size of the cells and the harder the game.
 
 • Rows: Horizontal arrangement of the grid. It ranges from 5 to 25. The higher the number of rows, the smaller the size of the cells and the harder the game.
 
-• Density: Determines how likely is a cell to contain a color dot. The higher the density number, the fuller the grid.
+• Density %: Determines the percentage of color dots the grid will have. The higher the density percentage, the fuller the grid.
 
 • Metronome: If you activate the metronome, you can set it between 10 and 250 beats per minute. It is recommended to play the game first without the metronome.
+
+• Colors: Pick the two colors that will be used to fill the color dots of the grid.
+
+• My Programs: Now you can store up to 5 programs or settings and use them whenever you want to. First adjust all the parameters, press the 'My Programs' button and pick the 'Save current settings...' option. Finally press the 'Done' button. You can always update any program by using the 'Overwrite' button.
 </mutableString>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -553,7 +559,7 @@ Goal:
 Develop skills related to attentional nets (Posner, 1991) and some motor skills of the eyes such as fixation and saccade in order to train the abilities needed to start reading.
 
 Instructions: 
-1. Set the iOS device in front of the player. The distance between the layer ant the device should be approximately the resulting distance of placing the elbow next to the screen of the device and the fist next the cheek of the player. (This is known as Harmon distance).
+1. Set the iOS device in front of the player. The distance between the player and the device should be approximately the resulting distance of placing the elbow next to the screen of the device and the fist next the cheek of the player. (This is known as Harmon distance).
 2. It is recommended that the device is on a stand with an angle of ten degrees.
 3. Manage the settings of the game based on the needs of the player
 4. Play!

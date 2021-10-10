@@ -85,14 +85,6 @@ class GameViewController: UIViewController {
     }
     
     func fill() {
-        /*
-         @IBOutlet weak var gridStackView: UIStackView!
-         var gridNumbers: [[Int]] = []
-         var linearGrid: [Int] = []
-         var stackViews: [UIStackView] = []
-         var gridImageViews: [[UIImageView]] = []
-         var count = -4
-         */
         for row in 0..<rowsNumber {
             gridNumbers.append([])
             gridImageViews.append([])

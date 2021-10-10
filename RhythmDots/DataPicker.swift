@@ -281,15 +281,7 @@ class DataPicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource, UIText
         if self.numUserPrograms == 0 {
             middleButton.isEnabled = false
         }
-        /*
-        if self.numUserPrograms < self.maxNumUserPrograms {
-            middleButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        }
-        else {
-            middleButton = UIBarButtonItem(title: "Overwrite", style: .plain, target: self, action: #selector(overwriteClick))
-            middleButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
-        }
-        */
+        
         let rightSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
         cancelButton.tintColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)

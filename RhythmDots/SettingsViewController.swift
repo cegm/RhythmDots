@@ -88,9 +88,6 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
                 let providers: [FUIAuthProvider] = [
                   FUIGoogleAuth(),
                   FUIEmailAuth(),
-                  //FUIFacebookAuth(),
-                  //FUITwitterAuth(),
-                  //FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()),
                 ]
                 authUI.providers = providers
 
@@ -106,7 +103,6 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
                 self.initializeUserData(programNumber: 0)
             }
         }
-        //applyUserSettings()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
