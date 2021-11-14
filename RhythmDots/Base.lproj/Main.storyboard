@@ -501,7 +501,7 @@
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p9S-v4-ZCK">
                                         <rect key="frame" x="20" y="64" width="335" height="627"/>
-                                        <mutableString key="text">The game consists of a grid of dots of two colors and blank spaces. The settings of the grid can be adjusted as follows.
+                                        <string key="text">The game consists of a grid of dots of two colors and blank spaces. The settings of the grid can be adjusted as follows.
 
 • Columns: Vertical arrangement of the grid. It ranges from 5 to 25. The higher the number of columns, the smaller the size of the cells and the harder the game.
 
@@ -514,7 +514,7 @@
 • Colors: Pick the two colors that will be used to fill the color dots of the grid.
 
 • My Programs: Now you can store up to 5 programs or settings and use them whenever you want to. First adjust all the parameters, press the 'My Programs' button and pick the 'Save current settings...' option. Finally press the 'Done' button. You can always update any program by using the 'Overwrite' button.
-</mutableString>
+</string>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -552,7 +552,7 @@
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xH4-x8-5b4">
                                         <rect key="frame" x="20" y="64" width="335" height="517"/>
-                                        <mutableString key="text">Description:
+                                        <string key="text">Description:
 This app is a game in which people can train the movement of the eyes needed to read. It consists of a grid of dots of two colors and blank spaces. To play you simply have to look at each cell of the grid (from the left to the right and from the top to the bottom of the screen) and read aloud the name of the color of the dot if the cell is a dot or remain silent if the cell is a blank space. It is your choice to activate the metronome!
 
 Goal: 
@@ -563,7 +563,7 @@ Instructions:
 2. It is recommended that the device is on a stand with an angle of ten degrees.
 3. Manage the settings of the game based on the needs of the player
 4. Play!
-</mutableString>
+</string>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

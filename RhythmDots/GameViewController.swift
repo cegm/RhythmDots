@@ -19,13 +19,13 @@ class GameViewController: UIViewController {
     var tempo: Double = 60
     var color1: Int = 0
     var color2: Int = 0
+    var role: String = "Solo"
     var colors: [String] = ["Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple"]
     var dots: [UIImage] = [UIImage(named: "black")!, UIImage(named: "red")!, UIImage(named: "orange")!, UIImage(named: "yellow")!, UIImage(named: "green")!, UIImage(named: "blue")!, UIImage(named: "purple")!, UIImage(named: "blank")!]
     var dotsOff: [UIImage] = [UIImage(named: "blackOff")!, UIImage(named: "redOff")!, UIImage(named: "orangeOff")!, UIImage(named: "yellowOff")!, UIImage(named: "greenOff")!, UIImage(named: "blueOff")!, UIImage(named: "purpleOff")!]
     var dotsOn: [UIImage] = [UIImage(named: "blackOn")!, UIImage(named: "redOn")!, UIImage(named: "orangeOn")!, UIImage(named: "yellowOn")!, UIImage(named: "greenOn")!, UIImage(named: "blueOn")!, UIImage(named: "purpleOn")!]
     @IBOutlet weak var gridStackView: UIStackView!
-    var gridNumbers: [[Int]] = []
-    var linearGrid: [Int] = []
+    var gridNumbers: [Int] = []
     var stackViews: [UIStackView] = []
     var gridImageViews: [[UIImageView]] = []
     var count = -4
@@ -86,7 +86,7 @@ class GameViewController: UIViewController {
     
     func fill() {
         for row in 0..<rowsNumber {
-            gridNumbers.append([])
+            //gridNumbers.append([])
             gridImageViews.append([])
             gridStackView.addArrangedSubview(createRow(row: row))
         }
@@ -132,13 +132,13 @@ class GameViewController: UIViewController {
     func fillCellUpdateGrid(number: Int, row: Int) -> UIImage {
         switch number {
         case 1:
-            gridNumbers[row].append(1)
+            gridNumbers.append(1)
             return dots[color1]
         case 2:
-            gridNumbers[row].append(2)
+            gridNumbers.append(2)
             return dots[color2]
         default:
-            gridNumbers[row].append(0)
+            gridNumbers.append(0)
             return UIImage()
         }
     }
@@ -184,7 +184,7 @@ class GameViewController: UIViewController {
     func changeDot(count: Int, on: Int) {
         let row = count / columnsNumber
         let column = count % columnsNumber
-        let color = gridNumbers[row][column]
+        let color = gridNumbers[count]
         if color != 0 {
             var image: UIImage
             switch on {
@@ -265,7 +265,6 @@ class GameViewController: UIViewController {
         }
         
         gridNumbers = []
-        linearGrid = []
         stackViews = []
         gridImageViews = []
         count = -4
