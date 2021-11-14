@@ -20,6 +20,8 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     var tempo: Double = 60
     var selectedColor1: Int = 0
     var selectedColor2: Int = 0
+    var role: String = "Solo"
+    var sessionCode: String!
     
     @IBOutlet weak var columnsLabel: UILabel!
     @IBOutlet weak var columnsStepper: UIStepper!
@@ -74,6 +76,20 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
         
         changeMyPorgramsButtonStatus(enabled: false) // Only available if user is authenticated.
         
+        handleLogin()
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func handleLogin() {
         handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if user == nil {
                 // Load FirebaseUI to handle authentication.
@@ -100,18 +116,23 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
                 //  the closing curly brace of the LoginViewController class
             }
             else {
+                if self.role == "Host" {
+                    self.sessionCode = self.generateSessionCode()
+                    print(self.sessionCode!)
+                }
                 self.initializeUserData(programNumber: 0)
             }
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        Auth.auth().removeStateDidChangeListener(handle!)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func generateSessionCode() -> String {
+        let length: Int = 4
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            var sessionCode = ""
+            for _ in 0 ..< length {
+                sessionCode.append(letters.randomElement()!)
+            }
+            return sessionCode
     }
     
     func initializeUserData(programNumber: Int) {

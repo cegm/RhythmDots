@@ -33,21 +33,45 @@
                                         <rect key="frame" x="0.0" y="333.5" width="375" height="167"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ZqT-V2-cum">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="83.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="55.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gf-xY-9OF">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="83.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="55.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                         <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <state key="normal" title="Play!"/>
+                                                        <state key="normal" title="Solo"/>
                                                         <connections>
-                                                            <segue destination="Q4n-SJ-qQA" kind="show" id="h1r-Nt-B61"/>
+                                                            <action selector="playSolo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eYy-im-DkT"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="R13-nf-mjB">
+                                                <rect key="frame" x="0.0" y="55.5" width="375" height="55.5"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqm-bp-XXc">
+                                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="55.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <state key="normal" title="Host session"/>
+                                                        <connections>
+                                                            <action selector="hostSession:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DFL-qs-fSo"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q5S-BU-9b4">
+                                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="55.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <state key="normal" title="Join session"/>
+                                                        <connections>
+                                                            <action selector="hostSession:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Geh-gz-WcK"/>
+                                                            <action selector="joinSession:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rL7-w1-IIe"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z8-sV-9lT">
-                                                <rect key="frame" x="0.0" y="83.5" width="375" height="83.5"/>
+                                                <rect key="frame" x="0.0" y="111" width="375" height="56"/>
                                                 <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" title="Information and Settings"/>
                                                 <connections>
@@ -95,6 +119,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="miY-nY-bkt"/>
+                    <connections>
+                        <segue destination="Q4n-SJ-qQA" kind="show" identifier="goToSettingsViewController" id="H31-CC-gZO"/>
+                        <segue destination="LJp-3W-UfG" kind="show" identifier="goToGameViewController" id="0Va-oc-ufr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -624,6 +652,9 @@ Instructions:
             <point key="canvasLocation" x="24.800000000000001" y="13.943028485757123"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="0Va-oc-ufr"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="black" width="300" height="300"/>
         <image name="blueOff" width="300" height="300"/>
