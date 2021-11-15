@@ -20,6 +20,7 @@ class GameViewController: UIViewController {
     var color1: Int = 0
     var color2: Int = 0
     var role: String = "Solo"
+    var sessionCode: String!
     var colors: [String] = ["Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple"]
     var dots: [UIImage] = [UIImage(named: "black")!, UIImage(named: "red")!, UIImage(named: "orange")!, UIImage(named: "yellow")!, UIImage(named: "green")!, UIImage(named: "blue")!, UIImage(named: "purple")!, UIImage(named: "blank")!]
     var dotsOff: [UIImage] = [UIImage(named: "blackOff")!, UIImage(named: "redOff")!, UIImage(named: "orangeOff")!, UIImage(named: "yellowOff")!, UIImage(named: "greenOff")!, UIImage(named: "blueOff")!, UIImage(named: "purpleOff")!]

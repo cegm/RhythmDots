@@ -24,15 +24,11 @@ class ViewController: UIViewController {
 
     @IBAction func playSolo(_ sender: UIButton) {
         self.role = "Solo"
-        performSegue(withIdentifier: "goToSettingsViewController", sender: self)
+        performSegue(withIdentifier: "fromWelcomeToSettings", sender: self)
     }
     @IBAction func hostSession(_ sender: UIButton) {
         self.role = "Host"
-        performSegue(withIdentifier: "goToSettingsViewController", sender: self)
-    }
-    @IBAction func joinSession(_ sender: UIButton) {
-        self.role = "Guest"
-        performSegue(withIdentifier: "goToGameViewController", sender: self)
+        performSegue(withIdentifier: "fromWelcomeToSettings", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -41,8 +37,8 @@ class ViewController: UIViewController {
             viewController?.role = self.role
         }
         else {
-            let viewController = segue.destination as? GameViewController
-            viewController?.role = self.role
+            let viewController = segue.destination as? PairingViewController
+            viewController?.role = "Guest"
         }
     }
 }

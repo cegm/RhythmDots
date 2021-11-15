@@ -21,7 +21,6 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     var selectedColor1: Int = 0
     var selectedColor2: Int = 0
     var role: String = "Solo"
-    var sessionCode: String!
     
     @IBOutlet weak var columnsLabel: UILabel!
     @IBOutlet weak var columnsStepper: UIStepper!
@@ -61,6 +60,8 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     var dataPicker: DataPicker!
     var done: UIAlertAction!
     
+    var sessionHandler: SessionHandler!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -81,6 +82,11 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        if self.role == "Host" {
+            if self.isMovingFromParent {
+                self.sessionHandler.terminateSession()
+            }
+        }
         Auth.auth().removeStateDidChangeListener(handle!)
     }
     
@@ -116,24 +122,14 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
                 //  the closing curly brace of the LoginViewController class
             }
             else {
-                if self.role == "Host" {
-                    self.sessionCode = self.generateSessionCode()
-                    print(self.sessionCode!)
-                }
                 self.initializeUserData(programNumber: 0)
+                if self.role == "Host" {
+                    self.sessionHandler = SessionHandler(host: self.userData.uid)
+                }
             }
         }
     }
-    
-    func generateSessionCode() -> String {
-        let length: Int = 4
-        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            var sessionCode = ""
-            for _ in 0 ..< length {
-                sessionCode.append(letters.randomElement()!)
-            }
-            return sessionCode
-    }
+
     
     func initializeUserData(programNumber: Int) {
         let user = Auth.auth().currentUser
@@ -314,21 +310,6 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
         self.dataPicker.showPicker(animation: true)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if segue.destination is GameViewController
-        {
-            let vc = segue.destination as? GameViewController
-            vc?.columnsNumber = Int(columnsLabel.text!)!
-            vc?.rowsNumber = Int(rowsLabel.text!)!
-            vc?.densityNumber = Int(densityLabel.text!)!
-            vc?.metronome = metronomeSwitch.isOn
-            vc?.tempo = Double(tempoLabel.text!)!
-            vc?.color1 = selectedColor1
-            vc?.color2 = selectedColor2
-        }
-        
-    }
     
     func didClickToolbarButton(selectedRowIndex: Int, overwrite: Bool) {
         if selectedRowIndex < self.userData.userPrograms.count && !overwrite {
@@ -409,6 +390,47 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
      // Pass the selected object to the new view controller.
      }
      */
+    
+    
+    @IBAction func startButtonPushed(_ sender: UIButton) {
+        if self.role == "Solo" {
+            performSegue(withIdentifier: "fromSettingsToGame", sender: self)
+        }
+        if self.role == "Host" {
+            performSegue(withIdentifier: "fromSettingsToPairing", sender: self)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.destination is GameViewController
+        {
+            let vc = segue.destination as? GameViewController
+            vc?.columnsNumber = Int(columnsLabel.text!)!
+            vc?.rowsNumber = Int(rowsLabel.text!)!
+            vc?.densityNumber = Int(densityLabel.text!)!
+            vc?.metronome = metronomeSwitch.isOn
+            vc?.tempo = Double(tempoLabel.text!)!
+            vc?.color1 = selectedColor1
+            vc?.color2 = selectedColor2
+            vc?.role = self.role
+        }
+        if segue.destination is PairingViewController
+        {
+            let vc = segue.destination as? PairingViewController
+            vc?.columnsNumber = Int(columnsLabel.text!)!
+            vc?.rowsNumber = Int(rowsLabel.text!)!
+            vc?.densityNumber = Int(densityLabel.text!)!
+            vc?.metronome = metronomeSwitch.isOn
+            vc?.tempo = Double(tempoLabel.text!)!
+            vc?.color1 = selectedColor1
+            vc?.color2 = selectedColor2
+            vc?.role = self.role
+            vc?.sessionHandler = self.sessionHandler
+        }
+        
+    }
+    
     
 
 }

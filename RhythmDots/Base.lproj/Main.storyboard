@@ -51,7 +51,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vqm-bp-XXc">
                                                         <rect key="frame" x="0.0" y="0.0" width="187.5" height="55.5"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                         <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <state key="normal" title="Host session"/>
                                                         <connections>
@@ -60,12 +60,11 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q5S-BU-9b4">
                                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="55.5"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                         <color key="tintColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <state key="normal" title="Join session"/>
                                                         <connections>
-                                                            <action selector="hostSession:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Geh-gz-WcK"/>
-                                                            <action selector="joinSession:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rL7-w1-IIe"/>
+                                                            <segue destination="afZ-Q3-Pig" kind="show" id="OwV-Iw-LbB"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -120,8 +119,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="miY-nY-bkt"/>
                     <connections>
-                        <segue destination="Q4n-SJ-qQA" kind="show" identifier="goToSettingsViewController" id="H31-CC-gZO"/>
-                        <segue destination="LJp-3W-UfG" kind="show" identifier="goToGameViewController" id="0Va-oc-ufr"/>
+                        <segue destination="Q4n-SJ-qQA" kind="show" identifier="fromWelcomeToSettings" id="H31-CC-gZO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -395,7 +393,7 @@
                                                     <color key="titleColor" systemColor="systemBlueColor"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="LJp-3W-UfG" kind="show" id="NbT-wN-yJo"/>
+                                                    <action selector="startButtonPushed:" destination="Q4n-SJ-qQA" eventType="touchUpInside" id="xDY-q3-qFL"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -441,11 +439,13 @@
                         <outlet property="rowsStepper" destination="fVx-fH-YJH" id="UCw-wC-ios"/>
                         <outlet property="tempoLabel" destination="dKM-mq-0bq" id="tMW-4L-pHc"/>
                         <outlet property="tempoStepper" destination="eHL-gH-YzD" id="lrI-YW-C7O"/>
+                        <segue destination="afZ-Q3-Pig" kind="show" identifier="fromSettingsToPairing" id="Pmq-Z5-lCy"/>
+                        <segue destination="LJp-3W-UfG" kind="show" identifier="fromSettingsToGame" id="n3c-xZ-tRs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qzX-yr-llY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1764" y="13.943028485757123"/>
+            <point key="canvasLocation" x="1740" y="72"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="vNG-wa-2nC">
@@ -514,7 +514,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="beY-9j-mMA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2657" y="-224"/>
+            <point key="canvasLocation" x="3378" y="14"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="MfL-GB-geT">
@@ -651,9 +651,51 @@ Instructions:
             </objects>
             <point key="canvasLocation" x="24.800000000000001" y="13.943028485757123"/>
         </scene>
+        <!--Pairing View Controller-->
+        <scene sceneID="tD7-Zs-KoN">
+            <objects>
+                <viewController id="afZ-Q3-Pig" customClass="PairingViewController" customModule="RhythmDots" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aQ9-KQ-0AY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Session Code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nHx-16-Xcl">
+                                <rect key="frame" x="95" y="337" width="185" height="37"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share this code with your guest" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tJb-1Z-dqM">
+                                <rect key="frame" x="67.5" y="296" width="240" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ag4-Ca-aAa"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tJb-1Z-dqM" firstAttribute="centerX" secondItem="Ag4-Ca-aAa" secondAttribute="centerX" id="AOj-Zp-31M"/>
+                            <constraint firstItem="nHx-16-Xcl" firstAttribute="centerY" secondItem="Ag4-Ca-aAa" secondAttribute="centerY" id="P5Z-qk-neC"/>
+                            <constraint firstItem="nHx-16-Xcl" firstAttribute="centerX" secondItem="Ag4-Ca-aAa" secondAttribute="centerX" id="wut-NG-MbW"/>
+                            <constraint firstItem="nHx-16-Xcl" firstAttribute="top" secondItem="tJb-1Z-dqM" secondAttribute="bottom" constant="20" id="yYv-Mt-0m1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="u3D-O6-9XU"/>
+                    <connections>
+                        <outlet property="sessionCodeLabel" destination="nHx-16-Xcl" id="UoW-9w-VY6"/>
+                        <outlet property="shareLabel" destination="tJb-1Z-dqM" id="Kze-Rh-c6e"/>
+                        <segue destination="LJp-3W-UfG" kind="show" identifier="fromPairingToGame" id="DyC-eT-1Lz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nyL-jX-hAA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2486" y="-81"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="0Va-oc-ufr"/>
+        <segue reference="Pmq-Z5-lCy"/>
+        <segue reference="DyC-eT-1Lz"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="black" width="300" height="300"/>
