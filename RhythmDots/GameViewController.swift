@@ -10,8 +10,7 @@ import UIKit
 import AVFoundation
 import MultipeerConnectivity
 
-class GameViewController: UIViewController {
-    
+class GameViewController: UIViewController, SessionHandlerDelegate {
     var columnsNumber: Int = 5
     var rowsNumber: Int = 5
     var densityNumber: Int = 50
@@ -20,7 +19,9 @@ class GameViewController: UIViewController {
     var color1: Int = 0
     var color2: Int = 0
     var role: String = "Solo"
-    var sessionCode: String!
+    
+    var sessionHandler: SessionHandler!
+    
     var colors: [String] = ["Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple"]
     var dots: [UIImage] = [UIImage(named: "black")!, UIImage(named: "red")!, UIImage(named: "orange")!, UIImage(named: "yellow")!, UIImage(named: "green")!, UIImage(named: "blue")!, UIImage(named: "purple")!, UIImage(named: "blank")!]
     var dotsOff: [UIImage] = [UIImage(named: "blackOff")!, UIImage(named: "redOff")!, UIImage(named: "orangeOff")!, UIImage(named: "yellowOff")!, UIImage(named: "greenOff")!, UIImage(named: "blueOff")!, UIImage(named: "purpleOff")!]
@@ -46,7 +47,12 @@ class GameViewController: UIViewController {
         tap.numberOfTapsRequired = 2
         repeatButton.addGestureRecognizer(tap)
         
-        newGame()
+        if self.role != "Solo" {
+            self.sessionHandler.delegate = self
+        }
+        
+        self.newGame()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,9 +61,14 @@ class GameViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         invalidateTimer()
+        if self.role != "Solo" {
+            self.sessionHandler.resetSession(removeGuest: true)
+            self.sessionHandler.changeGameStatus(status: "Over")
+        }
     }
+    
     override func viewDidDisappear(_ animated: Bool) {
-        invalidateTimer()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,6 +77,31 @@ class GameViewController: UIViewController {
     }
     
     func newGame() {
+        if self.role != "Guest" {
+            setUp()
+            if self.role == "Solo" {
+                setTimer()
+            }
+            if self.role == "Host" {
+                self.sessionHandler.sendParameters(columnsNumber: self.columnsNumber,
+                                                   rowsNumber: self.rowsNumber,
+                                                   densityNumber: self.densityNumber,
+                                                   metronome: self.metronome,
+                                                   tempo: self.tempo,
+                                                   color1: self.color1,
+                                                   color2: self.color2,
+                                                   gridNumbers: self.gridNumbers.description)
+                self.sessionHandler.waitForGuestToGetParameters()
+                self.sessionHandler.listenToGameStatus()
+            }
+        }
+        else {
+            self.sessionHandler.waitForHostToSendParameters()
+            self.sessionHandler.listenToGameStatus()
+        }
+    }
+    
+    func setUp() {
         fill()
         
         if metronome {
@@ -74,7 +110,6 @@ class GameViewController: UIViewController {
             playPauseButton.isEnabled = true
             playPauseButton.isHidden = false
             label.text = "4"
-            setTimer()
         }
         else {
             repeatButton.isEnabled = false
@@ -117,14 +152,21 @@ class GameViewController: UIViewController {
     func createCell(row: Int, column: Int) -> UIImageView {
         var image: UIImage
         var imageView: UIImageView
-        let number = Int(arc4random_uniform(101))
-        if number <= densityNumber {
-            image = fillCellUpdateGrid(number: Int(arc4random_uniform(2)) + 1, row: row)
+        let number: Int
+        
+        if self.role != "Guest" {
+            number = Int(arc4random_uniform(101))
+            if number <= densityNumber {
+                image = fillCellUpdateGrid(number: Int(arc4random_uniform(2)) + 1, row: row)
+            }
+            else {
+                image = fillCellUpdateGrid(number: 0, row: row)
+            }
         }
         else {
-            image = fillCellUpdateGrid(number: 0, row: row)
+            number = self.gridNumbers[column + row*self.rowsNumber]
+            image = fillCellUpdateGrid(number: number, row: row)
         }
-        
         imageView = createImageView(image: image)
         gridImageViews[row].append(imageView)
         return imageView
@@ -241,17 +283,36 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func reset(_ sender: UIButton) {
+        if role != "Solo" {
+            self.sessionHandler.changeGameStatus(status: "Restart")
+        }
+        else {
+            self.localRestart()
+            setTimer()
+        }
+    }
+    
+    func localRestart() {
         playPauseButton.isEnabled = true
         playPauseButton.isHidden = false
         count = -4
         invalidateTimer()
         resetDots()
-        setTimer()
     }
     
     @objc func newGrid() {
-        resetGrid()
-        newGame()
+        if self.role != "Solo" {
+            self.sessionHandler.changeGameStatus(status: "Reset")
+        }
+        else {
+            self.localReset()
+        }
+        
+    }
+    
+    func localReset() {
+        self.resetGrid()
+        self.newGame()
     }
     
     func resetGrid() {
@@ -277,10 +338,81 @@ class GameViewController: UIViewController {
     
     @IBAction func playPause(_ sender: UIButton) {
         if isPaused {
-            setTimer()
+            if role != "Solo" {
+                print("\(self.role) playó")
+                self.sessionHandler.changeGameStatus(status: "Play")
+            }
+            else {
+                setTimer()
+            }
         }
         else {
-            invalidateTimer()
+            if role != "Solo" {
+                print("\(self.role) pausó")
+                self.sessionHandler.changeGameStatus(status: "Pause")
+            }
+            else {
+                invalidateTimer()
+            }
+        }
+    }
+    
+    func sessionStatusChanged(message: String) {
+        //print(self.role)
+        if message == "Play" {
+            print("\(self.role) inició")
+            self.setTimer()
+        }
+        if message == "Pause" {
+            self.invalidateTimer()
+        }
+        if message == "Restart" {
+            self.localRestart()
+            self.sessionHandler.changeGameStatus(status: "Play")
+        }
+        if message == "Reset" {
+            self.sessionHandler.resetSession(removeGuest: false)
+            self.localReset()
+        }
+        if message == "Over" {
+            print("Se salió")
+            self.sessionHandler.resetSession(removeGuest: true)
+            self.sessionHandler.changeGameStatus(status: "Pairing")
+            self.navigationController?.popViewController(animated: true)
+        }
+        if self.role == "Host" {
+            if message == "Guest ready" {
+                self.sessionHandler.changeGameStatus(status: "Play")
+            }
+            else {
+                //print(message)
+            }
+        }
+        if self.role == "Guest" {
+            if message == "Host ready" {
+                self.sessionHandler.getParameters()  { (parameters, error) in
+                    if let error = error {
+                        print("SessionHandler.swift: Error getting parameters: \(error)")
+                    }
+                    if parameters != nil {
+                        print("\(self.gridNumbers.count): \(self.gridNumbers)")
+                        self.columnsNumber = parameters!["columnsNumber"] as? Int ?? 5
+                        self.rowsNumber = parameters!["rowsNumber"] as? Int ?? 5
+                        self.densityNumber = parameters!["densityNumber"] as? Int ?? 50
+                        self.metronome = parameters!["metronome"] as? Bool ?? true
+                        self.tempo = parameters!["tempo"] as? Double ?? 60
+                        self.color1 = parameters!["color1"] as? Int ?? 0
+                        self.color2 = parameters!["color2"] as? Int ?? 0
+                        self.gridNumbers = parameters!["gridNumbers"] as? [Int] ?? []
+                        self.setUp()
+                        self.sessionHandler.guestReady()
+                        //self.setTimer()
+                    }
+                }
+            }
+            else {
+                print(message)
+            }
         }
     }
     

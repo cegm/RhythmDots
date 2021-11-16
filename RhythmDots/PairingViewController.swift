@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PairingViewController: UIViewController {
+class PairingViewController: UIViewController, SessionHandlerDelegate {
     var columnsNumber: Int = 5
     var rowsNumber: Int = 5
     var densityNumber: Int = 50
@@ -26,27 +26,44 @@ class PairingViewController: UIViewController {
     override func viewDidLoad() {
         if self.role == "Host" {
             self.sessionCodeLabel.text = self.sessionHandler.sessionCode
-            self.sessionHandler.sendParameters(columnsNumber: columnsNumber, rowsNumber: rowsNumber, densityNumber: densityNumber, metronome: metronome, tempo: tempo, color1: color1, color2: color2)
-            self.sessionHandler.hostSession()
-            //self.performSegue(withIdentifier: "fromPairingToGame", sender: self)
+            self.sessionHandler.delegate = self
+            self.sessionHandler.waitForGuestToJoin()
         }
         else {
             shareLabel.isHidden = true
             sessionCodeLabel.isHidden = true
             
             self.sessionHandler = SessionHandler()
+            self.sessionHandler.delegate = self
             
             let message: String = "Enter code to join a session."
             presentAlert(message: message, firstAttempt: true)
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if self.role == "Guest" {
+            let message: String = "Enter code to join a session."
+            presentAlert(message: message, firstAttempt: true)
+        }
+        if self.sessionHandler != nil {
+            print("viewWillAppear")
+            self.sessionHandler.delegate = self
+            self.sessionHandler.changeGameStatus(status: "Pairing")
+        }
+        /*else {
+            self.sessionHandler.delegate = self
+            self.sessionHandler.changeGameStatus(status: "Pairing")
+        }*/
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         if self.role == "Guest" {
+            /*
             if self.isMovingFromParent {
                 self.sessionHandler.changeGuestStatus(guestIsActive: false)
                 self.sessionHandler.terminateSession()
-            }
+            }*/
         }
     }
     
@@ -54,7 +71,9 @@ class PairingViewController: UIViewController {
     
     func presentAlert(message: String, firstAttempt: Bool) {
         let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "Cancel", style: .default) // { [unowned alert] _ in }
+        let cancel = UIAlertAction(title: "Cancel", style: .default)  { [unowned alert] _ in
+            self.navigationController?.popViewController(animated: true)
+        }
         alert.addAction(cancel)
         
         
@@ -65,10 +84,20 @@ class PairingViewController: UIViewController {
         let done = UIAlertAction(title: "Done", style: .default) { [unowned alert] _ in
             let sessionCode = alert.textFields![0].text
             
-            self.sessionHandler.joinSession(sessionCode: sessionCode ?? "-")  { (success, parameters, error) in
+            self.sessionHandler.joinSession(sessionCode: sessionCode ?? "-")  { (success, error) in
                 if let error = error {
                     print("PairingViewController.swift: Error joining session: \(error)")
                 }
+                if success != nil {
+                    if success! {
+                        self.performSegue(withIdentifier: "fromPairingToGame", sender: self)
+                    }
+                    else {
+                        let message = "Sorry, that code didn't work. Please try again."
+                        self.presentAlert(message: message, firstAttempt: false)
+                    }
+                }
+                /*
                 if success != nil && parameters != nil {
                     if success! {
                         self.columnsNumber = parameters!["columnsNumber"] as? Int ?? 5
@@ -86,11 +115,22 @@ class PairingViewController: UIViewController {
                         let message = "Sorry, that code didn't work. Please try again."
                         self.presentAlert(message: message, firstAttempt: false)
                     }
-                }
+                }*/
             }
         }
         alert.addAction(done)
         present(alert, animated: true)
+    }
+    
+    func sessionStatusChanged(message: String) {
+        if self.role == "Host" {
+            if message == "Guest joined" {
+                self.performSegue(withIdentifier: "fromPairingToGame", sender: self)
+            }
+            else {
+                print(message)
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -105,7 +145,8 @@ class PairingViewController: UIViewController {
             vc?.tempo = self.tempo
             vc?.color1 = self.color1
             vc?.color2 = self.color2
-            vc?.role = "Solo"
+            vc?.role = self.role
+            vc?.sessionHandler = self.sessionHandler
         }
     }
 }

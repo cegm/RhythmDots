@@ -9,13 +9,17 @@
 import Foundation
 import Firebase
 
+protocol SessionHandlerDelegate: NSObject {
+    func sessionStatusChanged(message: String)
+}
+
 class SessionHandler {
     var sessionCode = "-"
     var host: String = "-"
     var guest: String = "-"
     var status: String = "-"
     
-    
+    weak var delegate:SessionHandlerDelegate!
     
     
     
@@ -23,6 +27,7 @@ class SessionHandler {
     
     init(host: String) {
         self.ref = Database.database().reference()
+        
         self.host = host
         self.setSessionCode()
         //self.hostSession()
@@ -63,11 +68,11 @@ class SessionHandler {
     
     func registerSession() {
         if self.sessionCode != "-" {
-            self.ref.child("sessions").child(self.sessionCode).setValue(["host":self.host])
+            self.ref.child("sessions").child(self.sessionCode).setValue(["host":self.host, "status": "Pairing"])
         }
     }
     
-    func sendParameters(columnsNumber: Int, rowsNumber: Int, densityNumber: Int, metronome: Bool, tempo: Double, color1: Int, color2: Int) {
+    func sendParameters(columnsNumber: Int, rowsNumber: Int, densityNumber: Int, metronome: Bool, tempo: Double, color1: Int, color2: Int, gridNumbers: String) {
         if self.sessionCode != "-" {
             let parameters = ["columnsNumber": columnsNumber,
                               "rowsNumber": rowsNumber,
@@ -75,30 +80,98 @@ class SessionHandler {
                               "metronome": metronome,
                               "tempo": tempo,
                               "color1": color1,
-                              "color2": color2]  as [String : Any]
+                              "color2": color2,
+                              "gridNumbers": gridNumbers]  as [String : Any]
             
             self.ref.child("sessions").child(self.sessionCode).updateChildValues(parameters)
+            self.hostReady()
         }
     }
     
-    func hostSession() {
+    func waitForGuestToJoin() {
+        let field: String = "guestJoined"
+        let messageDictionary: [String: String] = ["true": "Guest joined"]
+        self.listenForChangesInSessionField(field: field, messageDictionary: messageDictionary)
+    }
+    
+    func waitForHostToSendParameters() {
+        let field: String = "hostReady"
+        let messageDictionary: [String: String] = ["true": "Host ready"]
+        self.listenForChangesInSessionField(field: field, messageDictionary: messageDictionary)
+    }
+    
+    func waitForGuestToGetParameters() {
+        let field: String = "guestReady"
+        let messageDictionary: [String: String] = ["true": "Guest ready"]
+        self.listenForChangesInSessionField(field: field, messageDictionary: messageDictionary)
+    }
+    
+    func listenToGameStatus() {
+        let field: String = "status"
+        let messageDictionary: [String: String] = ["Play": "Play",
+                                                   "Pause": "Pause",
+                                                   "Restart": "Restart",
+                                                   "Reset": "Reset",
+                                                   "Over": "Over"]
+        self.listenForChangesInSessionField(field: field, messageDictionary: messageDictionary)
+    }
+    
+    /*
+    func listenForChangesInSessionField(field: String, messageDictionary: [String: String]) {
         self.ref.child("sessions").child(self.sessionCode).observe(.value) { snapshot in
-          if snapshot.hasChild("guestIsActive") {
+            if snapshot.hasChild(field) {
+                let snaphshotValue = snapshot.value as? NSDictionary
+                let fieldValue = snaphshotValue?[field] as? String ?? "Not found"
                 
-                
-                let value = snapshot.value as? NSDictionary
-                let guestJoined = value?["guestIsActive"] as? Bool ?? false
-                if guestJoined {
-                    print("Guest Joineddd!!!!!!")
-                }
-                else {
-                    print("Guest left :(")
-                }
-            }
-            else {
-                print("no child")
+                let message = messageDictionary[fieldValue] ?? "Not found"
+                print(message)
+                self.delegate.sessionStatusChanged(message: message)
             }
         }
+    }*/
+    
+    func listenForChangesInSessionField(field: String, messageDictionary: [String: String]) {
+        print("listenForChangesInSessionField: \(field)")
+        self.ref.child("sessions").child(self.sessionCode).child(field).observe(.value) { snapshot in
+            let fieldValue = snapshot.value as? String  ?? "Not found"
+            let message = messageDictionary[fieldValue] ?? "Not found"
+            print("\(field): \(fieldValue) - \(message)")
+            self.delegate.sessionStatusChanged(message: message)
+        }
+    }
+    
+    func resetSession(removeGuest: Bool) {
+        self.deleteField(field: "columnsNumber")
+        self.deleteField(field: "rowsNumber")
+        self.deleteField(field: "densityNumber")
+        self.deleteField(field: "metronome")
+        self.deleteField(field: "tempo")
+        self.deleteField(field: "color1")
+        self.deleteField(field: "color2")
+        self.deleteField(field: "gridNumbers")
+        
+        if removeGuest {
+            self.deleteField(field: "guestJoined")
+        }
+        self.deleteField(field: "hostReady")
+        self.ref.child("sessions").child(self.sessionCode).child("hostReady").removeAllObservers()
+        
+        self.deleteField(field: "guestReady")
+        self.ref.child("sessions").child(self.sessionCode).child("guestReady").removeAllObservers()
+        
+        self.deleteField(field: "status")
+        self.ref.child("sessions").child(self.sessionCode).child("status").removeAllObservers()
+    }
+    
+    func deleteField(field: String) {
+        self.ref.child("sessions").child(self.sessionCode).child(field).removeValue(completionBlock: { (error, refer) in
+            guard error == nil else {
+              print(error!.localizedDescription)
+              return;
+            }
+            print(refer)
+            print("Child Removed Correctly")
+        })
     }
     
     func terminateSession() {
@@ -112,6 +185,23 @@ class SessionHandler {
         })
     }
     
+    func joinSession(sessionCode: String, completion: @escaping (Bool?, Error?) -> Void) {
+        self.ref.child("sessions").getData(completion:  { error, snapshot in
+            if let error = error {
+                completion(false, error)
+            }
+            if snapshot.hasChild(sessionCode.uppercased()) {
+                self.sessionCode = sessionCode.uppercased()
+                self.guestJoined()
+                completion(true, nil)
+            }
+            else {
+                completion(false, error)
+            }
+        })
+    }
+    
+    /*
     func joinSession(sessionCode: String, completion: @escaping (Bool?, [String: Any]?, Error?) -> Void) {
         self.ref.child("sessions").getData(completion:  { error, snapshot in
             if let error = error {
@@ -135,6 +225,7 @@ class SessionHandler {
             }
         })
     }
+     */
     
     func getParameters(completion: @escaping ([String: Any]?, Error?) -> Void) {
         var columnsNumber: Int = 5
@@ -144,6 +235,8 @@ class SessionHandler {
         var tempo: Double = 60
         var color1: Int = 0
         var color2: Int = 0
+        var gridNumbersDescription: String = "[]"
+        var gridNumbers: [Int] = []
         
         
         self.ref.child("sessions").child(self.sessionCode).getData(completion:  { error, snapshot in
@@ -158,6 +251,15 @@ class SessionHandler {
                 tempo = value["tempo"] as? Double ?? 60
                 color1 = value["color1"] as? Int ?? 0
                 color2 = value["color2"] as? Int ?? 0
+                gridNumbersDescription = value["gridNumbers"] as? String ?? "[]"
+                
+                
+                for char in gridNumbersDescription {
+                    let number = Int(String(char))
+                    if number != nil {
+                        gridNumbers.append(number!)
+                    }
+                }
                 
                 let parameters = ["columnsNumber": columnsNumber,
                                   "rowsNumber": rowsNumber,
@@ -165,7 +267,8 @@ class SessionHandler {
                                   "metronome": metronome,
                                   "tempo": tempo,
                                   "color1": color1,
-                                  "color2": color2]  as [String : Any]
+                                  "color2": color2,
+                                  "gridNumbers": gridNumbers]  as [String : Any]
                 
                 completion(parameters, nil)
             }
@@ -176,9 +279,25 @@ class SessionHandler {
     }
     
  
-    func changeGuestStatus(guestIsActive: Bool) {
+    func guestJoined() {
+        updateSessionField(field: "guestJoined", value: "true")
+    }
+    
+    func hostReady() {
+        updateSessionField(field: "hostReady", value: "true")
+    }
+    
+    func guestReady() {
+        updateSessionField(field: "guestReady", value: "true")
+    }
+    
+    func changeGameStatus(status: String) {
+        updateSessionField(field: "status", value: status)
+    }
+    
+    func updateSessionField(field: String, value: String) {
         if self.sessionCode != "-" {
-            self.ref.child("sessions").child(self.sessionCode).updateChildValues(["guestIsActive":guestIsActive])
+            self.ref.child("sessions").child(self.sessionCode).updateChildValues([field:value])
         }
     }
 }

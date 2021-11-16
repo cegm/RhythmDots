@@ -84,7 +84,7 @@ class SettingsViewController: UIViewController, DataPickerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         if self.role == "Host" {
             if self.isMovingFromParent {
-                self.sessionHandler.terminateSession()
+                //self.sessionHandler.terminateSession()
             }
         }
         Auth.auth().removeStateDidChangeListener(handle!)
