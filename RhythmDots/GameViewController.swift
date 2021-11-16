@@ -80,9 +80,12 @@ class GameViewController: UIViewController, SessionHandlerDelegate {
         if self.role != "Guest" {
             setUp()
             if self.role == "Solo" {
-                setTimer()
+                if metronome {
+                    setTimer()
+                }
             }
             if self.role == "Host" {
+                print("SEEEEND parameters")
                 self.sessionHandler.sendParameters(columnsNumber: self.columnsNumber,
                                                    rowsNumber: self.rowsNumber,
                                                    densityNumber: self.densityNumber,
@@ -361,7 +364,9 @@ class GameViewController: UIViewController, SessionHandlerDelegate {
         //print(self.role)
         if message == "Play" {
             print("\(self.role) inició")
-            self.setTimer()
+            if self.metronome {
+                self.setTimer()
+            }
         }
         if message == "Pause" {
             self.invalidateTimer()

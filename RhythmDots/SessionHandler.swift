@@ -140,7 +140,9 @@ class SessionHandler {
         }
     }
     
-    func resetSession(removeGuest: Bool) {
+    func resetSession(removeGuest: Bool, removeGuestJoinedListener: Bool = false) {
+        print("inicio")
+        /*
         self.deleteField(field: "columnsNumber")
         self.deleteField(field: "rowsNumber")
         self.deleteField(field: "densityNumber")
@@ -149,10 +151,16 @@ class SessionHandler {
         self.deleteField(field: "color1")
         self.deleteField(field: "color2")
         self.deleteField(field: "gridNumbers")
+         */
         
         if removeGuest {
             self.deleteField(field: "guestJoined")
+            
         }
+        if removeGuestJoinedListener {
+            self.ref.child("sessions").child(self.sessionCode).child("guestJoined").removeAllObservers()
+        }
+        print("mitad")
         self.deleteField(field: "hostReady")
         self.ref.child("sessions").child(self.sessionCode).child("hostReady").removeAllObservers()
         
@@ -161,6 +169,7 @@ class SessionHandler {
         
         self.deleteField(field: "status")
         self.ref.child("sessions").child(self.sessionCode).child("status").removeAllObservers()
+        print("fin")
     }
     
     func deleteField(field: String) {
