@@ -139,10 +139,53 @@ class SessionHandler {
             self.delegate.sessionStatusChanged(message: message)
         }
     }
+
+    func resetSession(removeGuest: Bool, removeGuestJoinedListener: Bool = false, completion: @escaping () -> Void) {
+        print("mdio 1")
+        
+        var sessionParameters: [String: Any?] = ["columnsNumber": nil,
+                                                "rowsNumber": nil,
+                                                "densityNumber": nil,
+                                                "metronome": nil,
+                                                "tempo": nil,
+                                                "color1": nil,
+                                                "color2": nil,
+                                                "gridNumbers": nil,
+                                                "hostReady": nil,
+                                                "guestReady": nil,
+                                                "status": nil]
+        
+        if removeGuest {
+        sessionParameters = ["columnsNumber": nil,
+                             "rowsNumber": nil,
+                             "densityNumber": nil,
+                             "metronome": nil,
+                             "tempo": nil,
+                             "color1": nil,
+                             "color2": nil,
+                             "gridNumbers": nil,
+                             "hostReady": nil,
+                             "guestReady": nil,
+                             "status": nil,
+                             "guestJoined": nil]
+            
+        }
+        
+        self.ref.child("sessions").child(self.sessionCode).updateChildValues(sessionParameters as [AnyHashable : Any]) {_,_ in
+            if removeGuestJoinedListener {
+                self.ref.child("sessions").child(self.sessionCode).child("guestJoined").removeAllObservers()
+            }
+            self.ref.child("sessions").child(self.sessionCode).child("hostReady").removeAllObservers()
+            self.ref.child("sessions").child(self.sessionCode).child("guestReady").removeAllObservers()
+            self.ref.child("sessions").child(self.sessionCode).child("status").removeAllObservers()
+            completion()
+        }
+    }
     
-    func resetSession(removeGuest: Bool, removeGuestJoinedListener: Bool = false) {
-        print("inicio")
-        /*
+    
+    /*
+    func resetSession(removeGuest: Bool, removeGuestJoinedListener: Bool = false, completion: @escaping () -> Void) {
+        print("mdio 1")
         self.deleteField(field: "columnsNumber")
         self.deleteField(field: "rowsNumber")
         self.deleteField(field: "densityNumber")
@@ -151,7 +194,6 @@ class SessionHandler {
         self.deleteField(field: "color1")
         self.deleteField(field: "color2")
         self.deleteField(field: "gridNumbers")
-         */
         
         if removeGuest {
             self.deleteField(field: "guestJoined")
@@ -160,7 +202,7 @@ class SessionHandler {
         if removeGuestJoinedListener {
             self.ref.child("sessions").child(self.sessionCode).child("guestJoined").removeAllObservers()
         }
-        print("mitad")
+        
         self.deleteField(field: "hostReady")
         self.ref.child("sessions").child(self.sessionCode).child("hostReady").removeAllObservers()
         
@@ -169,7 +211,8 @@ class SessionHandler {
         
         self.deleteField(field: "status")
         self.ref.child("sessions").child(self.sessionCode).child("status").removeAllObservers()
-        print("fin")
+        
+        completion()
     }
     
     func deleteField(field: String) {
@@ -182,7 +225,7 @@ class SessionHandler {
             print("Child Removed Correctly")
         })
     }
-    
+    */
     func terminateSession() {
         self.ref.child("sessions").child(self.sessionCode).removeValue(completionBlock: { (error, refer) in
             guard error == nil else {

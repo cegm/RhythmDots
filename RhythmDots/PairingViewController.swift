@@ -59,10 +59,12 @@ class PairingViewController: UIViewController, SessionHandlerDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         if self.isMovingFromParent {
-            self.sessionHandler.resetSession(removeGuest: true, removeGuestJoinedListener: true)
-            if self.role == "Host" {
-                self.sessionHandler.terminateSession()
+            self.sessionHandler.resetSession(removeGuest: true, removeGuestJoinedListener: true) {
+                
             }
+            /*if self.role == "Host" {
+                self.sessionHandler.terminateSession()
+            }*/
         }
     }
     

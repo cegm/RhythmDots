@@ -62,8 +62,10 @@ class GameViewController: UIViewController, SessionHandlerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         invalidateTimer()
         if self.role != "Solo" {
-            self.sessionHandler.resetSession(removeGuest: true)
-            self.sessionHandler.changeGameStatus(status: "Over")
+            self.sessionHandler.resetSession(removeGuest: true) {
+                self.sessionHandler.changeGameStatus(status: "Over")
+            }
+            
         }
     }
     
@@ -219,8 +221,10 @@ class GameViewController: UIViewController, SessionHandlerDelegate {
             }
         }
         do {
-            click = try AVAudioPlayer(contentsOf: url)
-            click?.play()
+            if self.role != "Host" {
+                click = try AVAudioPlayer(contentsOf: url)
+                click?.play()
+            }
         } catch {
             // couldn't load file :(
         }
@@ -376,14 +380,20 @@ class GameViewController: UIViewController, SessionHandlerDelegate {
             self.sessionHandler.changeGameStatus(status: "Play")
         }
         if message == "Reset" {
-            self.sessionHandler.resetSession(removeGuest: false)
-            self.localReset()
+            print("inicio")
+            self.sessionHandler.resetSession(removeGuest: false) {
+                print("medio 2")
+                self.localReset()
+                print("medio 3")
+            }
+            print("fin")
         }
         if message == "Over" {
             print("Se salió")
-            self.sessionHandler.resetSession(removeGuest: true)
-            self.sessionHandler.changeGameStatus(status: "Pairing")
-            self.navigationController?.popViewController(animated: true)
+            self.sessionHandler.resetSession(removeGuest: true) {
+                self.sessionHandler.changeGameStatus(status: "Pairing")
+                self.navigationController?.popViewController(animated: true)
+            }
         }
         if self.role == "Host" {
             if message == "Guest ready" {
